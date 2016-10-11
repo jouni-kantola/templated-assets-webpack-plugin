@@ -1,0 +1,7 @@
+node_modules/
+dist/
+
+*yarn-error.log
+*npm-debug.log
+
+*.orig
