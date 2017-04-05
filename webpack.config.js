@@ -2,7 +2,8 @@ const path = require("path");
 
 const webpack = require("webpack");
 const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
-const ScriptTemplateWebpackPlugin = require('./plugins/script-template-webpack-plugin');
+
+const ScriptTemplateWebpackPlugin = require("./plugins/script-template-webpack-plugin");
 
 module.exports = {
   entry: {
