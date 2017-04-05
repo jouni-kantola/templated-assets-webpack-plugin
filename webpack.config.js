@@ -41,6 +41,11 @@ module.exports = {
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ChunkManifestPlugin(),
-    new ScriptTemplateWebpackPlugin()
+    new ScriptTemplateWebpackPlugin({
+      sync: [],
+      async: [],
+      inline: [ 'manifest', { test: /manifest.json/, template: path.join(__dirname, 'tmpl/chunk-manifest.tmpl') } ],
+      defer: [ 'app', 'vendor' ]
+    })
   ]
 };

@@ -1,18 +1,26 @@
+"use strict";
+
 const fs = require("fs");
-/*
-{
-    name: 'vendor',
-    type: 'script/defer/async/inline',
-    template: ''
-}*/
+
+/*new ScriptTemplateWebpackPlugin({
+    sync: [],
+    async: [],
+    inline: [ 'manifest', { test: /manifest.json/, template: path.join(__dirname, 'tmpl/chunk-manifest.tmpl') } ],
+    defer: [ 'app', 'vendor' ]
+  }),*/
 
 class ScriptTemplateWebpackPlugin {
   constructor(definitions) {
-    this.definitions = definitions;
+    this.sync = definitions.sync || [];
+    this.async = definitions.async || [];
+    this.inline = definitions.inline || [];
+    this.defer = definitions.defer || [];
   }
 
   apply(compiler) {
     compiler.plugin("emit", (compilation, callback) => {
+      // filter assets to handle
+
       const assets = compilation.chunks.map(chunk => {
         const filename = chunk.files[0];
         return {
@@ -23,12 +31,26 @@ class ScriptTemplateWebpackPlugin {
         };
       });
 
-      const allProcesses = assets.map(asset => {
+      const syncAssets = assetPicker(assets, this.sync);
+      const asyncAssets = assetPicker(assets, this.async);
+      const deferredAssets = assetPicker(assets, this.defer);
+      const inlineAssets = assetPicker(assets, this.inline);
+
+      const allAssets = syncAssets
+        .concat(asyncAssets, deferredAssets, inlineAssets)
+        .filter(asset => !!asset);
+
+      // process sync
+      // process async
+      // process inline (manifest.json has specific template)
+      // process defer
+
+      const allProcesses = allAssets.map(asset => {
         return asset.process(inline, asset.source).then(template => {
-            return new Promise((resolve, reject) => {
-                compilation.assets[asset.name + ".tmpl"] = template;
-                resolve();
-            });
+          return new Promise((resolve, reject) => {
+            compilation.assets[asset.name + ".partial"] = template;
+            resolve();
+          });
         });
       });
 
@@ -45,6 +67,76 @@ function inline(source) {
   return new Promise((resolve, reject) => {
     return readTemplate(`${__dirname}/templates/inline.tmpl`).then(content => {
       const script = content.replace(/##SOURCE##/, source);
+      resolve({
+        source: function() {
+          return script;
+        },
+        size: function() {
+          return script.length;
+        }
+      });
+    });
+  });
+}
+
+function assetPicker(assets, rules) {
+  return rules.length ? assets.filter(asset => assetFilter(asset, rules)) : [];
+}
+
+function assetFilter(asset, rules) {
+  // name is not enough, does not match manifest.json
+  return rules.map(ruleToRegExp).some(rule => rule.test(asset.name));
+}
+
+function ruleToRegExp(rule) {
+  if (typeof rule === "string") {
+    return new RegExp(`${rule}$`);
+  } else if (rule instanceof RegExp) {
+    return rule;
+  } else if (
+    typeof rule === "object" && !!rule.test && rule.test instanceof RegExp
+  ) {
+    return rule.test;
+  }
+
+  throw `${rule} is not a valid configuration.`;
+}
+function defer(url) {
+  return new Promise((resolve, reject) => {
+    return readTemplate(`${__dirname}/templates/defer.tmpl`).then(content => {
+      const script = content.replace(/##URL##/, url);
+      resolve({
+        source: function() {
+          return script;
+        },
+        size: function() {
+          return script.length;
+        }
+      });
+    });
+  });
+}
+
+function async(url) {
+  return new Promise((resolve, reject) => {
+    return readTemplate(`${__dirname}/templates/async.tmpl`).then(content => {
+      const script = content.replace(/##URL##/, url);
+      resolve({
+        source: function() {
+          return script;
+        },
+        size: function() {
+          return script.length;
+        }
+      });
+    });
+  });
+}
+
+function script(url) {
+  return new Promise((resolve, reject) => {
+    return readTemplate(`${__dirname}/templates/script.tmpl`).then(content => {
+      const script = content.replace(/##URL##/, url);
       resolve({
         source: function() {
           return script;
