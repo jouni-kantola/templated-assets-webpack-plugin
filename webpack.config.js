@@ -2,6 +2,7 @@ const path = require("path");
 
 const webpack = require("webpack");
 const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
+const ScriptTemplateWebpackPlugin = require('./plugins/script-template-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -38,6 +39,7 @@ module.exports = {
       minChunks: Infinity
     }),
     new webpack.HashedModuleIdsPlugin(),
-    new ChunkManifestPlugin()
+    new ChunkManifestPlugin(),
+    new ScriptTemplateWebpackPlugin()
   ]
 };
