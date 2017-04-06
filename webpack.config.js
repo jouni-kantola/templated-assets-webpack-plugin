@@ -3,7 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 
-const ScriptTemplateWebpackPlugin = require("./plugins/script-template-webpack-plugin");
+const TemplatedAssetWebpackPlugin = require("./plugins/templated-asset-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -41,7 +41,7 @@ module.exports = {
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ChunkManifestPlugin(),
-    new ScriptTemplateWebpackPlugin({
+    new TemplatedAssetWebpackPlugin({
       sync: [],
       async: [],
       inline: [ 'manifest', { test: /manifest.json/, template: path.join(__dirname, 'tmpl/chunk-manifest.tmpl') } ],
