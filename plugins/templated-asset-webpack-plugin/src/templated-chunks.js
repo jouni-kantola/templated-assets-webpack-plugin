@@ -1,3 +1,5 @@
+"use strict";
+
 class TemplatedChunks {
   constructor(chunks) {
     if (chunks && chunks.length) {
@@ -5,6 +7,26 @@ class TemplatedChunks {
     } else {
       this.chunks = [];
     }
+  }
+
+  inline() {
+    return this.chunks.filter(chunk => !!chunk.inline);
+  }
+
+  url() {
+    return this.chunks.filter(chunk => !!chunk.url);
+  }
+
+  async() {
+    const chunks = this.url();
+    
+    return chunks.filter(chunk => !!chunk.url.async);
+  }
+
+  defer() {
+    const chunks = this.url();
+    
+    return chunks.filter(chunk => !!chunk.url.defer);
   }
 }
 
