@@ -17,6 +17,12 @@ class TemplatedChunks {
     return this.chunks.filter(chunk => !!chunk.url);
   }
 
+  sync() {
+    const chunks = this.url();
+    
+    return chunks.filter(chunk => !chunk.url.async && !chunk.url.defer);
+  }
+
   async() {
     const chunks = this.url();
     

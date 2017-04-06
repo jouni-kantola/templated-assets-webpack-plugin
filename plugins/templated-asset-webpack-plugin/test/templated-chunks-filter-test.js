@@ -55,6 +55,31 @@ test("filter url assets", t => {
   t.deepEqual(chunks.url(), [urlAsset]);
 });
 
+test("filter sync assets", t => {
+  const asyncAsset = {
+    name: "chunk1",
+    url: {
+        async: true
+    }
+  };
+
+  const deferredAsset = {
+    name: "chunk2",
+    url: {
+        defer: true
+    }
+  };
+
+  const syncAsset = {
+    name: "chunk3",
+    url: {}
+  };
+
+  const chunks = new TemplatedChunks([asyncAsset, deferredAsset, syncAsset]);
+
+  t.deepEqual(chunks.sync(), [syncAsset]);
+});
+
 test("filter async assets", t => {
   const asyncAsset = {
     name: "chunk1",
