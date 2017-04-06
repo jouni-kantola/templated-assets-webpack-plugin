@@ -2,14 +2,27 @@
 
 const fs = require("fs");
 
-/*new ScriptTemplateWebpackPlugin({
-    sync: [],
-    async: [],
-    inline: [ 'manifest', { test: /manifest.json/, template: path.join(__dirname, 'tmpl/chunk-manifest.tmpl') } ],
-    defer: [ 'app', 'vendor' ]
-  }),*/
+/*new TemplatedAssetWebpackPlugin({
+    chunks: [
+      {
+        name: ['app', 'vendor'] || 'app'
+        test: /lala/,
+        exclude: /(node_modules)/,
+        inline: {
+          template:  path.join(__dirname, 'tmpl/chunk-manifest.tmpl') <-- optional
+          replace: '##SOURCE##'
+        },
+        url: {
+          template:  path.join(__dirname, 'tmpl/chunk-manifest.tmpl')
+          replace: '##URL##'
+          async: true,
+          defer: true
+        }
+      }
+    ]
+  })*/
 
-class ScriptTemplateWebpackPlugin {
+class TemplatedAssetWebpackPlugin {
   constructor(definitions) {
     this.sync = definitions.sync || [];
     this.async = definitions.async || [];
@@ -158,4 +171,4 @@ function readTemplate(path) {
   });
 }
 
-module.exports = ScriptTemplateWebpackPlugin;
+module.exports = TemplatedAssetWebpackPlugin;
