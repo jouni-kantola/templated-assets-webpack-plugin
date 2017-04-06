@@ -28,13 +28,18 @@ const CompiledChunks = require("./compiled-chunks");
 class TemplatedAssetWebpackPlugin {
   constructor(opts) {
     const options = opts || {};
-    this.chunks = new TemplatedChunks(options.chunks).chunks;
+    const templatedChunks = new TemplatedChunks();
+    this.chunks = templatedChunks.chunks;
 
     // legacy
     this.sync = options.sync || [];
     this.async = options.async || [];
     this.inline = options.inline || [];
     this.defer = options.defer || [];
+    // this.sync = templatedChunks.sync();
+    // this.async = templatedChunks.async();
+    // this.inline = templatedChunks.inline();
+    // this.defer = templatedChunks.defer();
   }
 
   apply(compiler) {
@@ -77,7 +82,9 @@ function process(assetHandler, source) {
 
 function inline(source) {
   return new Promise((resolve, reject) => {
-    return readTemplate(`${__dirname}/../templates/inline.tmpl`).then(content => {
+    return readTemplate(
+      `${__dirname}/../templates/inline.tmpl`
+    ).then(content => {
       const script = content.replace(/##SOURCE##/, source);
       resolve({
         source: function() {
@@ -115,7 +122,9 @@ function ruleToRegExp(rule) {
 }
 function defer(url) {
   return new Promise((resolve, reject) => {
-    return readTemplate(`../${__dirname}/../templates/defer.tmpl`).then(content => {
+    return readTemplate(
+      `../${__dirname}/../templates/defer.tmpl`
+    ).then(content => {
       const script = content.replace(/##URL##/, url);
       resolve({
         source: function() {
@@ -131,7 +140,9 @@ function defer(url) {
 
 function async(url) {
   return new Promise((resolve, reject) => {
-    return readTemplate(`../${__dirname}/../templates/async.tmpl`).then(content => {
+    return readTemplate(
+      `../${__dirname}/../templates/async.tmpl`
+    ).then(content => {
       const script = content.replace(/##URL##/, url);
       resolve({
         source: function() {
@@ -147,7 +158,9 @@ function async(url) {
 
 function script(url) {
   return new Promise((resolve, reject) => {
-    return readTemplate(`../${__dirname}/../templates/script.tmpl`).then(content => {
+    return readTemplate(
+      `../${__dirname}/../templates/script.tmpl`
+    ).then(content => {
       const script = content.replace(/##URL##/, url);
       resolve({
         source: function() {
