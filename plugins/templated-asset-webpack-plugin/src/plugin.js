@@ -3,6 +3,7 @@
 const fs = require("fs");
 
 const TemplatedChunks = require("./templated-chunks");
+const CompiledChunks = require("./compiled-chunks");
 
 /*new TemplatedAssetWebpackPlugin({
     chunks: [
@@ -40,15 +41,7 @@ class TemplatedAssetWebpackPlugin {
     compiler.plugin("emit", (compilation, callback) => {
       // filter assets to handle
 
-      const assets = compilation.chunks.map(chunk => {
-        const filename = chunk.files[0];
-        return {
-          name: chunk.name,
-          filename,
-          source: compilation.assets[filename].source(),
-          process
-        };
-      });
+      const assets = new CompiledChunks(compilation).chunks;
 
       const syncAssets = assetPicker(assets, this.sync);
       const asyncAssets = assetPicker(assets, this.async);
