@@ -5,6 +5,47 @@ const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 
 const TemplatedAssetWebpackPlugin = require("./plugins/templated-asset-webpack-plugin");
 
+const TemplatedAssetWebpackPluginConfig = [
+  {
+    name: "app",
+    exclude: /(node_modules)/,
+    url: {
+      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
+      replace: "##URL##",
+      defer: true
+    }
+  },
+  {
+    name: "vendor",
+    exclude: /(node_modules)/,
+    inline: {
+      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
+      replace: "##SOURCE##"
+    },
+    url: {
+      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
+      replace: "##URL##"
+    }
+  },
+  {
+    name: "manifest",
+    exclude: /(node_modules)/,
+    inline: {
+      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
+      replace: "##SOURCE##"
+    }
+  },
+  {
+    test: /manifest.json$/,
+    exclude: /(node_modules)/,
+    inline: {
+      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
+      replace: "##SOURCE##"
+    }
+  }
+];
+
+
 module.exports = {
   entry: {
     vendor: ["babel-polyfill", "is-thirteen"],
@@ -41,11 +82,6 @@ module.exports = {
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ChunkManifestPlugin(),
-    new TemplatedAssetWebpackPlugin({
-      sync: [],
-      async: [],
-      inline: [ 'manifest', { test: /manifest.json/, template: path.join(__dirname, 'tmpl/chunk-manifest.tmpl') } ],
-      defer: [ 'app', 'vendor' ]
-    })
+    new TemplatedAssetWebpackPlugin({ chunks: TemplatedAssetWebpackPluginConfig })
   ]
 };
