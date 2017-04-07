@@ -1,5 +1,5 @@
 import test from "ava";
-import TemplatedChunks from "../src/templated-chunks";
+import RuleSet from "../src/rule-set";
 
 /*
 const config = {
@@ -34,7 +34,7 @@ test("filter inline assets", t => {
     url: {}
   };
 
-  const chunks = new TemplatedChunks([inlineAsset, urlAsset]);
+  const chunks = new RuleSet([inlineAsset, urlAsset]);
 
   t.deepEqual(chunks.inline(), [inlineAsset]);
 });
@@ -50,7 +50,7 @@ test("filter url assets", t => {
     url: {}
   };
 
-  const chunks = new TemplatedChunks([inlineAsset, urlAsset]);
+  const chunks = new RuleSet([inlineAsset, urlAsset]);
 
   t.deepEqual(chunks.url(), [urlAsset]);
 });
@@ -75,7 +75,7 @@ test("filter sync assets", t => {
     url: {}
   };
 
-  const chunks = new TemplatedChunks([asyncAsset, deferredAsset, syncAsset]);
+  const chunks = new RuleSet([asyncAsset, deferredAsset, syncAsset]);
 
   t.deepEqual(chunks.sync(), [syncAsset]);
 });
@@ -95,7 +95,7 @@ test("filter async assets", t => {
     }
   };
 
-  const chunks = new TemplatedChunks([asyncAsset, deferredAsset]);
+  const chunks = new RuleSet([asyncAsset, deferredAsset]);
 
   t.deepEqual(chunks.async(), [asyncAsset]);
 });
@@ -115,7 +115,7 @@ test("filter deferred assets", t => {
     }
   };
 
-  const chunks = new TemplatedChunks([asyncAsset, deferredAsset]);
+  const chunks = new RuleSet([asyncAsset, deferredAsset]);
 
   t.deepEqual(chunks.defer(), [deferredAsset]);
 });
@@ -135,8 +135,8 @@ test("an asset can be both url and inline", t => {
 
   const chunks = [asset1, asset2];
 
-  const templatedChunks = new TemplatedChunks(chunks);
+  const rules = new RuleSet(chunks);
 
-  t.deepEqual(templatedChunks.url(), chunks);
-  t.deepEqual(templatedChunks.inline(), chunks);
+  t.deepEqual(rules.url(), chunks);
+  t.deepEqual(rules.inline(), chunks);
 });
