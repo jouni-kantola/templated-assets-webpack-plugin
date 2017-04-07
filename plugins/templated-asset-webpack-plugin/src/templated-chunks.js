@@ -41,32 +41,69 @@ function mapChunks(chunks, rules) {
 }
 
 function mapUrl(chunks, rules, template) {
-  /* 
-    const templatedChunk = {
-          name,
-          filename,
-          source,
-          process,
-          template,
-          inline
-          async,
-          sync,
-          defer,
-        };
-*/
   const syncChunks = chunkMatcher.keep(chunks, rules);
   return syncChunks.map(chunk => {
-    //chunk.sync = true; chunk.async = true; chunk.defer = true; // not needed?
     const rule = chunkMatcher.match(chunk, rules);
-    // if (rule && rule.template) {
-    //   chunk.template = rule.template;
-    // } else {
-    chunk.template = __dirname + "/templates/sync.tmpl";
-    //}
+    chunk.async = rule.async;
+    chunk.defer = rule.defer;
+    chunk.replace = new RegExp(rule.replace || "##URL##");
 
-    chunk.process = _url.bind(this, chunk.template, chunk.filename);
+    if (rule && rule.template) {
+      chunk.template = rule.template;
+    } else {
+      chunk.template = template;
+    }
+
+    chunk.process = asset.bind(
+      this,
+      chunk.template,
+      chunk.replace,
+      chunk.filename
+    );
 
     return chunk;
+  });
+}
+
+function mapInline(chunks, rules) {
+  const inlineRules = rules.inline();
+  const inlineChunks = chunkMatcher.keep(chunks, inlineRules);
+
+  return inlineChunks.map(chunk => {
+    const rule = chunkMatcher.match(chunk, inlineRules);
+
+    chunk.inline = rule.inline;
+    chunk.replace = new RegExp(rule.replace || "##SOURCE##");
+    if (rule && rule.template) {
+      chunk.template = rule.template;
+    } else {
+      chunk.template = __dirname + "/templates/inline.tmpl";
+    }
+
+    chunk.process = asset.bind(
+      this,
+      chunk.template,
+      chunk.replace,
+      chunk.source
+    );
+
+    return chunk;
+  });
+}
+
+function asset(template, replace, value) {
+  return new Promise((resolve, reject) => {
+    return templateReader.read(template).then(content => {
+      const script = content.replace(replace, value);
+      resolve({
+        source: function() {
+          return script;
+        },
+        size: function() {
+          return script.length;
+        }
+      });
+    });
   });
 }
 
@@ -80,58 +117,6 @@ function mapAsync(chunks, rules) {
 
 function mapDeferred(chunks, rules) {
   return mapUrl(chunks, rules.defer(), __dirname + "/templates/defer.tmpl");
-}
-
-function mapInline(chunks, rules) {
-  const inlineRules = rules.inline();
-  const inlineChunks = chunkMatcher.keep(chunks, inlineRules);
-
-  return inlineChunks.map(chunk => {
-    chunk.inline = true; // not needed?
-    const rule = chunkMatcher.match(chunk, inlineRules);
-
-    // if (rule && rule.template) {
-    //   chunk.template = rule.template;
-    // } else {
-    chunk.template = __dirname + "/templates/inline.tmpl";
-    //}
-
-    chunk.process = _inline.bind(this, chunk.template, chunk.source);
-
-    return chunk;
-  });
-}
-
-function _url(template, url) {
-  return new Promise((resolve, reject) => {
-    return templateReader.read(template).then(content => {
-      const script = content.replace(/##URL##/, url);
-      resolve({
-        source: function() {
-          return script;
-        },
-        size: function() {
-          return script.length;
-        }
-      });
-    });
-  });
-}
-
-function _inline(template, source) {
-  return new Promise((resolve, reject) => {
-    return templateReader.read(template).then(content => {
-      const script = content.replace(/##SOURCE##/, source);
-      resolve({
-        source: function() {
-          return script;
-        },
-        size: function() {
-          return script.length;
-        }
-      });
-    });
-  });
 }
 
 module.exports = TemplatedChunks;
