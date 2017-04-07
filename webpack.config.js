@@ -11,38 +11,29 @@ const TemplatedAssetWebpackPluginRules = [
   {
     name: "app",
     exclude: /(node_modules)/,
-    url: {
-      //replace: "##URL##",
-      defer: true
-    }
+    url: true,
+    defer: true
   },
   {
     name: "vendor",
     exclude: /(node_modules)/,
-    inline: {
-      replace: "##SOURCE##"
-    },
-    url: {
-      // template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      // replace: "##URL##",
-      async: true,
-      defer: true
-    }
+    url: true,
+    async: true,
+    defer: true
   },
   {
     name: "manifest",
     exclude: /(node_modules)/,
     inline: true,
     template: inlineTemplate,
-    replace: '##HULAHULA##'
+    replace: "##HULAHULA##"
   },
   {
     test: /manifest.json$/,
     exclude: /(node_modules)/,
-    inline: {
-      template: path.join(__dirname, "/tmpl/chunk-manifest.tmpl"),
-      replace: "##MANIFEST##"
-    }
+    inline: true,
+    template: path.join(__dirname, "/tmpl/chunk-manifest.tmpl"),
+    replace: "##MANIFEST##"
   }
 ];
 
@@ -58,6 +49,8 @@ module.exports = {
     path: path.join(__dirname, "dist"),
     //publicPath: '/',
     filename: "[name].[chunkhash].js"
+      ? "[name].[chunkhash].prod.js"
+      : "[name].[chunkhash].dev.js"
   },
   module: {
     rules: [
