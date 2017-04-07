@@ -50,10 +50,8 @@ test("map compiled chunks", t => {
   t.is(chunk1.name, expected1.name);
   t.is(chunk1.filename, expected1.files[0]);
   t.is(chunk1.source, compilation.assets[expected1.files[0]].source());
-  t.is(typeof chunk1.process, "function");
 
   t.is(chunk2.name, expected2.name);
   t.is(chunk2.filename, expected2.files[0]);
-  t.is(typeof chunk2.process, "function");
   t.is(chunk2.source, compilation.assets[expected2.files[0]].source());
 });
