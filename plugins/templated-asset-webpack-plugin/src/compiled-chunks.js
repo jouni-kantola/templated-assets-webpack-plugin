@@ -6,7 +6,7 @@ class CompiledChunks {
       throw new Error("webpack compilation is required to process assets");
 
     if (compilation.chunks && Array.isArray(compilation.chunks)) {
-      this.chunks = compilation.chunks.map(chunk => {
+      const chunks = compilation.chunks.map(chunk => {
         const filename = chunk.files[0];
         return {
           name: chunk.name,
@@ -14,6 +14,21 @@ class CompiledChunks {
           source: compilation.assets[filename].source()
         };
       });
+
+      const assets = Object.keys(compilation.assets)
+        .filter(filename => {
+          return !chunks.some(chunk => {
+            return chunk.filename === filename;
+          });
+        })
+        .map(filename => {
+          return {
+            filename,
+            source: compilation.assets[filename].source()
+          };
+        });
+
+      this.chunks = chunks.concat(assets).filter(chunk => !!chunk.filename);
     } else {
       this.chunks = [];
     }

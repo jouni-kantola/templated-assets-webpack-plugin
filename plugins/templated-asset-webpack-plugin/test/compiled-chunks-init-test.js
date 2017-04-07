@@ -55,3 +55,36 @@ test("map compiled chunks", t => {
   t.is(chunk2.filename, expected2.files[0]);
   t.is(chunk2.source, compilation.assets[expected2.files[0]].source());
 });
+
+test("include from assets", t => {
+  const compilation = {
+    chunks: [
+      {
+        name: "a",
+        files: ["a.js"]
+      },
+      {
+        name: "b",
+        files: ["b.js"]
+      }
+    ],
+    assets: {
+      "a.js": {
+        source: () => "contents of a.js"
+      },
+      "b.js": {
+        source: () => "contents of b.js"
+      },
+      "c.js": {
+        source: () => "contents of c.js"
+      }
+    }
+  };
+
+  const compiledChunks = new CompiledChunks(compilation).chunks;
+  const chunk = compiledChunks[2];
+
+  t.is(compiledChunks.length, 3);  
+  t.is(chunk.filename, "c.js");
+  t.is(chunk.source, "contents of c.js");
+});
