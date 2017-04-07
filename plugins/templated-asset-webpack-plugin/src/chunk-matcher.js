@@ -1,8 +1,16 @@
-function match(chunks, rules) {
+function keep(chunks, rules) {
   if (!chunks || !Array.isArray(chunks)) return [];
   if (!rules || !Array.isArray(rules)) return [];
 
   return chunks.filter(chunk => chunkFilter(rules, chunk));
+}
+
+function match(chunk, rules) {
+  if(!(typeof chunk === "object")) throw new TypeError(`Chunk should be specified as object, not ${JSON.stringify(chunk)}`);
+  if(!Array.isArray(rules)) throw new TypeError(`Rules should be specified as array, not ${JSON.stringify(rules)}`);
+
+  const matchingRules = rules.filter(rule => matches(rule, chunk));
+  return matchingRules.length ? matchingRules[0] : undefined;
 }
 
 function chunkFilter(rules, chunk) {
@@ -21,5 +29,6 @@ function matches(rule, chunk) {
 }
 
 module.exports = {
+  keep,
   match
 };

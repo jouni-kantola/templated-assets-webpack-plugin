@@ -2,54 +2,59 @@ import path from "path";
 import test from "ava";
 import chunkMatcher from "../src/chunk-matcher";
 
-test("default to empty array when no chunks", t => {
-  const assets = chunkMatcher.match(undefined, rules);
+test("ensure chunk", t => {
+  const error = t.throws(
+    () => {
+      chunkMatcher.match(undefined, rules);
+    },
+    Error
+  );
 
-  t.truthy(Array.isArray(assets));
-  t.is(assets.length, 0);
+  t.truthy(error.message.startsWith("Chunk should be specified as object"));
 });
 
-test("default to empty array when no templated chunks", t => {
-  const assets = chunkMatcher.match([], undefined);
+test("ensure rules", t => {
+  const error = t.throws(
+    () => {
+      chunkMatcher.match({}, undefined);
+    },
+    Error
+  );
 
-  t.truthy(Array.isArray(assets));
-  t.is(assets.length, 0);
+  t.truthy(error.message.startsWith("Rules should be specified as array"));
 });
 
-test("match named chunks", t => {
+test("do not match chunk", t => {
   const chunks = [
     {
-      name: "app"
-    },
-    {
-      name: "vendor"
-    },
-    {
-      name: "not-match"
+      name: "not-match",
+      filename: "not-match.js"
     }
   ];
 
-  const assets = chunkMatcher.match(chunks, rules);
+  const rule = chunkMatcher.match(chunks, rules);
 
-  t.is(assets.length, 2);
-  t.is(assets[0].name, "app");
-  t.is(assets[1].name, "vendor");
+  t.is(rule, undefined);
 });
 
-test("match chunk filenames by regex", t => {
-  const chunks = [
-    {
-      filename: "not-match1.js"
-    },
-    {
-      filename: "manifest.json"
-    }
-  ];
+test("match rule with chunk's name", t => {
+  const chunk = {
+    name: "app"
+  };
 
-  const assets = chunkMatcher.match(chunks, rules);
+  const rule = chunkMatcher.match(chunk, rules);
 
-  t.is(assets.length, 1);
-  t.is(assets[0].filename, "manifest.json");
+  t.is(rule.name, "app");
+});
+
+test("match rule with chunk's filename", t => {
+  const chunk = {
+    filename: "app.js"
+  };
+
+  const assets = chunkMatcher.keep(chunk, rules);
+
+  t.is(chunk.filename, "app.js");
 });
 
 const rules = [
