@@ -3,7 +3,8 @@
 class RuleSet {
   constructor(rules) {
     if (rules && rules.length) {
-      this.rules = flatten(rules);
+      const flattenedRules = flatten(rules);
+      this.rules = ensureDefaults(flattenedRules);
     } else {
       this.rules = [];
     }
@@ -20,19 +21,19 @@ class RuleSet {
   sync() {
     const rules = this.url();
 
-    return rules.filter(rule => !rule.url.async && !rule.url.defer);
+    return rules.filter(rule => !rule.async && !rule.defer);
   }
 
   async() {
     const rules = this.url();
 
-    return rules.filter(rule => !!rule.url.async);
+    return rules.filter(rule => !!rule.async);
   }
 
   defer() {
     const rules = this.url();
 
-    return rules.filter(rule => !!rule.url.defer);
+    return rules.filter(rule => !!rule.defer);
   }
 }
 
@@ -68,6 +69,15 @@ function flatten(rules) {
     },
     []
   );
+}
+
+function ensureDefaults(rules) {
+  return rules.map(rule => {
+    if(!rule.inline) {
+      rule.url = true;
+    }
+    return rule;
+  })
 }
 
 module.exports = RuleSet;

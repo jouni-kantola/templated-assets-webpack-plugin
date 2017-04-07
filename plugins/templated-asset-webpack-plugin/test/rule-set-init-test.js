@@ -31,7 +31,7 @@ test("flatten rules when name passed as array", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ name: "chunk1" }, { name: "chunk2" }]);
+  t.deepEqual(config.rules, [{ name: "chunk1", url: true }, { name: "chunk2", url: true }]);
 });
 
 test("throw if no name test nor name", t => {
@@ -74,5 +74,17 @@ test("should prioritize regex over name", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ test: /chunk/ }]);
+  t.deepEqual(config.rules, [{ test: /chunk/, url: true }]);
+});
+
+test("default to url rule", t => {
+  const rules = [
+    {
+      name: ["chunk1", "chunk2"]
+    }
+  ];
+
+  const config = new RuleSet(rules);
+
+  t.deepEqual(config.rules, [{ name: "chunk1", url: true }, { name: "chunk2", url: true }]);
 });
