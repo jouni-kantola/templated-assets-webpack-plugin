@@ -11,18 +11,13 @@ class CompiledChunks {
         return {
           name: chunk.name,
           filename,
-          source: compilation.assets[filename].source(),
-          process
+          source: compilation.assets[filename].source()
         };
       });
     } else {
       this.chunks = [];
     }
   }
-}
-
-function process(assetHandler, source) {
-  return assetHandler(source);
 }
 
 module.exports = CompiledChunks;
