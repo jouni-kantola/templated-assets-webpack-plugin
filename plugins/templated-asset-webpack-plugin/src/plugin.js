@@ -2,19 +2,23 @@
 
 const fs = require("fs");
 
-const TemplatedChunks = require("./templated-chunks");
+const log = require("./logger").log;
+const RuleSet = require("./rule-set");
 const CompiledChunks = require("./compiled-chunks");
 const chunkMatcher = require("./chunk-matcher");
 
 class TemplatedAssetWebpackPlugin {
   constructor(opts) {
     const options = opts || {};
-    const templatedChunks = new TemplatedChunks(opts.chunks);
-    this.chunks = templatedChunks.chunks;
-    this.sync = templatedChunks.sync();
-    this.async = templatedChunks.async();
-    this.inline = templatedChunks.inline();
-    this.defer = templatedChunks.defer();
+    if(!options.rules) {
+      log("No rules specified. No templated chunks will be outputted.");
+      log(options);
+    }
+    this.rules = new RuleSet(options.rules);
+    this.sync = this.rules.sync();
+    this.async = this.rules.async();
+    this.inline = this.rules.inline();
+    this.defer = this.rules.defer();
   }
 
   apply(compiler) {

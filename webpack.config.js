@@ -5,7 +5,7 @@ const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 
 const TemplatedAssetWebpackPlugin = require("./plugins/templated-asset-webpack-plugin");
 
-const TemplatedAssetWebpackPluginConfig = [
+const TemplatedAssetWebpackPluginRules = [
   {
     name: "app",
     exclude: /(node_modules)/,
@@ -24,7 +24,9 @@ const TemplatedAssetWebpackPluginConfig = [
     },
     url: {
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      replace: "##URL##"
+      replace: "##URL##",
+      async: true,
+      defer: true
     }
   },
   {
