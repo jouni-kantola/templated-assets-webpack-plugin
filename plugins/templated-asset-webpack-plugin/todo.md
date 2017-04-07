@@ -1,4 +1,3 @@
-1. default to url asset, if neither url or inline is specified
 2. specify output file extension, default to ".html"
 3. specify output file prefix, default to ""
 4. maybe define output config: output: { inline: true, url: false, prefix: "", ext: ".cshtml"}
