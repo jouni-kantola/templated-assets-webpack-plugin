@@ -17,7 +17,8 @@ class TemplatedChunks {
     const allProcesses = this.assets.map(asset => {
       return asset.process().then(template => {
         return new Promise((resolve, reject) => {
-          compilation.assets[asset.name + ".partial"] = template;
+          const filename = `${asset.name || asset.filename}.html`;
+          compilation.assets[filename] = template;
           resolve();
         });
       });
