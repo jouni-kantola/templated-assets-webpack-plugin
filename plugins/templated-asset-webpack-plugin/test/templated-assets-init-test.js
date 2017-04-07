@@ -1,10 +1,10 @@
 import test from "ava";
-import TemplatedChunks from "../src/templated-chunks";
+import TemplatedAssets from "../src/templated-assets";
 
 test("ensure chunks", t => {
   const error = t.throws(
     () => {
-      new TemplatedChunks(undefined, []);
+      new TemplatedAssets(undefined, []);
     },
     TypeError
   );
@@ -15,7 +15,7 @@ test("ensure chunks", t => {
 test("ensure rules", t => {
   const error = t.throws(
     () => {
-      new TemplatedChunks([], undefined);
+      new TemplatedAssets([], undefined);
     },
     TypeError
   );
@@ -31,9 +31,9 @@ test("filter sync chunks", t => {
     inline: () => []
   };
 
-  const templatedChunks = new TemplatedChunks([], rules);
+  const assets = new TemplatedAssets([], rules);
 
-  t.pass(templatedChunks.sync, []);
+  t.pass(assets.sync, []);
 });
 
 test("filter async chunks", t => {
@@ -44,9 +44,9 @@ test("filter async chunks", t => {
     inline: () => []
   };
 
-  const templatedChunks = new TemplatedChunks([], rules);
+  const assets = new TemplatedAssets([], rules);
 
-  t.pass(templatedChunks.async, []);
+  t.pass(assets.async, []);
 });
 
 test("filter deferred chunks", t => {
@@ -57,9 +57,9 @@ test("filter deferred chunks", t => {
     inline: () => []
   };
 
-  const templatedChunks = new TemplatedChunks([], rules);
+  const assets = new TemplatedAssets([], rules);
 
-  t.pass(templatedChunks.defer, []);
+  t.pass(assets.defer, []);
 });
 
 test("filter inline chunks", t => {
@@ -70,7 +70,7 @@ test("filter inline chunks", t => {
     inline: () => []
   };
 
-  const templatedChunks = new TemplatedChunks([], rules);
+  const assets = new TemplatedAssets([], rules);
 
-  t.pass(templatedChunks.inline, []);
+  t.pass(assets.inline, []);
 });

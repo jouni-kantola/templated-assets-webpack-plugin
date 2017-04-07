@@ -3,7 +3,7 @@
 const chunkMatcher = require("./chunk-matcher");
 const templateReader = require("./template-reader");
 
-class TemplatedChunks {
+class TemplatedAssets {
   constructor(chunks, rules) {
     if (!Array.isArray(chunks))
       throw new TypeError("Chunks must be specified to map chunks with rules.");
@@ -120,4 +120,4 @@ function mapDeferred(chunks, rules) {
   return mapUrl(chunks, rules.defer(), __dirname + "/templates/defer.tmpl");
 }
 
-module.exports = TemplatedChunks;
+module.exports = TemplatedAssets;

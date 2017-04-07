@@ -6,7 +6,7 @@ const log = require("./logger").log;
 const RuleSet = require("./rule-set");
 const CompiledChunks = require("./compiled-chunks");
 const chunkMatcher = require("./chunk-matcher");
-const TemplatedChunks = require("./templated-chunks");
+const TemplatedAssets = require("./templated-assets");
 
 class TemplatedAssetWebpackPlugin {
   constructor(opts) {
@@ -23,9 +23,9 @@ class TemplatedAssetWebpackPlugin {
     compiler.plugin("emit", (compilation, callback) => {
       const chunks = new CompiledChunks(compilation).chunks;
 
-      const templatedChunks = new TemplatedChunks(chunks, this.rules);
+      const assets = new TemplatedAssets(chunks, this.rules);
 
-      templatedChunks.process(compilation, callback);
+      assets.process(compilation, callback);
     });
   }
 }
