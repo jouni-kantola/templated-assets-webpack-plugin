@@ -5,13 +5,14 @@ const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 
 const TemplatedAssetWebpackPlugin = require("./plugins/templated-asset-webpack-plugin");
 
+const inlineTemplate = path.join(__dirname, "/tmpl/inline.tmpl");
+
 const TemplatedAssetWebpackPluginRules = [
   {
     name: "app",
     exclude: /(node_modules)/,
     url: {
-      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      replace: "##URL##",
+      //replace: "##URL##",
       defer: true
     }
   },
@@ -19,12 +20,11 @@ const TemplatedAssetWebpackPluginRules = [
     name: "vendor",
     exclude: /(node_modules)/,
     inline: {
-      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##SOURCE##"
     },
     url: {
-      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      replace: "##URL##",
+      // template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
+      // replace: "##URL##",
       async: true,
       defer: true
     }
@@ -32,21 +32,19 @@ const TemplatedAssetWebpackPluginRules = [
   {
     name: "manifest",
     exclude: /(node_modules)/,
-    inline: {
-      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      replace: "##SOURCE##"
-    }
+    inline: true,
+    template: inlineTemplate,
+    replace: '##HULAHULA##'
   },
   {
     test: /manifest.json$/,
     exclude: /(node_modules)/,
     inline: {
-      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      replace: "##SOURCE##"
+      template: path.join(__dirname, "/tmpl/chunk-manifest.tmpl"),
+      replace: "##MANIFEST##"
     }
   }
 ];
-
 
 module.exports = {
   entry: {
@@ -84,6 +82,6 @@ module.exports = {
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ChunkManifestPlugin(),
-    new TemplatedAssetWebpackPlugin({ chunks: TemplatedAssetWebpackPluginConfig })
+    new TemplatedAssetWebpackPlugin({ chunks: TemplatedAssetWebpackPluginRules })
   ]
 };
