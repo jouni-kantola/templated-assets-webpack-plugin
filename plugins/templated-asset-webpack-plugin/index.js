@@ -1,5 +1,5 @@
 "use strict";
 
-const plugin = require('./src/plugin');
+const plugin = require("./src/plugin");
 
 module.exports = plugin;
