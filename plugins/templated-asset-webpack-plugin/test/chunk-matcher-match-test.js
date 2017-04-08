@@ -49,12 +49,13 @@ test("match rule with chunk's name", t => {
 
 test("match rule with chunk's filename", t => {
   const chunk = {
-    filename: "app.js"
+    filename: "manifest.json"
   };
 
-  const assets = chunkMatcher.keep(chunk, rules);
+  const rule = chunkMatcher.match(chunk, rules);
+  const regex = rule.test;
 
-  t.is(chunk.filename, "app.js");
+  t.truthy(regex.test(chunk.filename));
 });
 
 const rules = [
