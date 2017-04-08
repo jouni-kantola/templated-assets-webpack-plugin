@@ -1,9 +1,17 @@
 class Asset {
-  constructor(name) {
-    const _self = this;
-
+  constructor(name, source) {
     if (typeof name !== "string")
       throw new Error("Asset name must be specified");
+
+    if (!source || !source.content || !source.filename)
+      throw new Error(
+        `Asset source must be specified, including content and filename. Specified source:
+        ${JSON.stringify(source)}`
+      );
+
+    const _self = this;
+
+    this.source = source;
 
     this.file = {
       name: name,
@@ -61,8 +69,13 @@ class Asset {
         return urlReplacement;
       },
       set replace(replace) {
-        if (!replace || (typeof replace !== "string" && !(replace instanceof RegExp)))
-          throw new Error("Specify value in template to replace (string || RegExp)");
+        if (
+          !replace ||
+          (typeof replace !== "string" && !(replace instanceof RegExp))
+        )
+          throw new Error(
+            "Specify value in template to replace (string || RegExp)"
+          );
 
         this._replace = replace;
       }

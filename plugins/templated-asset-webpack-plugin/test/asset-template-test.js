@@ -2,13 +2,13 @@ import test from "ava";
 import Asset from "../src/asset";
 
 test("default template", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
 
   t.true(asset.template.path.endsWith("/templates/sync.tmpl"));
 });
 
 test("throw when template path not specified as string", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
 
   const error = t.throws(
     () => {
@@ -21,7 +21,7 @@ test("throw when template path not specified as string", t => {
 });
 
 test("default template is replaced", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
   asset.template.path = "a/path";
 
   t.is(asset.template._path, "a/path");
@@ -29,14 +29,14 @@ test("default template is replaced", t => {
 });
 
 test("default sync template", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
 
   t.true(asset.type.sync);
   t.true(asset.template.path.endsWith("/templates/sync.tmpl"));
 });
 
 test("default async/defer template", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
   asset.type.async = true;
   asset.type.defer = true;
 
@@ -44,21 +44,21 @@ test("default async/defer template", t => {
 });
 
 test("default async template", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
   asset.type.async = true;
 
   t.true(asset.template.path.endsWith("/templates/async.tmpl"));
 });
 
 test("default defer template", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
   asset.type.defer = true;
 
   t.true(asset.template.path.endsWith("/templates/defer.tmpl"));
 });
 
 test("default inline template", t => {
-  const asset = new Asset("name");
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
   asset.type.defer = true;
 
   t.true(asset.template.path.endsWith("/templates/defer.tmpl"));
