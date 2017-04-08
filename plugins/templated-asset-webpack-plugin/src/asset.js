@@ -49,20 +49,20 @@ class Asset {
       },
       _replace: "",
       get replace() {
-        if (this._replace) return this._replace;
+        if (this._replace) return new RegExp(this._replace);
 
-        const urlReplacement = "##URL##";
+        const urlReplacement = new RegExp("##URL##");
 
         if (_self.type.sync || _self.type.async || _self.type.defer)
           return urlReplacement;
 
-        if (_self.type.inline) return "##SOURCE##";
+        if (_self.type.inline) return new RegExp("##SOURCE##");
 
         return urlReplacement;
       },
       set replace(replace) {
-        if (!replace || typeof replace !== "string")
-          throw new Error("Specify value in template to replace (as string)");
+        if (!replace || (typeof replace !== "string" && !(replace instanceof RegExp)))
+          throw new Error("Specify value in template to replace (string || RegExp)");
 
         this._replace = replace;
       }
