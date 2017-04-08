@@ -15,14 +15,14 @@ test("ensure path", t => {
 });
 
 test("read template", async t => {
-    const path = "fake-dir/read-target-file";
-    const content = "reading lorem ipsum";
-    const mockedFile = { [path]: content }; 
-    mock(mockedFile);
+  const path = "fake-dir/read-target-file";
+  const content = "reading lorem ipsum";
+  const mockedFile = { [path]: content };
+  mock(mockedFile);
 
-    const template = await templateReader.read(path);
+  const template = await templateReader.read(path);
 
-    t.is(template, content);
-    
-    mock.restore();
+  t.is(template, content);
+
+  mock.restore();
 });
