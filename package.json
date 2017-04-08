@@ -20,6 +20,8 @@
   "scripts": {
     "build": "node_modules/.bin/webpack",
     "serve": "node_modules/.bin/webpack-dev-server",
-    "lint": "node_modules/.bin/eslint ."
+    "lint": "node_modules/.bin/eslint .",
+    "test": "ava **/test/*-test.js",
+    "qa": "npm run lint & npm run test"
   }
 }
