@@ -6,9 +6,9 @@
 8. handle exclusion of output (from compilation.chunks || compilation.assets)
 9. support creating a async+defer asset
 10. handle public path
-11. setup linting (including EOF)
 12. clean commits
 13. rename to templated-assetS-webpack-plugin
 14. write docs
 15. remove folder plugins
 16. add files to package.json
+17. handle promise rejections in TemplatedAssets
