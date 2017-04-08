@@ -25,10 +25,30 @@ import Asset from "../src/asset";
 test("throw if missing name", t => {
   const error = t.throws(
     () => {
-      new Asset();
+      new Asset(undefined, { content: "a source", filename: "file.js" });
     },
     Error
   );
 
   t.is(error.message, "Asset name must be specified");
+});
+
+test("throw if missing source", t => {
+  const error = t.throws(
+    () => {
+      new Asset("a name", undefined);
+    },
+    Error
+  );
+
+  t.true(error.message.startsWith("Asset source must be specified"));
+});
+
+test("source is set", t => {
+  const source = { content: "a source", filename: "file.js" };
+
+  const asset = new Asset("a name", source);
+
+  t.is(asset.source.content, "a source");
+  t.is(asset.source.filename, "file.js");
 });
