@@ -13,19 +13,19 @@
     "rules": {
         "indent": [
             "error",
-            4
+            2
         ],
         "linebreak-style": [
             "error",
             "unix"
         ],
         "eol-last": [
-            "warn",
+            "error",
             "always"
         ],
         "quotes": [
             "error",
-            "single"
+            "double"
         ],
         "semi": [
             "error",
@@ -35,5 +35,6 @@
         "no-unused-vars": 1
     },
     "globals": {
+        "__dirname": true
     }
 }
