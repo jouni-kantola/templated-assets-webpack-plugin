@@ -73,11 +73,11 @@ function flatten(rules) {
 
 function ensureDefaults(rules) {
   return rules.map(rule => {
-    if(!rule.inline) {
+    if (!rule.inline) {
       rule.url = true;
     }
     return rule;
-  })
+  });
 }
 
 module.exports = RuleSet;
