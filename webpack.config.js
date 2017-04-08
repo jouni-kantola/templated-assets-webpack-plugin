@@ -49,8 +49,6 @@ module.exports = {
     path: path.join(__dirname, "dist"),
     //publicPath: '/',
     filename: "[name].[chunkhash].js"
-      ? "[name].[chunkhash].prod.js"
-      : "[name].[chunkhash].dev.js"
   },
   module: {
     rules: [
@@ -75,6 +73,6 @@ module.exports = {
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ChunkManifestPlugin(),
-    new TemplatedAssetWebpackPlugin({ chunks: TemplatedAssetWebpackPluginRules })
+    new TemplatedAssetWebpackPlugin({ rules: TemplatedAssetWebpackPluginRules })
   ]
 };
