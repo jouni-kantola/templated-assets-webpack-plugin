@@ -17,14 +17,26 @@ class TemplatedAssets {
     const allProcesses = this.assets.map(asset => {
       return asset.process().then(template => {
         return new Promise((resolve, reject) => {
-          const filename = `${asset.name || asset.filename}.html`;
-          compilation.assets[filename] = template;
+          const name = asset.name || asset.filename;
+          if (!name) {
+            reject(`Cannot name asset ${JSON.stringify(asset)}`);
+          }
+
+          const filename = `${name}.html`;
+          try {
+            compilation.assets[filename] = template;
+          } catch (e) {
+            reject(
+              `Failed to include asset ${JSON.stringify(asset)} to compilation.\n${e.message}`
+            );
+          }
+
           resolve();
         });
       });
     });
 
-    Promise.all(allProcesses).then(_ => callback());
+    Promise.all(allProcesses).then(() => callback());
   }
 }
 
@@ -96,13 +108,15 @@ function asset(template, replace, value) {
   return new Promise((resolve, reject) => {
     return templateReader.read(template).then(content => {
       const script = content.replace(replace, value);
+
+      if(content === script) {
+        reject(`No replacement done in template. Check rule configuration.
+        ${content}`);
+      }
+      
       resolve({
-        source: function() {
-          return script;
-        },
-        size: function() {
-          return script.length;
-        }
+        source: () => script,
+        size: () => script.length
       });
     });
   });
