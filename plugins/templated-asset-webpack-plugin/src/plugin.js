@@ -1,21 +1,18 @@
 "use strict";
 
-const fs = require("fs");
-
 const log = require("./logger").log;
 const RuleSet = require("./rule-set");
 const CompiledChunks = require("./compiled-chunks");
-const chunkMatcher = require("./chunk-matcher");
 const TemplatedAssets = require("./templated-assets");
 
 class TemplatedAssetWebpackPlugin {
   constructor(opts) {
     const options = opts || {};
-    if(!options.rules) {
+    if (!options.rules) {
       log("No rules specified. No templated chunks will be outputted.");
       log(options);
     }
-    
+
     this.rules = new RuleSet(options.rules);
   }
 
