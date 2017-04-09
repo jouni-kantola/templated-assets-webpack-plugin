@@ -2,6 +2,7 @@
 
 const chunkMatcher = require("./chunk-matcher");
 const templateReader = require("./template-reader");
+const Asset = require("./asset");
 
 class TemplatedAssets {
   constructor(chunks, rules) {
@@ -17,14 +18,13 @@ class TemplatedAssets {
     const allProcesses = this.assets.map(asset => {
       return asset.process().then(template => {
         return new Promise((resolve, reject) => {
-          const name = asset.name || asset.filename;
+          const name = asset.file.filename;
           if (!name) {
             reject(`Cannot name asset ${JSON.stringify(asset)}`);
           }
 
-          const filename = `${name}.html`;
           try {
-            compilation.assets[filename] = template;
+            compilation.assets[name] = template;
           } catch (e) {
             reject(
               `Failed to include asset ${JSON.stringify(asset)} to compilation.\n${e.message}`
@@ -53,28 +53,35 @@ function mapChunks(chunks, rules) {
   return assets;
 }
 
-function mapUrl(chunks, rules, template) {
+function mapUrl(chunks, rules) {
   const syncChunks = chunkMatcher.keep(chunks, rules);
   return syncChunks.map(chunk => {
     const rule = chunkMatcher.match(chunk, rules);
-    chunk.async = rule.async;
-    chunk.defer = rule.defer;
-    chunk.replace = new RegExp(rule.replace || "##URL##");
 
-    if (rule && rule.template) {
-      chunk.template = rule.template;
-    } else {
-      chunk.template = template;
+    const asset = new Asset(chunk.name || chunk.filename, {
+      content: chunk.filename,
+      filename: chunk.filename
+    });
+
+    asset.type.async = rule.async;
+    asset.type.defer = rule.defer;
+
+    if (rule.replace) {
+      asset.template.replace = rule.replace;
     }
 
-    chunk.process = asset.bind(
+    if (rule.template) {
+      asset.template.path = rule.template;
+    }
+
+    asset.process = process.bind(
       this,
-      chunk.template,
-      chunk.replace,
-      chunk.filename
+      asset.template.path,
+      asset.template.replace,
+      asset.source.content
     );
 
-    return chunk;
+    return asset;
   });
 }
 
@@ -85,35 +92,44 @@ function mapInline(chunks, rules) {
   return inlineChunks.map(chunk => {
     const rule = chunkMatcher.match(chunk, inlineRules);
 
-    chunk.inline = rule.inline;
-    chunk.replace = new RegExp(rule.replace || "##SOURCE##");
-    if (rule && rule.template) {
-      chunk.template = rule.template;
-    } else {
-      chunk.template = __dirname + "/templates/inline.tmpl";
+    const asset = new Asset(chunk.name || chunk.filename, {
+      content: chunk.source,
+      filename: chunk.filename
+    });
+
+    asset.type.inline = rule.inline;
+
+    if (rule.replace) {
+      asset.template.replace = rule.replace;
     }
 
-    chunk.process = asset.bind(
+    if (rule.template) {
+      asset.template.path = rule.template;
+    }
+
+    asset.process = process.bind(
       this,
-      chunk.template,
-      chunk.replace,
-      chunk.source
+      asset.template.path,
+      asset.template.replace,
+      asset.source.content
     );
 
-    return chunk;
+    return asset;
   });
 }
 
-function asset(template, replace, value) {
+function process(template, replace, value) {
   return new Promise((resolve, reject) => {
     return templateReader.read(template).then(content => {
       const script = content.replace(replace, value);
 
-      if(content === script) {
-        reject(`No replacement done in template. Check rule configuration.
-        ${content}`);
+      if (content === script) {
+        reject(
+          `No replacement done in template. Check rule configuration.
+        ${content}`
+        );
       }
-      
+
       resolve({
         source: () => script,
         size: () => script.length
@@ -123,15 +139,15 @@ function asset(template, replace, value) {
 }
 
 function mapSync(chunks, rules) {
-  return mapUrl(chunks, rules.sync(), __dirname + "/templates/sync.tmpl");
+  return mapUrl(chunks, rules.sync());
 }
 
 function mapAsync(chunks, rules) {
-  return mapUrl(chunks, rules.async(), __dirname + "/templates/async.tmpl");
+  return mapUrl(chunks, rules.async());
 }
 
 function mapDeferred(chunks, rules) {
-  return mapUrl(chunks, rules.defer(), __dirname + "/templates/defer.tmpl");
+  return mapUrl(chunks, rules.defer());
 }
 
 module.exports = TemplatedAssets;

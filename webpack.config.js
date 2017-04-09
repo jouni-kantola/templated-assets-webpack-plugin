@@ -9,18 +9,18 @@ const inlineTemplate = path.join(__dirname, "/tmpl/inline.tmpl");
 
 const TemplatedAssetWebpackPluginRules = [
   {
-    name: ["app", "vendor"],
+    name: ["app"],
     exclude: /(node_modules)/,
     url: true,
     defer: true
   },
-  // {
-  //   name: "vendor",
-  //   exclude: /(node_modules)/,
-  //   url: true,
-  //   async: true,
-  //   defer: true
-  // },
+  {
+    name: "vendor",
+    exclude: /(node_modules)/,
+    url: true,
+    async: true,
+    defer: true
+  },
   {
     name: "manifest",
     exclude: /(node_modules)/,
