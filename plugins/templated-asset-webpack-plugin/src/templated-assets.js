@@ -1,7 +1,6 @@
 "use strict";
 
 const chunkMatcher = require("./chunk-matcher");
-const templateReader = require("./template-reader");
 const Asset = require("./asset");
 
 class TemplatedAssets {
@@ -14,29 +13,26 @@ class TemplatedAssets {
     this.assets = mapChunks(chunks, rules);
   }
 
-  process(compilation, callback) {
+  process(compilation) {
     const allProcesses = this.assets.map(asset => {
-      return asset.process().then(template => {
-        return new Promise((resolve, reject) => {
-          const name = asset.file.filename;
-          if (!name) {
-            reject(`Cannot name asset ${JSON.stringify(asset)}`);
-          }
+      return asset.process().then(templatedAsset => {
+        try {
+          compilation.assets[templatedAsset.filename] = {
+            source: () => templatedAsset.source,
+            size: () => templatedAsset.size
+          };
+        } catch (e) {
+          throw new Error(
+            `Failed to include asset ${JSON.stringify(asset)} to compilation.
+            ${e.message}`
+          );
+        }
 
-          try {
-            compilation.assets[name] = template;
-          } catch (e) {
-            reject(
-              `Failed to include asset ${JSON.stringify(asset)} to compilation.\n${e.message}`
-            );
-          }
-
-          resolve();
-        });
+        return Promise.resolve();
       });
     });
 
-    Promise.all(allProcesses).then(() => callback());
+    return Promise.all(allProcesses);
   }
 }
 
@@ -87,34 +83,7 @@ function chunkToAsset(chunk, rule) {
     asset.template.path = rule.template;
   }
 
-  asset.process = process.bind(
-    this,
-    asset.template.path,
-    asset.template.replace,
-    asset.source.content
-  );
-
   return asset;
-}
-
-function process(template, replace, value) {
-  return new Promise((resolve, reject) => {
-    return templateReader.read(template).then(content => {
-      const script = content.replace(replace, value);
-
-      if (content === script) {
-        reject(
-          `No replacement done in template. Check rule configuration.
-        ${content}`
-        );
-      }
-
-      resolve({
-        source: () => script,
-        size: () => script.length
-      });
-    });
-  });
 }
 
 module.exports = TemplatedAssets;
