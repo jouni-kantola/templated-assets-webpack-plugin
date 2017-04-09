@@ -1,3 +1,5 @@
+"use strict";
+
 const templateReader = require("./template-reader");
 
 class Asset {
