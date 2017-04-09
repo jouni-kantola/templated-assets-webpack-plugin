@@ -6,12 +6,19 @@ class CompiledChunks {
       throw new Error("webpack compilation is required to process assets");
 
     if (compilation.chunks && Array.isArray(compilation.chunks)) {
+      const path = ensurePath(compilation);
       const chunks = compilation.chunks.map(chunk => {
         const filename = chunk.files[0];
         return {
           name: chunk.name,
           filename,
-          source: compilation.assets[filename].source()
+          source: compilation.assets[filename].source(),
+          path: path,
+          get url() {
+            return this.path.endsWith("/")
+              ? `${this.path}${this.filename}`
+              : `${this.path}/${this.filename}`;
+          }
         };
       });
 
@@ -33,6 +40,17 @@ class CompiledChunks {
       this.chunks = [];
     }
   }
+}
+
+function ensurePath(compilation) {
+  if (
+    !compilation ||
+    !compilation.mainTemplate ||
+    !compilation.mainTemplate.outputOptions
+  )
+    return "/";
+
+  return compilation.mainTemplate.outputOptions.publicPath || "/";
 }
 
 module.exports = CompiledChunks;
