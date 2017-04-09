@@ -41,77 +41,60 @@ class TemplatedAssets {
 }
 
 function mapChunks(chunks, rules) {
-  const urlChunks = mapUrl(chunks, rules.url());
-  const inlineChunks = mapInline(chunks, rules);
+  const urlRules = rules.url();
+  const matchingUrlChunks = chunkMatcher.keep(chunks, urlRules);
+  const urlChunks = chunksToAssets(matchingUrlChunks, urlRules);
 
-  const assets = urlChunks.concat(inlineChunks).filter(chunk => !!chunk);
+  const inlineRules = rules.inline();
+  const matchingInlineChunks = chunkMatcher.keep(chunks, inlineRules);
+  const inlineChunks = chunksToAssets(matchingInlineChunks, inlineRules);
 
-  return assets;
+  return urlChunks.concat(inlineChunks).filter(chunk => !!chunk);
 }
 
-function mapUrl(chunks, rules) {
-  const urlChunks = chunkMatcher.keep(chunks, rules);
-  return urlChunks.map(chunk => {
+function chunksToAssets(chunks, rules) {
+  return chunks.map(chunk => {
     const rule = chunkMatcher.match(chunk, rules);
-
-    const asset = new Asset(chunk.name || chunk.filename, {
-      content: chunk.filename,
-      filename: chunk.filename
-    });
-
-    asset.type.async = rule.async;
-    asset.type.defer = rule.defer;
-
-    if (rule.replace) {
-      asset.template.replace = rule.replace;
-    }
-
-    if (rule.template) {
-      asset.template.path = rule.template;
-    }
-
-    asset.process = process.bind(
-      this,
-      asset.template.path,
-      asset.template.replace,
-      asset.source.content
-    );
-
-    return asset;
+    return chunkToAsset(chunk, rule);
   });
 }
 
-function mapInline(chunks, rules) {
-  const inlineRules = rules.inline();
-  const inlineChunks = chunkMatcher.keep(chunks, inlineRules);
+function chunkToAsset(chunk, rule) {
+  const name = chunk.name || chunk.filename;
 
-  return inlineChunks.map(chunk => {
-    const rule = chunkMatcher.match(chunk, inlineRules);
+  let asset;
 
-    const asset = new Asset(chunk.name || chunk.filename, {
+  if (rule.inline) {
+    asset = new Asset(name, {
       content: chunk.source,
       filename: chunk.filename
     });
+    asset.type.inline = true;
+  } else {
+    asset = new Asset(name, {
+      content: chunk.filename,
+      filename: chunk.filename
+    });
+    asset.type.async = rule.async;
+    asset.type.defer = rule.defer;
+  }
 
-    asset.type.inline = rule.inline;
+  if (rule.replace) {
+    asset.template.replace = rule.replace;
+  }
 
-    if (rule.replace) {
-      asset.template.replace = rule.replace;
-    }
+  if (rule.template) {
+    asset.template.path = rule.template;
+  }
 
-    if (rule.template) {
-      asset.template.path = rule.template;
-    }
+  asset.process = process.bind(
+    this,
+    asset.template.path,
+    asset.template.replace,
+    asset.source.content
+  );
 
-    asset.process = process.bind(
-      this,
-      asset.template.path,
-      asset.template.replace,
-      asset.source.content
-    );
-
-    return asset;
-  });
+  return asset;
 }
 
 function process(template, replace, value) {
