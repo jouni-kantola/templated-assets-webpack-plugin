@@ -68,7 +68,7 @@ function chunkToAsset(chunk, rule) {
     asset.type.inline = true;
   } else {
     asset = new Asset(name, {
-      content: chunk.filename,
+      content: chunk.url,
       filename: chunk.filename
     });
     asset.type.async = rule.async;

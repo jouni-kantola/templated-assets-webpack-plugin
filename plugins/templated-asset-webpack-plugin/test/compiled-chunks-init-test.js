@@ -50,10 +50,14 @@ test("map compiled chunks", t => {
   t.is(chunk1.name, expected1.name);
   t.is(chunk1.filename, expected1.files[0]);
   t.is(chunk1.source, compilation.assets[expected1.files[0]].source());
+  t.is(chunk1.path, "/");
+  t.is(chunk1.url, `/${expected1.files[0]}`);
 
   t.is(chunk2.name, expected2.name);
   t.is(chunk2.filename, expected2.files[0]);
   t.is(chunk2.source, compilation.assets[expected2.files[0]].source());
+  t.is(chunk2.path, "/");
+  t.is(chunk2.url, `/${expected2.files[0]}`);
 });
 
 test("include from assets", t => {
@@ -84,7 +88,37 @@ test("include from assets", t => {
   const compiledChunks = new CompiledChunks(compilation).chunks;
   const chunk = compiledChunks[2];
 
-  t.is(compiledChunks.length, 3);  
+  t.is(compiledChunks.length, 3);
   t.is(chunk.filename, "c.js");
   t.is(chunk.source, "contents of c.js");
+});
+
+test("include public path", t => {
+  const compilation = {
+    mainTemplate: {
+      outputOptions: {
+        publicPath: "a public path"
+      }
+    },
+    chunks: [
+      {
+        name: "a",
+        files: ["a.js"]
+      }
+    ],
+    assets: {
+      "a.js": {
+        source: () => "contents of a.js"
+      }
+    }
+  };
+
+  const compiledChunks = new CompiledChunks(compilation).chunks;
+  const chunk = compiledChunks[0];
+
+  t.is(compiledChunks.length, 1);
+  t.is(chunk.filename, "a.js");
+  t.is(chunk.source, "contents of a.js");
+  t.is(chunk.path, "a public path");
+  t.is(chunk.url, "a public path/a.js");
 });
