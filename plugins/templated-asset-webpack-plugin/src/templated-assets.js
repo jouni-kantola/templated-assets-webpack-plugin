@@ -41,21 +41,17 @@ class TemplatedAssets {
 }
 
 function mapChunks(chunks, rules) {
-  const syncChunks = mapSync(chunks, rules);
-  const asyncChunks = mapAsync(chunks, rules);
-  const deferredChunks = mapDeferred(chunks, rules);
+  const urlChunks = mapUrl(chunks, rules.url());
   const inlineChunks = mapInline(chunks, rules);
 
-  const assets = syncChunks
-    .concat(asyncChunks, deferredChunks, inlineChunks)
-    .filter(chunk => !!chunk);
+  const assets = urlChunks.concat(inlineChunks).filter(chunk => !!chunk);
 
   return assets;
 }
 
 function mapUrl(chunks, rules) {
-  const syncChunks = chunkMatcher.keep(chunks, rules);
-  return syncChunks.map(chunk => {
+  const urlChunks = chunkMatcher.keep(chunks, rules);
+  return urlChunks.map(chunk => {
     const rule = chunkMatcher.match(chunk, rules);
 
     const asset = new Asset(chunk.name || chunk.filename, {
@@ -136,18 +132,6 @@ function process(template, replace, value) {
       });
     });
   });
-}
-
-function mapSync(chunks, rules) {
-  return mapUrl(chunks, rules.sync());
-}
-
-function mapAsync(chunks, rules) {
-  return mapUrl(chunks, rules.async());
-}
-
-function mapDeferred(chunks, rules) {
-  return mapUrl(chunks, rules.defer());
 }
 
 module.exports = TemplatedAssets;
