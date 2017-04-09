@@ -83,6 +83,11 @@ function chunkToAsset(chunk, rule) {
     asset.template.path = rule.template;
   }
 
+  if(rule.output) {
+    asset.file.extension = rule.output.extension || "html";
+    asset.file.prefix = rule.output.prefix || "";
+  }
+
   return asset;
 }
 

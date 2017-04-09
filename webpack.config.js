@@ -33,7 +33,11 @@ const TemplatedAssetWebpackPluginRules = [
     exclude: /(node_modules)/,
     inline: true,
     template: path.join(__dirname, "/tmpl/chunk-manifest.tmpl"),
-    replace: "##MANIFEST##"
+    replace: "##MANIFEST##",
+    output: {
+      prefix: "__",
+      extension: "cshtml"
+    }
   }
 ];
 
