@@ -25,9 +25,7 @@ test("ensure rules", t => {
 
 test("filter sync chunks", t => {
   const rules = {
-    sync: () => [],
-    async: () => [],
-    defer: () => [],
+    url: () => [],
     inline: () => []
   };
 
@@ -38,9 +36,7 @@ test("filter sync chunks", t => {
 
 test("filter async chunks", t => {
   const rules = {
-    sync: () => [],
-    async: () => [],
-    defer: () => [],
+    url: () => [],
     inline: () => []
   };
 
@@ -51,9 +47,7 @@ test("filter async chunks", t => {
 
 test("filter deferred chunks", t => {
   const rules = {
-    sync: () => [],
-    async: () => [],
-    defer: () => [],
+    url: () => [],
     inline: () => []
   };
 
@@ -64,9 +58,7 @@ test("filter deferred chunks", t => {
 
 test("filter inline chunks", t => {
   const rules = {
-    sync: () => [],
-    async: () => [],
-    defer: () => [],
+    url: () => [],
     inline: () => []
   };
 
