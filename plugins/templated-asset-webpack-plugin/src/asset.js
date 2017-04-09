@@ -1,3 +1,5 @@
+const templateReader = require("./template-reader");
+
 class Asset {
   constructor(name, source) {
     if (typeof name !== "string")
@@ -80,6 +82,28 @@ class Asset {
         this._replace = replace;
       }
     };
+  }
+
+  process() {
+    return templateReader.read(this.template.path).then(content => {
+      const replacedContent = content.replace(
+        this.template.replace,
+        this.source.content
+      );
+
+      if (content === replacedContent) {
+        throw new Error(
+          `No replacement done in template. Check rule configuration.
+        ${content}`
+        );
+      }
+
+      return Promise.resolve({
+        filename: this.file.filename,
+        source: replacedContent,
+        size: replacedContent.length
+      });
+    });
   }
 }
 

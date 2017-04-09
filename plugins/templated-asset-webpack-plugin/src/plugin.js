@@ -20,9 +20,10 @@ class TemplatedAssetWebpackPlugin {
     compiler.plugin("emit", (compilation, callback) => {
       const chunks = new CompiledChunks(compilation).chunks;
 
-      const assets = new TemplatedAssets(chunks, this.rules);
-
-      assets.process(compilation, callback);
+      new TemplatedAssets(chunks, this.rules)
+        .process(compilation, callback)
+        .then(() => callback())
+        .catch(log);
     });
   }
 }
