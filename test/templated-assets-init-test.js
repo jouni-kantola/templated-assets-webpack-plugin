@@ -1,5 +1,5 @@
 import test from "ava";
-import TemplatedAssets from "../src/templated-assets";
+import TemplatedAssets from "../lib/templated-assets";
 
 test("ensure chunks", t => {
   const error = t.throws(

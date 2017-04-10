@@ -2,7 +2,7 @@
   "name": "templated-assets-webpack-plugin",
   "version": "0.1.0",
   "description": "webpack plugin for generating templated assets, suitable for i.e. server-side rendering.",
-  "main": "./templated-asset-webpack-plugin/index.js",
+  "main": "index.js",
   "dependencies": {},
   "devDependencies": {
     "ava": "^0.19.0",
@@ -21,7 +21,7 @@
   },
   "scripts": {
     "lint": "node_modules/.bin/eslint .",
-    "test": "ava **/test/*-test.js",
+    "test": "ava test/*-test.js",
     "qa": "npm run lint & npm run test",
     "example": "node_modules/.bin/webpack --config ./example/webpack.config.js"
   },
@@ -43,7 +43,7 @@
   },
   "homepage": "https://github.com/jouni-kantola/templated-assets-webpack-plugin#readme",
   "files": [
-    "templated-asset-webpack-plugin/index.js",
-    "templated-asset-webpack-plugin/src"
+    "index.js",
+    "lib"
   ]
 }

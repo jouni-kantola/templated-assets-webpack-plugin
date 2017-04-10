@@ -3,7 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 
-const TemplatedAssetWebpackPlugin = require("../templated-assets-webpack-plugin");
+const TemplatedAssetWebpackPlugin = require("../");
 const templatedAssetsConfig = require("./templated-assets-config.js");
 
 module.exports = {

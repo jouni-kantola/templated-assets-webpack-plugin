@@ -1,6 +1,6 @@
 import path from "path";
 import test from "ava";
-import chunkMatcher from "../src/chunk-matcher";
+import chunkMatcher from "../lib/chunk-matcher";
 
 test("default to empty array when no chunks", t => {
   const assets = chunkMatcher.keep(undefined, rules);

@@ -1,7 +1,7 @@
 import test from "ava";
 import mock from "mock-fs";
 
-import templateReader from "../src/template-reader";
+import templateReader from "../lib/template-reader";
 
 test("ensure path", t => {
   const error = t.throws(

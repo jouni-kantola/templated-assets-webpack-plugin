@@ -1,5 +1,5 @@
 import test from "ava";
-import Asset from "../src/asset";
+import Asset from "../lib/asset";
 
 test("give name", t => {
   const name = "a-name";
