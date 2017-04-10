@@ -1,5 +1,5 @@
 import test from "ava";
-import RuleSet from "../src/rule-set";
+import RuleSet from "../lib/rule-set";
 
 test("filter inline assets", t => {
   const inlineAsset = {

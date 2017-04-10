@@ -1,5 +1,5 @@
 import test from "ava";
-import CompiledChunks from "../src/compiled-chunks";
+import CompiledChunks from "../lib/compiled-chunks";
 
 test("throw if compilation not specified", t => {
   const error = t.throws(

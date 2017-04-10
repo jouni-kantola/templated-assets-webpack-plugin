@@ -1,6 +1,6 @@
 import path from "path";
 import test from "ava";
-import chunkMatcher from "../src/chunk-matcher";
+import chunkMatcher from "../lib/chunk-matcher";
 
 test("ensure chunk", t => {
   const error = t.throws(

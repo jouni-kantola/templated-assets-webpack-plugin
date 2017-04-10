@@ -1,5 +1,5 @@
 import test from "ava";
-import RuleSet from "../src/rule-set";
+import RuleSet from "../lib/rule-set";
 
 test("default to empty array", t => {
   const config = new RuleSet();
