@@ -4,14 +4,12 @@ module.exports = {
   rules: [
     {
       name: ["app"],
-      exclude: /(node_modules)/,
       output: {
         defer: true
       }
     },
     {
       name: "vendor",
-      exclude: /(node_modules)/,
       output: {
         inline: true
       },
@@ -23,7 +21,6 @@ module.exports = {
     },
     {
       name: "manifest",
-      exclude: /(node_modules)/,
       output: {
         inline: true
       },
@@ -32,7 +29,6 @@ module.exports = {
     },
     {
       test: /manifest.json$/,
-      exclude: /(node_modules)/,
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##MANIFEST##",
       output: {
