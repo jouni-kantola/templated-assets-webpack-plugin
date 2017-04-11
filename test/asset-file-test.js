@@ -14,8 +14,40 @@ test("default prefix", t => {
   t.is(asset.file.prefix, "");
 });
 
+test("only allow prefix as string", t => {
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+
+  asset.file.prefix = 1;
+
+  t.is(asset.file.prefix, "");
+});
+
+test("fallback to no prefix", t => {
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+
+  asset.file.prefix = 1;
+
+  t.is(asset.file.prefix, "");
+});
+
 test("default extension", t => {
   const asset = new Asset("name", { content: "a source", filename: "file.js" });
+
+  t.is(asset.file.extension, "html");
+});
+
+test("only allow extension as string", t => {
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+
+  asset.file.extension = 1;
+
+  t.is(asset.file.extension, "html");
+});
+
+test("fallback to extension html", t => {
+  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+
+  asset.file.extension = "";
 
   t.is(asset.file.extension, "html");
 });
