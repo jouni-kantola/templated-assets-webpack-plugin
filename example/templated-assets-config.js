@@ -13,9 +13,12 @@ module.exports = {
       name: "vendor",
       exclude: /(node_modules)/,
       output: {
-        url: true,
-        async: true,
-        defer: true
+        inline: true
+      },
+      template: (source, filename, callback) => {
+        const updatedSource = `// source from ${filename}
+        ${source}`;
+        callback(updatedSource);
       }
     },
     {
