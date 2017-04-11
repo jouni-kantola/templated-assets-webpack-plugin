@@ -4,12 +4,13 @@ import RuleSet from "../lib/rule-set";
 test("filter inline assets", t => {
   const inlineAsset = {
     name: "chunk1",
-    inline: true
+    output: {
+      inline: true
+    }
   };
 
   const urlAsset = {
-    name: "chunk2",
-    url: true
+    name: "chunk2"
   };
 
   const chunks = new RuleSet([inlineAsset, urlAsset]);
@@ -20,12 +21,16 @@ test("filter inline assets", t => {
 test("filter url assets", t => {
   const inlineAsset = {
     name: "chunk1",
-    inline: true
+    output: {
+      inline: true
+    }
   };
 
   const urlAsset = {
     name: "chunk2",
-    url: true
+    output: {
+      url: true
+    }
   };
 
   const chunks = new RuleSet([inlineAsset, urlAsset]);
@@ -36,37 +41,46 @@ test("filter url assets", t => {
 test("filter sync assets", t => {
   const asyncAsset = {
     name: "chunk1",
-    url: true,
-    async: true
+    output: {
+      url: true,
+      async: true
+    }
   };
 
   const deferredAsset = {
     name: "chunk2",
-    url: true,
-    defer: true
+    output: {
+      url: true,
+      defer: true
+    }
   };
 
   const syncAsset = {
-    name: "chunk3",
-    url: true
+    name: ["chunk3", "chunk4"],
+    output: {
+      url: true
+    }
   };
 
   const chunks = new RuleSet([asyncAsset, deferredAsset, syncAsset]);
 
-  t.deepEqual(chunks.sync(), [syncAsset]);
+  t.deepEqual(chunks.sync(), [{ name: "chunk3", output: { url: true } }, { name: "chunk4", output: { url: true } }]);
 });
 
 test("filter async assets", t => {
   const asyncAsset = {
     name: "chunk1",
-    url: true,
-    async: true
+    output: {
+      async: true
+    }
   };
 
   const deferredAsset = {
     name: "chunk2",
-    url: true,
-    defer: true
+    output: {
+      url: true,
+      defer: true
+    }
   };
 
   const chunks = new RuleSet([asyncAsset, deferredAsset]);
@@ -77,14 +91,18 @@ test("filter async assets", t => {
 test("filter deferred assets", t => {
   const asyncAsset = {
     name: "chunk1",
-    url: true,
-    async: true
+    output: {
+      url: true,
+      async: true
+    }
   };
 
   const deferredAsset = {
     name: "chunk2",
-    url: true,
-    defer: true
+    output: {
+
+      defer: true
+    }
   };
 
   const chunks = new RuleSet([asyncAsset, deferredAsset]);
@@ -95,14 +113,18 @@ test("filter deferred assets", t => {
 test("an asset can be both url and inline", t => {
   const asset1 = {
     name: "chunk1",
-    url: true,
-    inline: true
+    output: {
+      url: true,
+      inline: true
+    }
   };
 
   const asset2 = {
     name: "chunk2",
-    url: true,
-    inline: true
+    output: {
+      url: true,
+      inline: true
+    }
   };
 
   const chunks = [asset1, asset2];
