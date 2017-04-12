@@ -53,8 +53,14 @@ test: /match-filename\.js$/
 // template is the path to template or function to process source
 // used for enhancing matching asset(s)
 template: path.join(__dirname, "template-path/my-custom-template.tmpl"),
-template: (source, filename, callback) => {
-    const updatedSource = myCustomSourceProcessor();
+template: (asset, callback) => {
+    // filename: webpack's source file's asset filename
+    // source: chunk's source
+    // content: what the default processor would have turned the asset's content into
+    // url: publicPath (or '/') + filename
+    const { filename, source, content, url } = asset;
+
+    const updatedSource = myCustomSourceProcessor(/* do your thing */);
     callback(updatedSource);
 },
 // template can also be defined as object, with path and value to look for and replace
