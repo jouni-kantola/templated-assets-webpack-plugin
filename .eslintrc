@@ -10,7 +10,18 @@
         "sourceType": "module",
         "allowImportExportEverywhere": false
     },
+    "plugins": [
+        "prettier"
+    ],
     "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "tabWidth": 2,
+                "trailingComma": "none",
+                "singleQuote": false
+            }
+        ],
         "indent": [
             "error",
             2

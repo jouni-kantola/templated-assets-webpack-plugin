@@ -14,16 +14,14 @@
     "babel-preset-env": "^1.3.2",
     "chunk-manifest-webpack-plugin": "^1.0.0",
     "eslint": "^3.19.0",
+    "eslint-plugin-prettier": "^2.0.1",
+    "husky": "^0.13.3",
     "is-thirteen": "^2.0.0",
+    "lint-staged": "^3.4.0",
     "mock-fs": "^4.2.0",
+    "prettier": "^0.22.0",
     "webpack": "^2.3.3",
     "webpack-chunk-hash": "^0.4.0"
-  },
-  "scripts": {
-    "lint": "node_modules/.bin/eslint .",
-    "test": "ava test/*-test.js",
-    "qa": "npm run lint & npm run test",
-    "example": "node_modules/.bin/webpack --config ./example/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -45,5 +43,18 @@
   "files": [
     "index.js",
     "lib"
-  ]
+  ],
+  "scripts": {
+    "lint": "node_modules/.bin/eslint .",
+    "test": "ava test/*-test.js",
+    "qa": "npm run lint & npm run test",
+    "example": "node_modules/.bin/webpack --config ./example/webpack.config.js",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  }
 }
