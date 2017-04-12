@@ -53,14 +53,22 @@ test: /match-filename\.js$/
 // template is the path to template or function to process source
 // used for enhancing matching asset(s)
 template: path.join(__dirname, "template-path/my-custom-template.tmpl"),
-template: (asset, callback) => {
+// custom source processor can be set for full control of processing source
+template: (asset, callback, ...args) => {
     // filename: webpack's source file's asset filename
     // source: chunk's source
     // content: what the default processor would have turned the asset's content into
     // url: publicPath (or '/') + filename
     const { filename, source, content, url } = asset;
 
-    const updatedSource = myCustomSourceProcessor(/* do your thing */);
+    // access rule specific args 
+    const arguments = args;
+
+    // process
+    const updatedSource = myCustomSourceProcessor();
+
+    // notify templated-assets-webpack-plugin when done
+    // pass updated source back to output as asset
     callback(updatedSource);
 },
 // template can also be defined as object, with path and value to look for and replace
@@ -75,7 +83,10 @@ template: {
 // * default for inlined assets is `##SOURCE`
 replace: "***IMPORTANT-STUFF***"
 
-// configure how to enhance the asset with `output` (or combine with own source processor)
+// pass custom arguments, accessible in custom source processor
+args: []
+
+// configure how to enhance the asset with `output`
 output: {
     // url asset is default if other not configured. Takes the file name and combines with webpack's config `publicPath`
     url: true,
