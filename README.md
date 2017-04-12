@@ -2,6 +2,8 @@
 
 [templated-assets-webpack-plugin](https://www.npmjs.com/package/templated-assets-webpack-plugin) is a webpack plugin for creating templated assets. I myself use it, first and foremost, for automating creation of partial views, when server-side rendering assets outputted by webpack (like referencing scripts and/or inlining assets). The plugin is applicable for enhancing webpack compiled assets, i.e. inlining webpack's manifest or chunk manifest (`manifest.json`).
 
+[![Build Status](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin.svg?branch=master)](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin)
+
 ## Usage
 The plugin takes a set of rules for defining how to template assets. Out of the box comes templates for script tags. The default templates included are for referencing scripts via URL (including support for async/defer) or inlining script's content.
 
