@@ -64,7 +64,10 @@ test("filter sync assets", t => {
 
   const chunks = new RuleSet([asyncAsset, deferredAsset, syncAsset]);
 
-  t.deepEqual(chunks.sync(), [{ name: "chunk3", output: { url: true } }, { name: "chunk4", output: { url: true } }]);
+  t.deepEqual(chunks.sync(), [
+    { name: "chunk3", output: { url: true } },
+    { name: "chunk4", output: { url: true } }
+  ]);
 });
 
 test("filter async assets", t => {
@@ -100,7 +103,6 @@ test("filter deferred assets", t => {
   const deferredAsset = {
     name: "chunk2",
     output: {
-
       defer: true
     }
   };

@@ -37,7 +37,10 @@ test("flatten rules when name passed as array", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ name: "chunk1", output: { url: true } }, { name: "chunk2", output: { url: true } }]);
+  t.deepEqual(config.rules, [
+    { name: "chunk1", output: { url: true } },
+    { name: "chunk2", output: { url: true } }
+  ]);
 });
 
 test("throw if no name test nor name", t => {
@@ -92,7 +95,10 @@ test("default to url rule if no output configured", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ name: "chunk1", output: { url: true } }, { name: "chunk2", output: { url: true } }]);
+  t.deepEqual(config.rules, [
+    { name: "chunk1", output: { url: true } },
+    { name: "chunk2", output: { url: true } }
+  ]);
 });
 
 test("default to url rule if not inline", t => {
@@ -104,7 +110,10 @@ test("default to url rule if not inline", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ name: "chunk1", output: { url: true } }, { name: "chunk2", output: { url: true } }]);
+  t.deepEqual(config.rules, [
+    { name: "chunk1", output: { url: true } },
+    { name: "chunk2", output: { url: true } }
+  ]);
 });
 
 test("is also url when defer", t => {
@@ -119,7 +128,9 @@ test("is also url when defer", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ name: "chunk1", output: { url: true, defer: true } }]);
+  t.deepEqual(config.rules, [
+    { name: "chunk1", output: { url: true, defer: true } }
+  ]);
 });
 
 test("is also url when async", t => {
@@ -134,5 +145,7 @@ test("is also url when async", t => {
 
   const config = new RuleSet(rules);
 
-  t.deepEqual(config.rules, [{ name: "chunk1", output: { url: true, async: true } }]);
+  t.deepEqual(config.rules, [
+    { name: "chunk1", output: { url: true, async: true } }
+  ]);
 });
