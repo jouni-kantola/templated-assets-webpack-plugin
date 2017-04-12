@@ -9,13 +9,11 @@ module.exports = {
       }
     },
     {
-      name: "vendor",
-      output: {
-        inline: true
-      },
-      template: (source, filename, callback) => {
-        const updatedSource = `// source from ${filename}
-        ${source}`;
+      test: /vendor.*\.js$/,
+      template: (asset, callback) => {
+        const updatedSource = `// source from ${asset.filename} to ${asset.url}
+        // default templating would have resulted in ${asset.content}
+        ${asset.source}`;
         callback(updatedSource);
       }
     },
