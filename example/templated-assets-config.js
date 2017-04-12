@@ -10,12 +10,19 @@ module.exports = {
     },
     {
       test: /vendor.*\.js$/,
-      template: (asset, callback) => {
-        const updatedSource = `// source from ${asset.filename} to ${asset.url}
+      // in supported version of Node.js use:
+      // template: (asset, callback, ...args) => {
+      template: function customSourceProcessor(asset, callback) {
+        const args = arguments.length > 2 &&
+          Array.prototype.slice.call(arguments, 2);
+
+        const updatedSource = `// built with webpack and ${args.join("-")}
+        // source from ${asset.filename} to ${asset.url}
         // default templating would have resulted in ${asset.content}
         ${asset.source}`;
         callback(updatedSource);
-      }
+      },
+      args: ["templated", "assets", "webpack", "plugin"]
     },
     {
       name: "manifest",
