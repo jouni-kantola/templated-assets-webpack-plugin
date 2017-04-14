@@ -21,6 +21,7 @@
     "lint-staged": "^3.4.0",
     "mkdirp": "^0.5.1",
     "mock-fs": "^4.2.0",
+    "nyc": "^10.2.0",
     "prettier": "^0.22.0",
     "webpack": "^2.3.3",
     "webpack-chunk-hash": "^0.4.0"
@@ -49,7 +50,8 @@
   "scripts": {
     "lint": "node_modules/.bin/eslint .",
     "test": "ava test/*-test.js",
-    "qa": "npm run lint & npm run test",
+    "coverage": "node_modules/.bin/nyc --check-coverage npm test",
+    "qa": "npm run lint & npm run coverage",
     "example": "node_modules/.bin/webpack --config ./example/webpack.config.js",
     "precommit": "lint-staged"
   },
@@ -58,5 +60,13 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "nyc": {
+    "watermarks": {
+      "lines": [80, 95],
+      "functions": [80, 95],
+      "branches": [80, 95],
+      "statements": [80, 95]
+    }
   }
 }
