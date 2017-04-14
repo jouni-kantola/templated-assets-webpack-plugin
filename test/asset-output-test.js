@@ -25,7 +25,17 @@ test("default output asset", t => {
   t.is(asset.output.emitAsset, true);
 });
 
-test("default output asset", t => {
+test("fallback to emit asset", t => {
+  const name = "a-name";
+  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+
+  asset.output.emitAsset = 1;
+
+  t.is(asset.output._emitAsset, true);
+  t.is(asset.output.emitAsset, true);
+});
+
+test("do not emit asset", t => {
   const name = "a-name";
   const asset = new Asset(name, { content: "a source", filename: "file.js" });
 
