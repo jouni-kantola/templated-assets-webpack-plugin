@@ -90,17 +90,22 @@ args: []
 
 // configure how to enhance the asset with `output`
 output: {
-    // url asset is default if other not configured. Takes the file name and combines with webpack's config `publicPath`
-    url: true,
+    // asset filename name combined with webpack's `publicPath`
+    url: true, // url asset is default, if other not configured
     // sync/async/defer/async+defer are included default with the plugin
     async: false,
     defer: false,
-    // inline asset source
+    // inline asset's source
     inline: false,
-    // prefix output asset's filename (default is no prefix)
-    prefix: "__",
+    // prefix output asset's filename
+    prefix: "__",  // default: no prefix
     // if server-side templating engine's used, the asset's file extension can be controlled 
-    extension: "txt"
+    extension: "txt", // default: html
+    // specify path to output folder for assets matching rule
+    path: "a/directory", // default: ""
+    // configure if assets matching rule should be included in webpack's output
+    // if `output.path` used, duplicate assets are created if emitAsset is true
+    emitAsset: false // default: true
 }
 ```
 

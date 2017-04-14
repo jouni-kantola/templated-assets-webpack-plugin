@@ -5,7 +5,6 @@ module.exports = {
     {
       name: ["app"],
       output: {
-        emitAsset: false,
         defer: true
       }
     },
@@ -28,7 +27,9 @@ module.exports = {
     {
       name: "manifest",
       output: {
-        inline: true
+        inline: true,
+        path: path.join(__dirname, "dist"),
+        emitAsset: false
       },
       template: path.join(__dirname, "tmpl/inline.tmpl"),
       replace: "##HULAHULA##"

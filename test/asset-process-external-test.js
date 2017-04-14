@@ -16,7 +16,7 @@ test("should pass args to custom source processor", async t => {
   asset.source.args = ruleArgs;
 
   asset.template.process = (source, callback, ...args) => {
-    callback(ruleArgs.join("-"));
+    callback(args.join("-"));
   };
 
   const result = await asset.process();
@@ -51,7 +51,7 @@ test("should reject if custom source processor fails", async t => {
   const asset = new Asset(name, { content: "source", filename: "file.js" });
 
   asset.output.emitAsset = false;
-  asset.template.process = (source, callback) => {
+  asset.template.process = () => {
     throw new Error("custom source processor failed");
   };
 

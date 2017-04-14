@@ -22,7 +22,7 @@ test("should write content to file", async t => {
   const mockedDir = { [path]: {} };
   mock(mockedDir);
 
-  await io.write(filePath, content);
+  io.write(filePath, content);
   t.is(await io.read(filePath), content);
 
   mock.restore();
