@@ -55,7 +55,6 @@ test("keep matching chunk filenames by regex", t => {
 const rules = [
   {
     name: "app",
-    exclude: /(node_modules)/,
     url: {
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##URL##",
@@ -64,7 +63,6 @@ const rules = [
   },
   {
     name: "vendor",
-    exclude: /(node_modules)/,
     inline: {
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##SOURCE##"
@@ -78,7 +76,6 @@ const rules = [
   },
   {
     name: "manifest",
-    exclude: /(node_modules)/,
     inline: {
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##SOURCE##"
@@ -86,7 +83,6 @@ const rules = [
   },
   {
     test: /manifest.json$/,
-    exclude: /(node_modules)/,
     inline: {
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##SOURCE##"
