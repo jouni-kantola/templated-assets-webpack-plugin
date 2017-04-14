@@ -19,6 +19,7 @@
     "husky": "^0.13.3",
     "is-thirteen": "^2.0.0",
     "lint-staged": "^3.4.0",
+    "mkdirp": "^0.5.1",
     "mock-fs": "^4.2.0",
     "prettier": "^0.22.0",
     "webpack": "^2.3.3",

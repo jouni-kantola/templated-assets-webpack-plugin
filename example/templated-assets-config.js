@@ -28,7 +28,7 @@ module.exports = {
       name: "manifest",
       output: {
         inline: true,
-        path: path.join(__dirname, "dist"),
+        path: path.join(__dirname, "dist/custom/"),
         emitAsset: false
       },
       template: path.join(__dirname, "tmpl/inline.tmpl"),
