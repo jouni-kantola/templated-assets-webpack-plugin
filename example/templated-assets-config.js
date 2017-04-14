@@ -5,6 +5,7 @@ module.exports = {
     {
       name: ["app"],
       output: {
+        emitAsset: false,
         defer: true
       }
     },
