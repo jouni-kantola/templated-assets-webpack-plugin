@@ -5,8 +5,7 @@ node_js:
 install:
   - npm install
 script:
-  - npm run lint
-  - npm run test
+  - npm run qa
   - npm run example
 notifications:
   email: false
