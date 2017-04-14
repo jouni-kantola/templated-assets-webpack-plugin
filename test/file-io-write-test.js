@@ -14,16 +14,20 @@ test("ensure path", t => {
   t.is(error.message, "No file path specified");
 });
 
-test("should write content to file", async t => {
+test.cb("create directory if needed", t => {
   const path = "path/empty/directory";
-  const filePath = `${path}/a-file`;
+  const filePath = `${path}/sub-folder/a-file`;
 
   const content = "writing lorem ipsum";
   const mockedDir = { [path]: {} };
   mock(mockedDir);
 
-  io.write(filePath, content);
-  t.is(await io.read(filePath), content);
+  io.write(filePath, content, () => {
+    io.read(filePath).then(file => {
+      t.is(file, "writing lorem ipsum");
 
-  mock.restore();
+      mock.restore();
+      t.end();
+    });
+  });
 });
