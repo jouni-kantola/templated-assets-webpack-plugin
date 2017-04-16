@@ -1,19 +1,30 @@
 import test from "ava";
 import CompiledChunks from "../lib/compiled-chunks";
 
-test("throw if compilation not specified", t => {
+test("throw if compiled chunks not specified", t => {
   const error = t.throws(
     () => {
       new CompiledChunks();
     },
-    Error
+    TypeError
   );
 
-  t.is(error.message, "webpack compilation is required to process assets");
+  t.is(error.message, "Compiled chunks required to continue process");
+});
+
+test("throw if compiled assets not specified", t => {
+  const error = t.throws(
+    () => {
+      new CompiledChunks([]);
+    },
+    TypeError
+  );
+
+  t.is(error.message, "Compiled assets required to continue process");
 });
 
 test("fallback to empty array", t => {
-  t.deepEqual(new CompiledChunks({}).chunks, []);
+  t.deepEqual(new CompiledChunks([], {}).chunks, []);
 });
 
 test("map compiled chunks", t => {
@@ -38,14 +49,17 @@ test("map compiled chunks", t => {
     }
   };
 
-  const compiledChunks = new CompiledChunks(compilation).chunks;
-  const chunk1 = compiledChunks[0];
-  const chunk2 = compiledChunks[1];
+  const compiledChunks = new CompiledChunks(
+    compilation.chunks,
+    compilation.assets
+  );
+  const chunk1 = compiledChunks.chunks[0];
+  const chunk2 = compiledChunks.chunks[1];
 
   const expected1 = compilation.chunks[0];
   const expected2 = compilation.chunks[1];
 
-  t.is(compiledChunks.length, 2);
+  t.is(compiledChunks.chunks.length, 2);
 
   t.is(chunk1.name, expected1.name);
   t.is(chunk1.filename, expected1.files[0]);
@@ -85,10 +99,13 @@ test("include from assets", t => {
     }
   };
 
-  const compiledChunks = new CompiledChunks(compilation).chunks;
-  const chunk = compiledChunks[2];
+  const compiledChunks = new CompiledChunks(
+    compilation.chunks,
+    compilation.assets
+  );
+  const chunk = compiledChunks.chunks[2];
 
-  t.is(compiledChunks.length, 3);
+  t.is(compiledChunks.chunks.length, 3);
   t.is(chunk.filename, "c.js");
   t.is(chunk.source, "contents of c.js");
 });
@@ -113,10 +130,14 @@ test("include public path", t => {
     }
   };
 
-  const compiledChunks = new CompiledChunks(compilation).chunks;
-  const chunk = compiledChunks[0];
+  const compiledChunks = new CompiledChunks(
+    compilation.chunks,
+    compilation.assets,
+    compilation.mainTemplate.outputOptions.publicPath
+  );
+  const chunk = compiledChunks.chunks[0];
 
-  t.is(compiledChunks.length, 1);
+  t.is(compiledChunks.chunks.length, 1);
   t.is(chunk.filename, "a.js");
   t.is(chunk.source, "contents of a.js");
   t.is(chunk.path, "a public path");
