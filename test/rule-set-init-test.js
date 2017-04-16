@@ -43,12 +43,27 @@ test("flatten rules when name passed as array", t => {
   ]);
 });
 
+test("throw if rule undefined", t => {
+  const error = t.throws(
+    () => {
+      new RuleSet([undefined]);
+    },
+    TypeError
+  );
+
+  t.truthy(
+    error.message.startsWith(
+      "rule must be configured with either test (RegExp) or name (string|Array)."
+    )
+  );
+});
+
 test("throw if no name test nor name", t => {
   const error = t.throws(
     () => {
       new RuleSet([{}]);
     },
-    Error
+    TypeError
   );
 
   t.truthy(
