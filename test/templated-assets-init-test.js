@@ -134,5 +134,5 @@ test("map chunks", t => {
   t.is(asset3.file.prefix, "__");
   t.is(asset3.type.inline, true);
   t.is(asset3.output.emitAsset, false);
-  t.is(asset3.output.path, "output/path");
+  t.deepEqual(asset3.output.path, ["output/path"]);
 });

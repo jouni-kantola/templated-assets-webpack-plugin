@@ -101,8 +101,9 @@ output: {
     prefix: "__",  // default: no prefix
     // if server-side templating engine's used, the asset's file extension can be controlled 
     extension: "txt", // default: html
-    // specify path to output folder for assets matching rule
-    path: "a/directory", // default: ""
+    // specify folder(s) as output path for assets matching rule
+    path: "a/directory", // default: no custom output directory
+    path: ["first/output/directory", "create/copy/here"], // for duplicate output
     // configure if assets matching rule should be included in webpack's output
     // if `output.path` used, duplicate assets are created if emitAsset is true
     emitAsset: false // default: true
