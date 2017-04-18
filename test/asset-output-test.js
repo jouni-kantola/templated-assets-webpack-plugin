@@ -1,14 +1,41 @@
 import test from "ava";
 import Asset from "../lib/asset";
 
+test("use default", t => {
+  const name = "a-name";
+  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+
+  t.is(asset.output.useDefault, true);
+});
+
+test("use custom", t => {
+  const name = "a-name";
+  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+
+  asset.output.path = "a/path";
+
+  t.is(asset.output.useDefault, false);
+});
+
 test("default to no custom output location", t => {
   const name = "a-name";
   const asset = new Asset(name, { content: "a source", filename: "file.js" });
 
-  t.is(asset.output.path, "");
+  t.deepEqual(asset.output.path, []);
+  t.is(asset.output.useDefault, true);
 });
 
-test("output as string", t => {
+test("when blank input, fallback to default output location", t => {
+  const name = "a-name";
+  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+
+  asset.output.path = "";
+
+  t.deepEqual(asset.output.path, []);
+  t.is(asset.output.useDefault, true);
+});
+
+test("path as string or Array", t => {
   const name = "a-name";
   const asset = new Asset(name, { content: "a source", filename: "file.js" });
 
@@ -19,27 +46,40 @@ test("output as string", t => {
     TypeError
   );
 
-  t.is(error.message, "Specify path to template (as string)");
+  t.is(
+    error.message,
+    "Specify output path(s); string or Array (for multiple copies)"
+  );
 });
 
-test("overrideable output path", t => {
+test("overrideable single output path", t => {
   const name = "a-name";
   const asset = new Asset(name, { content: "a source", filename: "file.js" });
 
   asset.output.path = "a/path";
 
-  t.is(asset.output._path, "a/path");
-  t.is(asset.output.path, "a/path");
+  t.deepEqual(asset.output._path, ["a/path"]);
+  t.deepEqual(asset.output.path, ["a/path"]);
+});
+
+test("overrideable multiple output paths", t => {
+  const name = "a-name";
+  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+
+  asset.output.path = ["a/path", "another/path"];
+
+  t.deepEqual(asset.output._path, ["a/path", "another/path"]);
+  t.deepEqual(asset.output.path, ["a/path", "another/path"]);
 });
 
 test("asset ends without slash", t => {
   const name = "a-name";
   const asset = new Asset(name, { content: "a source", filename: "file.js" });
 
-  asset.output.path = "a/path///";
+  asset.output.path = ["a/path///", "another/path//"];
 
-  t.is(asset.output._path, "a/path");
-  t.is(asset.output.path, "a/path");
+  t.deepEqual(asset.output._path, ["a/path", "another/path"]);
+  t.deepEqual(asset.output.path, ["a/path", "another/path"]);
 });
 
 test("default output asset", t => {
