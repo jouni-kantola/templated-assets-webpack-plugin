@@ -6,6 +6,8 @@ const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 const TemplatedAssetWebpackPlugin = require("../");
 const templatedAssetsConfig = require("./templated-assets-config.js");
 
+const publicPath = "https://test-cdn.com/assets";
+
 module.exports = {
   entry: {
     vendor: ["babel-polyfill", "is-thirteen"],
@@ -16,7 +18,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: "https://test-cdn.com/assets",
+    publicPath: publicPath,
     filename: "[name].[chunkhash].js"
   },
   module: {
@@ -30,7 +32,6 @@ module.exports = {
       }
     ]
   },
-  devtool: "source-map",
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: ["vendor", "manifest"],
@@ -38,6 +39,11 @@ module.exports = {
     }),
     new webpack.HashedModuleIdsPlugin(),
     new ChunkManifestPlugin(),
+    new webpack.SourceMapDevToolPlugin({
+      filename: "[file].map",
+      exclude: ["manifest"],
+      append: `\n//# sourceMappingURL=${publicPath}/[url]\n`
+    }),
     new TemplatedAssetWebpackPlugin(templatedAssetsConfig)
   ]
 };
