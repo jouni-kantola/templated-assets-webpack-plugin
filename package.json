@@ -1,6 +1,6 @@
 {
   "name": "templated-assets-webpack-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "webpack plugin for generating templated assets, suitable for i.e. server-side rendering.",
   "main": "index.js",
   "dependencies": {},
