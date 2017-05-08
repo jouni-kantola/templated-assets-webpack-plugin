@@ -50,7 +50,9 @@ To create templated assets, a range of rules can be defined (at least one must b
 name: "match-this-chunk-name",
 name: ["chunk-name", "other-chunk-name"],
 // if regex used for rule, filenames for assets will be matched instead of chunk names
-test: /match-filename\.js$/ 
+test: /match-filename\.js$/,
+// if exclude pattern given, matching filenames will be excluded from being templated
+exclude: /^[0-9]+\./ // exclude async chunks
 
 // template is the path to template or function to process source
 // used for enhancing matching asset(s)
