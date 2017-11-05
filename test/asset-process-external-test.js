@@ -12,10 +12,10 @@ test("can access process external handler", t => {
 
 test("should pass args to custom source processor", async t => {
   const name = "a-name";
-  const asset = new Asset(name, { content: "source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
   const ruleArgs = ["a", "b", "c"];
 
-  asset.source.args = ruleArgs;
+  const asset = new Asset(name, assetSource, "/", ruleArgs);
 
   asset.template.process = (source, callback, ...args) => {
     callback(args.join("-"));
