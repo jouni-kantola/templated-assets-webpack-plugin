@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "webpack plugin for generating templated assets, suitable for i.e. server-side rendering.",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "webpack-sources": "^1.0.2"
+  },
   "devDependencies": {
     "ava": "^0.19.0",
     "babel-core": "^6.24.0",
@@ -63,10 +65,22 @@
   },
   "nyc": {
     "watermarks": {
-      "lines": [80, 95],
-      "functions": [80, 95],
-      "branches": [80, 95],
-      "statements": [80, 95]
+      "lines": [
+        80,
+        95
+      ],
+      "functions": [
+        80,
+        95
+      ],
+      "branches": [
+        80,
+        95
+      ],
+      "statements": [
+        80,
+        95
+      ]
     }
   }
 }
