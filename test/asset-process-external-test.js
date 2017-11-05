@@ -1,9 +1,11 @@
 import test from "ava";
+
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 
 test("can access process external handler", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a-name", assetSource, "/");
 
   t.is(typeof asset.processExternal, "function");
 });
@@ -29,7 +31,8 @@ test("should pass args to custom source processor", async t => {
 
 test("should notify to not emit asset", async t => {
   const name = "a-name";
-  const asset = new Asset(name, { content: "source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset(name, assetSource, "/");
 
   asset.output.emitAsset = false;
   asset.template.process = (source, callback) => {
@@ -46,7 +49,8 @@ test("should notify to not emit asset", async t => {
 
 test("should reject if custom source processor fails", async t => {
   const name = "a-name";
-  const asset = new Asset(name, { content: "source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset(name, assetSource, "/");
 
   asset.output.emitAsset = false;
   asset.template.process = () => {
