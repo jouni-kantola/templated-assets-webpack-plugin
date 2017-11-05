@@ -61,3 +61,11 @@ test("asset's content is source when inlined", t => {
 
   t.is(asset.content, assetSource.source);
 });
+
+test("args are set", t => {
+  const args = { an: "argument" };
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/", args);
+
+  t.deepEqual(asset.args, args);
+});
