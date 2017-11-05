@@ -24,7 +24,6 @@ test("should pass args to custom source processor", async t => {
   const expected = "a-b-c";
   t.is(result.filename, `${name}.html`);
   t.is(result.source, expected);
-  t.is(result.size, expected.length);
   t.is(result.emitAsset, true);
 });
 
@@ -42,7 +41,6 @@ test("should notify to not emit asset", async t => {
   const expected = "source modified";
   t.is(result.filename, `${name}.html`);
   t.is(result.source, expected);
-  t.is(result.size, expected.length);
   t.is(result.emitAsset, false);
 });
 

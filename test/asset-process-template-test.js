@@ -14,7 +14,6 @@ test("should replace template's content", async t => {
   const expected = "mocked template source";
   t.is(result.filename, `${name}.html`);
   t.is(result.source, expected);
-  t.is(result.size, expected.length);
   t.is(result.emitAsset, true);
 });
 
