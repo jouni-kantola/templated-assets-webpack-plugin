@@ -1,33 +1,33 @@
 import test from "ava";
+
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 
 test("default template for scripts", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
 
   t.true(asset.template.path.endsWith("/templates/sync.tmpl"));
 });
 
 test("default template for styles", t => {
-  const asset = new Asset("name", {
-    content: "a source",
-    filename: "styles.css"
-  });
+  const assetSource = new AssetSource("styles.css", "a source");
+  const asset = new Asset("a name", assetSource, "/");
 
   t.true(asset.template.path.endsWith("/templates/link-style.tmpl"));
 });
 
 test("inline style template", t => {
-  const asset = new Asset("name", {
-    content: "a source",
-    filename: "styles.css"
-  });
+  const assetSource = new AssetSource("styles.css", "a source");
+  const asset = new Asset("a name", assetSource, "/");
   asset.type.inline = true;
 
   t.true(asset.template.path.endsWith("/templates/inline-style.tmpl"));
 });
 
 test("throw when template path not specified as string", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
 
   const error = t.throws(
     () => {
@@ -40,7 +40,9 @@ test("throw when template path not specified as string", t => {
 });
 
 test("default template is replaced", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
   asset.template.path = "a/path";
 
   t.is(asset.template._path, "a/path");
@@ -48,14 +50,17 @@ test("default template is replaced", t => {
 });
 
 test("default sync template", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
 
   t.true(asset.type.sync);
   t.true(asset.template.path.endsWith("/templates/sync.tmpl"));
 });
 
 test("default async/defer template", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
   asset.type.async = true;
   asset.type.defer = true;
 
@@ -63,21 +68,27 @@ test("default async/defer template", t => {
 });
 
 test("default async template", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
   asset.type.async = true;
 
   t.true(asset.template.path.endsWith("/templates/async.tmpl"));
 });
 
 test("default defer template", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
   asset.type.defer = true;
 
   t.true(asset.template.path.endsWith("/templates/defer.tmpl"));
 });
 
 test("default inline template", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
   asset.type.inline = true;
 
   t.true(asset.template.path.endsWith("/templates/inline.tmpl"));
