@@ -1,10 +1,29 @@
 import test from "ava";
 import Asset from "../lib/asset";
 
-test("default template", t => {
+test("default template for scripts", t => {
   const asset = new Asset("name", { content: "a source", filename: "file.js" });
 
   t.true(asset.template.path.endsWith("/templates/sync.tmpl"));
+});
+
+test("default template for styles", t => {
+  const asset = new Asset("name", {
+    content: "a source",
+    filename: "styles.css"
+  });
+
+  t.true(asset.template.path.endsWith("/templates/link-style.tmpl"));
+});
+
+test("inline style template", t => {
+  const asset = new Asset("name", {
+    content: "a source",
+    filename: "styles.css"
+  });
+  asset.type.inline = true;
+
+  t.true(asset.template.path.endsWith("/templates/inline-style.tmpl"));
 });
 
 test("throw when template path not specified as string", t => {
