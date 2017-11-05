@@ -1,8 +1,10 @@
 import test from "ava";
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 
 test("ensure value to replace", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
   const error = t.throws(
     () => {
       asset.template.replace = 1;
@@ -17,7 +19,9 @@ test("ensure value to replace", t => {
 });
 
 test("default replacement is updated when value is string", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
+
   const replacement = "find this";
   asset.template.replace = replacement;
 
@@ -26,7 +30,9 @@ test("default replacement is updated when value is string", t => {
 });
 
 test("default replacement is updated when value is RegExp", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
+
   const replacement = "find this";
   asset.template.replace = new RegExp(replacement);
 
@@ -35,27 +41,34 @@ test("default replacement is updated when value is RegExp", t => {
 });
 
 test("default replacement", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   t.true(asset.template.replace.test("##URL##"));
 });
 
 test("default async replacement", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
+
   asset.type.async = true;
 
   t.true(asset.template.replace.test("##URL##"));
 });
 
 test("default defer replacement", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
+
   asset.type.defer = true;
 
   t.true(asset.template.replace.test("##URL##"));
 });
 
 test("default inline replacement", t => {
-  const asset = new Asset("name", { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
+
   asset.type.inline = true;
 
   t.true(asset.template.replace.test("##SOURCE##"));

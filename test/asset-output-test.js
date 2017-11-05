@@ -1,16 +1,17 @@
 import test from "ava";
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 
 test("use default", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   t.is(asset.output.useDefault, true);
 });
 
 test("use custom", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.path = "a/path";
 
@@ -18,16 +19,16 @@ test("use custom", t => {
 });
 
 test("default to no custom output location", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   t.deepEqual(asset.output.path, []);
   t.is(asset.output.useDefault, true);
 });
 
 test("when blank input, fallback to default output location", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.path = "";
 
@@ -36,8 +37,8 @@ test("when blank input, fallback to default output location", t => {
 });
 
 test("path as string or Array", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   const error = t.throws(
     () => {
@@ -53,8 +54,8 @@ test("path as string or Array", t => {
 });
 
 test("overrideable single output path", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.path = "a/path";
 
@@ -63,8 +64,8 @@ test("overrideable single output path", t => {
 });
 
 test("overrideable multiple output paths", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.path = ["a/path", "another/path"];
 
@@ -73,8 +74,8 @@ test("overrideable multiple output paths", t => {
 });
 
 test("asset ends without slash", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.path = ["a/path///", "another/path//"];
 
@@ -83,15 +84,15 @@ test("asset ends without slash", t => {
 });
 
 test("default output asset", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   t.is(asset.output.emitAsset, true);
 });
 
 test("fallback to emit asset", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.emitAsset = 1;
 
@@ -100,8 +101,8 @@ test("fallback to emit asset", t => {
 });
 
 test("do not emit asset", t => {
-  const name = "a-name";
-  const asset = new Asset(name, { content: "a source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("name", assetSource, "/");
 
   asset.output.emitAsset = false;
 
