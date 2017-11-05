@@ -1,5 +1,6 @@
 import test from "ava";
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 
 import io from "../lib/file-io";
 
@@ -7,11 +8,13 @@ test("should replace template's content", async t => {
   io.read = () => Promise.resolve("mocked template ##URL##");
 
   const name = "a-name";
-  const asset = new Asset(name, { content: "source", filename: "file.js" });
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "source");
+  const asset = new Asset(name, assetSource, `/${filename}`);
 
   const result = await asset.process();
 
-  const expected = "mocked template source";
+  const expected = `mocked template /${filename}`;
   t.is(result.filename, `${name}.html`);
   t.is(result.source, expected);
   t.is(result.emitAsset, true);
@@ -20,7 +23,8 @@ test("should replace template's content", async t => {
 test("notify no replacement in template", async t => {
   io.read = () => Promise.resolve("mocked template");
 
-  const asset = new Asset("a-name", { content: "source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "source");
+  const asset = new Asset("a-name", assetSource, "/");
 
   try {
     await asset.process();
@@ -34,7 +38,8 @@ test("notify no replacement in template", async t => {
 test("should notify to not emit asset", async t => {
   io.read = () => Promise.resolve("mocked template ##URL##");
 
-  const asset = new Asset("a-name", { content: "source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "source");
+  const asset = new Asset("a-name", assetSource, "/");
   asset.output.emitAsset = false;
 
   const result = await asset.process();
