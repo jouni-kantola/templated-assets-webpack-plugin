@@ -78,7 +78,7 @@ test("default defer template", t => {
 
 test("default inline template", t => {
   const asset = new Asset("name", { content: "a source", filename: "file.js" });
-  asset.type.defer = true;
+  asset.type.inline = true;
 
-  t.true(asset.template.path.endsWith("/templates/defer.tmpl"));
+  t.true(asset.template.path.endsWith("/templates/inline.tmpl"));
 });
