@@ -1,10 +1,11 @@
 import test from "ava";
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 
 test("throw if missing name", t => {
   const error = t.throws(
     () => {
-      new Asset(undefined, { content: "a source", filename: "file.js" });
+      new Asset(undefined);
     },
     Error
   );
@@ -12,22 +13,51 @@ test("throw if missing name", t => {
   t.is(error.message, "Asset name must be specified");
 });
 
-test("throw if missing source", t => {
+test("throw if missing asset source", t => {
   const error = t.throws(
     () => {
       new Asset("a name", undefined);
     },
-    Error
+    TypeError
   );
 
-  t.true(error.message.startsWith("Asset source must be specified"));
+  t.is(error.message, "Asset source must be specified");
+});
+
+test("throw if missing asset's url", t => {
+  const name = "asset-name";
+  const assetSource = new AssetSource("file.js", "a source");
+
+  const error = t.throws(
+    () => {
+      new Asset(name, assetSource);
+    },
+    TypeError
+  );
+
+  t.is(error.message, `Required argument URL is missing for ${name}`);
 });
 
 test("source is set", t => {
-  const source = { content: "a source", filename: "file.js" };
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
 
-  const asset = new Asset("a name", source);
+  t.is(asset.source.source, assetSource.source);
+  t.is(asset.source.filename, assetSource.filename);
+});
 
-  t.is(asset.source.content, "a source");
-  t.is(asset.source.filename, "file.js");
+test("asset's content defaults to url", t => {
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "a source");
+  const asset = new Asset("a name", assetSource, `/${filename}`);
+
+  t.is(asset.content, `/${filename}`);
+});
+
+test("asset's content is source when inlined", t => {
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+  asset.type.inline = true;
+
+  t.is(asset.content, assetSource.source);
 });
