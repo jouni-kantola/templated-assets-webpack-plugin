@@ -9,6 +9,9 @@ module.exports = {
       }
     },
     {
+      test: /\.css$/
+    },
+    {
       test: /vendor.*\.js$/,
       // in supported version of Node.js use:
       // template: (asset, callback, ...args) => {

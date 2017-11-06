@@ -2,6 +2,7 @@ const path = require("path");
 
 const webpack = require("webpack");
 const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const TemplatedAssetWebpackPlugin = require("../");
 const templatedAssetsConfig = require("./templated-assets-config.js");
@@ -29,6 +30,12 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          use: "css-loader"
+        })
       }
     ]
   },
@@ -43,6 +50,10 @@ module.exports = {
       filename: "[file].map",
       exclude: ["manifest"],
       append: `\n//# sourceMappingURL=${publicPath}/[url]\n`
+    }),
+    new ExtractTextPlugin({
+      filename: "styles.css",
+      allChunks: true
     }),
     new TemplatedAssetWebpackPlugin(templatedAssetsConfig)
   ]
