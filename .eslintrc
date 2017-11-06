@@ -43,7 +43,13 @@
             "always"
         ],
         "no-console": 0,
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "prefer-const": [
+            "error", {
+                "destructuring": "any",
+                "ignoreReadBeforeAssign": false
+            }
+        ]
     },
     "globals": {
         "__dirname": true
