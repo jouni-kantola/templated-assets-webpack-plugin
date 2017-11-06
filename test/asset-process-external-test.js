@@ -3,6 +3,8 @@ import test from "ava";
 import Asset from "../lib/asset";
 import AssetSource from "../lib/asset-source";
 
+import io from "../lib/file-io";
+
 test("can access process external handler", t => {
   const assetSource = new AssetSource("file.js", "a source");
   const asset = new Asset("a-name", assetSource, "/");
@@ -48,6 +50,8 @@ test("should notify to not emit asset", async t => {
 });
 
 test("should reject if custom source processor fails", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
   const name = "a-name";
   const assetSource = new AssetSource("file.js", "a source");
   const asset = new Asset(name, assetSource, "/");
@@ -64,4 +68,37 @@ test("should reject if custom source processor fails", async t => {
     t.regex(error, regex);
     t.regex(error, /Error: custom source processor failed/);
   }
+});
+
+test("ensure contract with external process handler", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
+  const _name = "a-name";
+  const _filename = "file.js";
+  const _source = "a source";
+  const _url = `/${_filename}`;
+  const _args = ["a", "b", "c"];
+
+  const assetSource = new AssetSource(_filename, _source);
+  const asset = new Asset(_name, assetSource, _url, _args);
+
+  asset.template.process = (asset, callback, ...args) => {
+    const expectedContent = `mocked template ${_url}`;
+    const { filename, source, content, url } = asset;
+
+    t.is(filename, _filename);
+    t.is(source, _source);
+    t.is(content, expectedContent);
+    t.is(url, _url);
+    t.deepEqual(args, _args);
+
+    callback(args.join("-"));
+  };
+
+  const result = await asset.process();
+
+  const expected = "a-b-c";
+  t.is(result.filename, `${_name}.html`);
+  t.is(result.source, expected);
+  t.is(result.emitAsset, true);
 });
