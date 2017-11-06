@@ -82,7 +82,9 @@ test("map chunks", t => {
       name: "named-asset",
       replace: "##NAME##",
       template: {
-        path: "named-asset-path"
+        path: "named-asset-path",
+        header: "a-header",
+        footer: "a-footer"
       },
       args: [1, 2, 3]
     }
@@ -127,6 +129,9 @@ test("map chunks", t => {
 
   const asset2 = templatedAssets.assets[1];
   t.is(asset2.type.sync, true);
+  t.is(asset2.template.replace.test("##NAME##"), true);
+  t.is(asset2.template.header, "a-header");
+  t.is(asset2.template.footer, "a-footer");
   t.is(asset2.template.replace.test("##NAME##"), true);
   t.deepEqual(asset2.args, [1, 2, 3]);
 

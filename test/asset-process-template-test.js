@@ -46,3 +46,73 @@ test("should notify to not emit asset", async t => {
 
   t.is(result.emitAsset, false);
 });
+
+test("apply template header", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
+  const name = "a-name";
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "source");
+  const asset = new Asset(name, assetSource, `/${filename}`);
+
+  const header = "a-header";
+  asset.template.header = header;
+
+  const result = await asset.process();
+
+  const expected = `${header}mocked template /${filename}`;
+  t.is(result.source, expected);
+});
+
+test("apply template header function", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
+  const name = "a-name";
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "source");
+  const asset = new Asset(name, assetSource, `/${filename}`);
+
+  const header = "a-header";
+  asset.template.header = () => header;
+
+  const result = await asset.process();
+
+  const expected = `${header}mocked template /${filename}`;
+  t.is(result.source, expected);
+});
+
+test("apply template footer", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
+  const name = "a-name";
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "source");
+  const asset = new Asset(name, assetSource, `/${filename}`);
+
+  const footer = "a-footer";
+  asset.template.footer = footer;
+
+  const result = await asset.process();
+
+  const expected = `mocked template /${filename}${footer}`;
+  t.is(result.source, expected);
+});
+
+test("apply template footer function", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
+  const name = "a-name";
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "source");
+  const asset = new Asset(name, assetSource, `/${filename}`);
+
+  const footer = "a-footer";
+  asset.template.footer = () => footer;
+
+  const result = await asset.process();
+
+  const expected = `mocked template /${filename}${footer}`;
+  t.is(result.filename, `${name}.html`);
+  t.is(result.source, expected);
+  t.is(result.emitAsset, true);
+});
