@@ -36,7 +36,7 @@ test("throw when template path not specified as string", t => {
     Error
   );
 
-  t.is(error.message, "Specify path to template (as string)");
+  t.is(error.message, "Specify path to template (string)");
 });
 
 test("default template is replaced", t => {
