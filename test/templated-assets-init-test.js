@@ -97,6 +97,7 @@ test("map chunks", t => {
     {
       filename: "inline-asset-1.js",
       content: "inline-asset-1.js",
+      url: "/inline-asset-1.js",
       source: "inline-asset-1-source"
     },
     {
@@ -127,7 +128,7 @@ test("map chunks", t => {
   const asset2 = templatedAssets.assets[1];
   t.is(asset2.type.sync, true);
   t.is(asset2.template.replace.test("##NAME##"), true);
-  t.deepEqual(asset2.source.args, [1, 2, 3]);
+  t.deepEqual(asset2.args, [1, 2, 3]);
 
   const asset3 = templatedAssets.assets[2];
   t.is(asset3.file.extension, "txt");
