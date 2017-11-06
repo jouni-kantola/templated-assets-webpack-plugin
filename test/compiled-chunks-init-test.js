@@ -107,10 +107,12 @@ test("include from assets", t => {
 
   t.is(compiledChunks.chunks.length, 3);
   t.is(chunk.filename, "c.js");
+  t.is(chunk.path, "/");
+  t.is(chunk.url, "/c.js");
   t.is(chunk.source, "contents of c.js");
 });
 
-test("include public path", t => {
+test("include public path for chunks", t => {
   const compilation = {
     mainTemplate: {
       outputOptions: {
@@ -142,4 +144,33 @@ test("include public path", t => {
   t.is(chunk.source, "contents of a.js");
   t.is(chunk.path, "a public path");
   t.is(chunk.url, "a public path/a.js");
+});
+
+test("include public path for assets", t => {
+  const compilation = {
+    mainTemplate: {
+      outputOptions: {
+        publicPath: "a public path"
+      }
+    },
+    chunks: [],
+    assets: {
+      "a.css": {
+        source: () => "contents of a.css"
+      }
+    }
+  };
+
+  const compiledChunks = new CompiledChunks(
+    compilation.chunks,
+    compilation.assets,
+    compilation.mainTemplate.outputOptions.publicPath
+  );
+  const chunk = compiledChunks.chunks[0];
+
+  t.is(compiledChunks.chunks.length, 1);
+  t.is(chunk.filename, "a.css");
+  t.is(chunk.source, "contents of a.css");
+  t.is(chunk.path, "a public path");
+  t.is(chunk.url, "a public path/a.css");
 });
