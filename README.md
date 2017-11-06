@@ -66,7 +66,9 @@ template: path.join(__dirname, "template-path/my-custom-template.tmpl"),
 // or template can be defined as object
 template: {
     path, // path to template
-    replace // replace value in template with asset's content (see replace property for default values)
+    replace, // replace value in template with asset's content (see replace property for default values)
+    header, // prepend header to templated asset (string|function)
+    footer // append footer to templated asset (string|function)
 },
 // or for full control of processing, you can process asset's source by specifying a function 
 template: (asset, callback, ...args) => {
