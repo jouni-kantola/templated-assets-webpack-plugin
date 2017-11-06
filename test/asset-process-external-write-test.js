@@ -1,5 +1,7 @@
 import test from "ava";
+
 import Asset from "../lib/asset";
+import AssetSource from "../lib/asset-source";
 import io from "../lib/file-io";
 
 test.cb("should output custom processed asset", t => {
@@ -12,7 +14,9 @@ test.cb("should output custom processed asset", t => {
     t.end();
   };
 
-  const asset = new Asset(name, { content: "source", filename: "file.js" });
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset(name, assetSource, "/");
+
   asset.template.process = (source, callback) => {
     callback("source modified");
   };
