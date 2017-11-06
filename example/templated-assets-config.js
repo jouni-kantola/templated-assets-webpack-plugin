@@ -9,7 +9,11 @@ module.exports = {
       }
     },
     {
-      test: /\.css$/
+      test: /\.css$/,
+      template: {
+        header: "<!-- css starts here -->\n",
+        footer: () => "<!-- css ends here -->"
+      }
     },
     {
       test: /vendor.*\.js$/,
