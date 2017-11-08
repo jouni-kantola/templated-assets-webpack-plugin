@@ -5,8 +5,7 @@ import {
   merge,
   append,
   prepend,
-  keepSingle,
-  is
+  keepSingle
 } from "../lib/string";
 
 test("trim trailing char", t => {
