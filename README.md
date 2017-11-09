@@ -1,6 +1,6 @@
 # Templated Assets Webpack Plugin
 
-[templated-assets-webpack-plugin](https://www.npmjs.com/package/templated-assets-webpack-plugin) is a webpack plugin for simplifying the process required to use webpack's compiled assets with web frameworks. webpack's output can be wrapped to create assets suitable for rendering server-side. This is achieved by using predefined templates (built-in or custom) to extend webpack's output.
+[templated-assets-webpack-plugin](https://www.npmjs.com/package/templated-assets-webpack-plugin) is a webpack plugin for creating assets to be used with server rendered web frameworks. This is achieved by using predefined templates (built-in or custom) to wrap webpack's output.
 
 [![Build Status](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin.svg?branch=master)](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin)
 
