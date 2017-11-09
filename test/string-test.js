@@ -33,9 +33,19 @@ test("prepend values as string", t => {
   t.is(updated, "21");
 });
 
+test("undefined prepended as blank", t => {
+  const updated = prepend(1, undefined);
+  t.is(updated, "1");
+});
+
 test("append values as string", t => {
   const updated = append(1, 2);
   t.is(updated, "12");
+});
+
+test("undefined appended as blank", t => {
+  const updated = append(1, undefined);
+  t.is(updated, "1");
 });
 
 test("keep single", t => {

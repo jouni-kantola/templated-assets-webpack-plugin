@@ -112,7 +112,24 @@ test("apply template footer function", async t => {
   const result = await asset.process();
 
   const expected = `mocked template /${filename}${footer}`;
-  t.is(result.filename, `${name}.html`);
   t.is(result.source, expected);
-  t.is(result.emitAsset, true);
+});
+
+test("apply template header and footer", async t => {
+  io.read = () => Promise.resolve("mocked template ##URL##");
+
+  const name = "a-name";
+  const filename = "file.js";
+  const assetSource = new AssetSource(filename, "source");
+  const asset = new Asset(name, assetSource, `/${filename}`);
+
+  const footer = "a-footer";
+  const header = "a-header";
+  asset.template.header = header;
+  asset.template.footer = footer;
+
+  const result = await asset.process();
+
+  const expected = `${header}mocked template /${filename}${footer}`;
+  t.is(result.source, expected);
 });
