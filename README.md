@@ -6,9 +6,9 @@
 
 ## Use cases
 The plugin aims to be unopinionated and cover a broad range of use cases, but specifically the following:
-* When hashing webpack's assets, the plugin enables server-side referencing or inlining assets built by webpack. Build partial views with JavaScript or CSS content for a web framework (like ASP.NET or Express). 
-* Wrap webpack built assets in HTML tags, i.e. inline CSS for critical path rendering or simplify including webpack's runtime (AKA manifest) server-side.
-* Augment generation of webpack's assets with a template engine.
+* When hashing webpack's assets, generate partial views for server rendered web frameworks (like ASP.NET or Express), with webpack's hashes intact. 
+* Wrap webpack built assets in HTML tags. Generate assets with CSS inlined for critical path rendering, or include webpack's runtime (AKA manifest) server-side.
+* Generate extended assets by applying the source to predefined or custom templates, or a template engine.
 
 ```javascript
 // webpack.config.js
