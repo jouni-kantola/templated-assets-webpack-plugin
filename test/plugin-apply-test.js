@@ -1,4 +1,5 @@
 import test from "ava";
+import { EOL } from "os";
 import Plugin from "../lib/plugin";
 
 test.cb("emit url asset", t => {
@@ -29,7 +30,7 @@ test.cb("emit url asset", t => {
 
     const asset = compilation.assets["url-asset.html"];
 
-    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}"></script>\n`;
+    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}"></script>${EOL}`;
     t.is(asset.source(), expected);
     t.is(asset.size(), expected.length);
     t.end();
@@ -76,7 +77,7 @@ test.cb("emit async asset", t => {
 
     const asset = compilation.assets["async-asset.html"];
 
-    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" async="async"></script>\n`;
+    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" async="async"></script>${EOL}`;
     t.is(asset.source(), expected);
     t.is(asset.size(), expected.length);
     t.end();
@@ -123,7 +124,7 @@ test.cb("emit deferred asset", t => {
 
     const asset = compilation.assets["defer-asset.html"];
 
-    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" defer="defer"></script>\n`;
+    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" defer="defer"></script>${EOL}`;
     t.is(asset.source(), expected);
     t.is(asset.size(), expected.length);
     t.end();
@@ -171,7 +172,7 @@ test.cb("emit async/defer asset", t => {
 
     const asset = compilation.assets["async-defer-asset.html"];
 
-    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" async="async" defer="defer"></script>\n`;
+    const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" async="async" defer="defer"></script>${EOL}`;
     t.is(asset.source(), expected);
     t.is(asset.size(), expected.length);
     t.end();
@@ -217,7 +218,7 @@ test.cb("emit inline asset", t => {
     t.is(Object.keys(compilation.assets).length, 2);
     const asset = compilation.assets["inline-asset.html"];
 
-    const expected = `<script type="text/javascript">${compilation.assets["inline-asset.js"].source()}</script>\n`;
+    const expected = `<script type="text/javascript">${compilation.assets["inline-asset.js"].source()}</script>${EOL}`;
     t.is(asset.source(), expected);
     t.is(asset.size(), expected.length);
     t.end();
