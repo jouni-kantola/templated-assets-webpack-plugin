@@ -40,12 +40,9 @@ test("path as string or Array", t => {
   const assetSource = new AssetSource("file.js", "a source");
   const asset = new Asset("name", assetSource, "/");
 
-  const error = t.throws(
-    () => {
-      asset.output.path = 1;
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    asset.output.path = 1;
+  }, TypeError);
 
   t.is(
     error.message,

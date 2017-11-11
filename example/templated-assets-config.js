@@ -20,8 +20,8 @@ module.exports = {
       // in supported version of Node.js use:
       // template: (asset, callback, ...args) => {
       template: function customSourceProcessor(asset, callback) {
-        const args = arguments.length > 2 &&
-          Array.prototype.slice.call(arguments, 2);
+        const args =
+          arguments.length > 2 && Array.prototype.slice.call(arguments, 2);
 
         const updatedSource = `// built with webpack and ${args.join("-")}
         // source from ${asset.filename} to ${asset.url}

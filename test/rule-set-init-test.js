@@ -44,12 +44,9 @@ test("flatten rules when name passed as array", t => {
 });
 
 test("throw if rule undefined", t => {
-  const error = t.throws(
-    () => {
-      new RuleSet([undefined]);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new RuleSet([undefined]);
+  }, TypeError);
 
   t.truthy(
     error.message.startsWith(
@@ -59,12 +56,9 @@ test("throw if rule undefined", t => {
 });
 
 test("throw if no name test nor name", t => {
-  const error = t.throws(
-    () => {
-      new RuleSet([{}]);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new RuleSet([{}]);
+  }, TypeError);
 
   t.truthy(
     error.message.startsWith(
@@ -74,16 +68,13 @@ test("throw if no name test nor name", t => {
 });
 
 test("throw if test not regex", t => {
-  const error = t.throws(
-    () => {
-      new RuleSet([
-        {
-          test: "not instance of regex"
-        }
-      ]);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new RuleSet([
+      {
+        test: "not instance of regex"
+      }
+    ]);
+  }, TypeError);
 
   t.truthy(error.message.startsWith("test property must be regex."));
 });

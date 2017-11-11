@@ -3,23 +3,17 @@ import test from "ava";
 import chunkMatcher from "../lib/chunk-matcher";
 
 test("ensure chunk", t => {
-  const error = t.throws(
-    () => {
-      chunkMatcher.match(undefined, rules);
-    },
-    Error
-  );
+  const error = t.throws(() => {
+    chunkMatcher.match(undefined, rules);
+  }, Error);
 
   t.truthy(error.message.startsWith("Chunk should be specified as object"));
 });
 
 test("ensure rules", t => {
-  const error = t.throws(
-    () => {
-      chunkMatcher.match({}, undefined);
-    },
-    Error
-  );
+  const error = t.throws(() => {
+    chunkMatcher.match({}, undefined);
+  }, Error);
 
   t.truthy(error.message.startsWith("Rules should be specified as array"));
 });

@@ -3,23 +3,17 @@ import Asset from "../lib/asset";
 import AssetSource from "../lib/asset-source";
 
 test("throw if missing name", t => {
-  const error = t.throws(
-    () => {
-      new Asset(undefined);
-    },
-    Error
-  );
+  const error = t.throws(() => {
+    new Asset(undefined);
+  }, Error);
 
   t.is(error.message, "Asset name must be specified");
 });
 
 test("throw if missing asset source", t => {
-  const error = t.throws(
-    () => {
-      new Asset("a name", undefined);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new Asset("a name", undefined);
+  }, TypeError);
 
   t.is(error.message, "Asset source must be specified");
 });
@@ -28,12 +22,9 @@ test("throw if missing asset's url", t => {
   const name = "asset-name";
   const assetSource = new AssetSource("file.js", "a source");
 
-  const error = t.throws(
-    () => {
-      new Asset(name, assetSource);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new Asset(name, assetSource);
+  }, TypeError);
 
   t.is(error.message, `Required argument URL is missing for ${name}`);
 });

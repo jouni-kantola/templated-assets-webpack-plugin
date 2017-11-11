@@ -4,12 +4,9 @@ import mock from "mock-fs";
 import io from "../lib/file-io";
 
 test("ensure path", t => {
-  const error = t.throws(
-    () => {
-      io.read();
-    },
-    Error
-  );
+  const error = t.throws(() => {
+    io.read();
+  }, Error);
 
   t.is(error.message, "No file path specified");
 });

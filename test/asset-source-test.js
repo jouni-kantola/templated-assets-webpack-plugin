@@ -2,12 +2,9 @@ import test from "ava";
 import AssetSource from "../lib/asset-source";
 
 test("source filename is required", t => {
-  const error = t.throws(
-    () => {
-      new AssetSource();
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new AssetSource();
+  }, TypeError);
 
   t.is(error.message, "Source filename must be specified");
 });
