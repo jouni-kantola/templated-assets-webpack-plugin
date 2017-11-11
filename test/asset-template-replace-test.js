@@ -5,12 +5,9 @@ import AssetSource from "../lib/asset-source";
 test("ensure value to replace", t => {
   const assetSource = new AssetSource("file.js", "a source");
   const asset = new Asset("name", assetSource, "/");
-  const error = t.throws(
-    () => {
-      asset.template.replace = 1;
-    },
-    Error
-  );
+  const error = t.throws(() => {
+    asset.template.replace = 1;
+  }, Error);
 
   t.is(
     error.message,

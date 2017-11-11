@@ -3,23 +3,17 @@ import TemplatedAssets from "../lib/templated-assets";
 import RuleSet from "../lib/rule-set";
 
 test("ensure chunks", t => {
-  const error = t.throws(
-    () => {
-      new TemplatedAssets(undefined, []);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new TemplatedAssets(undefined, []);
+  }, TypeError);
 
   t.is(error.message, "Chunks must be specified to map chunks with rules.");
 });
 
 test("ensure rules", t => {
-  const error = t.throws(
-    () => {
-      new TemplatedAssets([], undefined);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new TemplatedAssets([], undefined);
+  }, TypeError);
 
   t.is(error.message, "Rules must be specified to map rules with chunks.");
 });

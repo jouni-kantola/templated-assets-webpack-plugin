@@ -2,23 +2,17 @@ import test from "ava";
 import CompiledChunks from "../lib/compiled-chunks";
 
 test("throw if compiled chunks not specified", t => {
-  const error = t.throws(
-    () => {
-      new CompiledChunks();
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new CompiledChunks();
+  }, TypeError);
 
   t.is(error.message, "Compiled chunks required to continue process");
 });
 
 test("throw if compiled assets not specified", t => {
-  const error = t.throws(
-    () => {
-      new CompiledChunks([]);
-    },
-    TypeError
-  );
+  const error = t.throws(() => {
+    new CompiledChunks([]);
+  }, TypeError);
 
   t.is(error.message, "Compiled assets required to continue process");
 });

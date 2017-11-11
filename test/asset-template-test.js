@@ -29,12 +29,9 @@ test("throw when template path not specified as string", t => {
   const assetSource = new AssetSource("file.js", "a source");
   const asset = new Asset("a name", assetSource, "/");
 
-  const error = t.throws(
-    () => {
-      asset.template.path = 1;
-    },
-    Error
-  );
+  const error = t.throws(() => {
+    asset.template.path = 1;
+  }, Error);
 
   t.is(error.message, "Specify path to template (string)");
 });
