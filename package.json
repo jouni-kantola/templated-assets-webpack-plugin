@@ -4,7 +4,8 @@
   "description": "webpack plugin for creating assets to be used with server rendered web frameworks.",
   "main": "index.js",
   "dependencies": {
-    "webpack-sources": "^1.0.2"
+    "webpack-sources": "^1.0.2",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "ava": "^0.23.0",
@@ -24,7 +25,6 @@
     "husky": "^0.14.3",
     "is-thirteen": "^2.0.0",
     "lint-staged": "^4.3.0",
-    "mkdirp": "^0.5.1",
     "mock-fs": "^4.2.0",
     "nyc": "^11.3.0",
     "prettier": "^1.8.2",
