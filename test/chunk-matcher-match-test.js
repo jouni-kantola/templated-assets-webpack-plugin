@@ -19,14 +19,12 @@ test("ensure rules", t => {
 });
 
 test("do not match chunk", t => {
-  const chunks = [
-    {
-      name: "not-match",
-      filename: "not-match.js"
-    }
-  ];
+  const chunk = {
+    name: "not-match",
+    filename: "not-match.js"
+  };
 
-  const rule = chunkMatcher.match(chunks, rules);
+  const rule = chunkMatcher.match(chunk, rules);
 
   t.is(rule, undefined);
 });
