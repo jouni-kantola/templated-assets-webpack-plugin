@@ -13,9 +13,9 @@ test("filter inline assets", t => {
     name: "chunk2"
   };
 
-  const chunks = new RuleSet([inlineAsset, urlAsset]);
+  const ruleSet = new RuleSet([inlineAsset, urlAsset]);
 
-  t.deepEqual(chunks.inline(), [inlineAsset]);
+  t.deepEqual(ruleSet.inline().rules, [inlineAsset]);
 });
 
 test("filter url assets", t => {
@@ -33,9 +33,9 @@ test("filter url assets", t => {
     }
   };
 
-  const chunks = new RuleSet([inlineAsset, urlAsset]);
+  const ruleSet = new RuleSet([inlineAsset, urlAsset]);
 
-  t.deepEqual(chunks.url(), [urlAsset]);
+  t.deepEqual(ruleSet.url().rules, [urlAsset]);
 });
 
 test("filter sync assets", t => {
@@ -62,9 +62,9 @@ test("filter sync assets", t => {
     }
   };
 
-  const chunks = new RuleSet([asyncAsset, deferredAsset, syncAsset]);
+  const ruleSet = new RuleSet([asyncAsset, deferredAsset, syncAsset]);
 
-  t.deepEqual(chunks.sync(), [
+  t.deepEqual(ruleSet.sync().rules, [
     { name: "chunk3", output: { url: true } },
     { name: "chunk4", output: { url: true } }
   ]);
@@ -86,9 +86,9 @@ test("filter async assets", t => {
     }
   };
 
-  const chunks = new RuleSet([asyncAsset, deferredAsset]);
+  const ruleSet = new RuleSet([asyncAsset, deferredAsset]);
 
-  t.deepEqual(chunks.async(), [asyncAsset]);
+  t.deepEqual(ruleSet.async().rules, [asyncAsset]);
 });
 
 test("filter deferred assets", t => {
@@ -107,9 +107,9 @@ test("filter deferred assets", t => {
     }
   };
 
-  const chunks = new RuleSet([asyncAsset, deferredAsset]);
+  const ruleSet = new RuleSet([asyncAsset, deferredAsset]);
 
-  t.deepEqual(chunks.defer(), [deferredAsset]);
+  t.deepEqual(ruleSet.defer().rules, [deferredAsset]);
 });
 
 test("an asset can be both url and inline", t => {
@@ -129,10 +129,10 @@ test("an asset can be both url and inline", t => {
     }
   };
 
-  const chunks = [asset1, asset2];
+  const rules = [asset1, asset2];
 
-  const rules = new RuleSet(chunks);
+  const ruleSet = new RuleSet(rules);
 
-  t.deepEqual(rules.url(), chunks);
-  t.deepEqual(rules.inline(), chunks);
+  t.deepEqual(ruleSet.url().rules, rules);
+  t.deepEqual(ruleSet.inline().rules, rules);
 });
