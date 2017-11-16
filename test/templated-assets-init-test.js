@@ -19,7 +19,7 @@ test("ensure rules", t => {
 });
 
 test("process all", async t => {
-  const rules = new RuleSet([
+  const rules = RuleSet.from([
     {
       test: /url-asset/
     },
@@ -54,7 +54,7 @@ test("process all", async t => {
 });
 
 test("map chunks", t => {
-  const rules = new RuleSet([
+  const rules = RuleSet.from([
     {
       test: /url-asset/,
       output: {

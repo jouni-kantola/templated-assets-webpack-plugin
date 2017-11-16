@@ -45,7 +45,7 @@ const rules = [
   }
 ];
 
-const ruleSet = new RulesSet(rules);
+const ruleSet = RulesSet.from(rules);
 
 test("ensure chunk", t => {
   const error = t.throws(() => {

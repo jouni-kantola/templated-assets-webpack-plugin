@@ -13,7 +13,7 @@ test("filter inline assets", t => {
     name: "chunk2"
   };
 
-  const ruleSet = new RuleSet([inlineAsset, urlAsset]);
+  const ruleSet = RuleSet.from([inlineAsset, urlAsset]);
 
   t.deepEqual(ruleSet.inline().rules, [inlineAsset]);
 });
@@ -33,7 +33,7 @@ test("filter url assets", t => {
     }
   };
 
-  const ruleSet = new RuleSet([inlineAsset, urlAsset]);
+  const ruleSet = RuleSet.from([inlineAsset, urlAsset]);
 
   t.deepEqual(ruleSet.url().rules, [urlAsset]);
 });
@@ -62,7 +62,7 @@ test("filter sync assets", t => {
     }
   };
 
-  const ruleSet = new RuleSet([asyncAsset, deferredAsset, syncAsset]);
+  const ruleSet = RuleSet.from([asyncAsset, deferredAsset, syncAsset]);
 
   t.deepEqual(ruleSet.sync().rules, [
     { name: "chunk3", output: { url: true } },
@@ -86,7 +86,7 @@ test("filter async assets", t => {
     }
   };
 
-  const ruleSet = new RuleSet([asyncAsset, deferredAsset]);
+  const ruleSet = RuleSet.from([asyncAsset, deferredAsset]);
 
   t.deepEqual(ruleSet.async().rules, [asyncAsset]);
 });
@@ -107,7 +107,7 @@ test("filter deferred assets", t => {
     }
   };
 
-  const ruleSet = new RuleSet([asyncAsset, deferredAsset]);
+  const ruleSet = RuleSet.from([asyncAsset, deferredAsset]);
 
   t.deepEqual(ruleSet.defer().rules, [deferredAsset]);
 });
@@ -131,7 +131,7 @@ test("an asset can be both url and inline", t => {
 
   const rules = [asset1, asset2];
 
-  const ruleSet = new RuleSet(rules);
+  const ruleSet = RuleSet.from(rules);
 
   t.deepEqual(ruleSet.url().rules, rules);
   t.deepEqual(ruleSet.inline().rules, rules);
