@@ -1,5 +1,6 @@
 import test from "ava";
 import RuleSet from "../lib/rule-set";
+import Rule from "../lib/rule";
 
 test("default to empty array", t => {
   t.deepEqual(RuleSet.from().rules, []);
@@ -11,18 +12,18 @@ test("treat name string as single chunk", t => {
   const ruleSet = RuleSet.from(rules);
 
   t.deepEqual(ruleSet.rules, [
-    {
+    new Rule({
       name: "chunk1",
       output: {
         url: true
       }
-    },
-    {
+    }),
+    new Rule({
       name: "chunk2",
       output: {
         url: true
       }
-    }
+    })
   ]);
 });
 
@@ -36,8 +37,8 @@ test("flatten rules when name passed as array", t => {
   const ruleSet = RuleSet.from(rules);
 
   t.deepEqual(ruleSet.rules, [
-    { name: "chunk1", output: { url: true } },
-    { name: "chunk2", output: { url: true } }
+    new Rule({ name: "chunk1", output: { url: true } }),
+    new Rule({ name: "chunk2", output: { url: true } })
   ]);
 });
 
@@ -86,7 +87,7 @@ test("should prioritize regex over name", t => {
   ];
 
   t.deepEqual(RuleSet.from(rules).rules, [
-    { test: /chunk/, output: { url: true } }
+    new Rule({ test: /chunk/, output: { url: true } })
   ]);
 });
 
@@ -100,8 +101,8 @@ test("default to url rule if no output configured", t => {
   const actual = RuleSet.from(rules).rules;
 
   t.deepEqual(actual, [
-    { name: "chunk1", output: { url: true } },
-    { name: "chunk2", output: { url: true } }
+    new Rule({ name: "chunk1", output: { url: true } }),
+    new Rule({ name: "chunk2", output: { url: true } })
   ]);
 });
 
@@ -113,8 +114,8 @@ test("default to url rule if not inline", t => {
   ];
 
   t.deepEqual(RuleSet.from(rules).rules, [
-    { name: "chunk1", output: { url: true } },
-    { name: "chunk2", output: { url: true } }
+    new Rule({ name: "chunk1", output: { url: true } }),
+    new Rule({ name: "chunk2", output: { url: true } })
   ]);
 });
 
@@ -129,7 +130,7 @@ test("is also url when defer", t => {
   ];
 
   t.deepEqual(RuleSet.from(rules).rules, [
-    { name: "chunk1", output: { url: true, defer: true } }
+    new Rule({ name: "chunk1", output: { url: true, defer: true } })
   ]);
 });
 
@@ -144,6 +145,6 @@ test("is also url when async", t => {
   ];
 
   t.deepEqual(RuleSet.from(rules).rules, [
-    { name: "chunk1", output: { url: true, async: true } }
+    new Rule({ name: "chunk1", output: { url: true, async: true } })
   ]);
 });
