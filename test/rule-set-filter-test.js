@@ -1,5 +1,7 @@
 import test from "ava";
+
 import RuleSet from "../lib/rule-set";
+import Rule from "../lib/rule";
 
 test("filter inline assets", t => {
   const inlineAsset = {
@@ -15,7 +17,7 @@ test("filter inline assets", t => {
 
   const ruleSet = RuleSet.from([inlineAsset, urlAsset]);
 
-  t.deepEqual(ruleSet.inline().rules, [inlineAsset]);
+  t.deepEqual(ruleSet.inline().rules, [new Rule(inlineAsset)]);
 });
 
 test("filter url assets", t => {
@@ -35,7 +37,7 @@ test("filter url assets", t => {
 
   const ruleSet = RuleSet.from([inlineAsset, urlAsset]);
 
-  t.deepEqual(ruleSet.url().rules, [urlAsset]);
+  t.deepEqual(ruleSet.url().rules, [new Rule(urlAsset)]);
 });
 
 test("filter sync assets", t => {
@@ -65,8 +67,8 @@ test("filter sync assets", t => {
   const ruleSet = RuleSet.from([asyncAsset, deferredAsset, syncAsset]);
 
   t.deepEqual(ruleSet.sync().rules, [
-    { name: "chunk3", output: { url: true } },
-    { name: "chunk4", output: { url: true } }
+    new Rule({ name: "chunk3", output: { url: true } }),
+    new Rule({ name: "chunk4", output: { url: true } })
   ]);
 });
 
@@ -88,7 +90,7 @@ test("filter async assets", t => {
 
   const ruleSet = RuleSet.from([asyncAsset, deferredAsset]);
 
-  t.deepEqual(ruleSet.async().rules, [asyncAsset]);
+  t.deepEqual(ruleSet.async().rules, [new Rule(asyncAsset)]);
 });
 
 test("filter deferred assets", t => {
@@ -109,30 +111,29 @@ test("filter deferred assets", t => {
 
   const ruleSet = RuleSet.from([asyncAsset, deferredAsset]);
 
-  t.deepEqual(ruleSet.defer().rules, [deferredAsset]);
+  t.deepEqual(ruleSet.defer().rules, [new Rule(deferredAsset)]);
 });
 
 test("an asset can be both url and inline", t => {
-  const asset1 = {
-    name: "chunk1",
-    output: {
-      url: true,
-      inline: true
+  const rules = [
+    {
+      name: "chunk1",
+      output: {
+        url: true,
+        inline: true
+      }
+    },
+    {
+      name: "chunk2",
+      output: {
+        url: true,
+        inline: true
+      }
     }
-  };
-
-  const asset2 = {
-    name: "chunk2",
-    output: {
-      url: true,
-      inline: true
-    }
-  };
-
-  const rules = [asset1, asset2];
+  ];
 
   const ruleSet = RuleSet.from(rules);
 
-  t.deepEqual(ruleSet.url().rules, rules);
-  t.deepEqual(ruleSet.inline().rules, rules);
+  t.deepEqual(ruleSet.url().rules, rules.map(rule => new Rule(rule)));
+  t.deepEqual(ruleSet.inline().rules, rules.map(rule => new Rule(rule)));
 });
