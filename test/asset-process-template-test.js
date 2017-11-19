@@ -1,7 +1,8 @@
 import test from "ava";
+import { EOL } from "os";
+
 import Asset from "../lib/asset";
 import AssetSource from "../lib/asset-source";
-
 import io from "../lib/file-io";
 
 test("should replace template's content", async t => {
@@ -60,7 +61,7 @@ test("apply template header", async t => {
 
   const result = await asset.process();
 
-  const expected = `${header}mocked template /${filename}`;
+  const expected = `${header}${EOL}mocked template /${filename}`;
   t.is(result.source, expected);
 });
 
@@ -77,7 +78,7 @@ test("apply template header function", async t => {
 
   const result = await asset.process();
 
-  const expected = `${header}mocked template /${filename}`;
+  const expected = `${header}${EOL}mocked template /${filename}`;
   t.is(result.source, expected);
 });
 
@@ -94,7 +95,7 @@ test("apply template footer", async t => {
 
   const result = await asset.process();
 
-  const expected = `mocked template /${filename}${footer}`;
+  const expected = `mocked template /${filename}${EOL}${footer}`;
   t.is(result.source, expected);
 });
 
@@ -111,7 +112,7 @@ test("apply template footer function", async t => {
 
   const result = await asset.process();
 
-  const expected = `mocked template /${filename}${footer}`;
+  const expected = `mocked template /${filename}${EOL}${footer}`;
   t.is(result.source, expected);
 });
 
@@ -130,6 +131,6 @@ test("apply template header and footer", async t => {
 
   const result = await asset.process();
 
-  const expected = `${header}mocked template /${filename}${footer}`;
+  const expected = `${header}${EOL}mocked template /${filename}${EOL}${footer}`;
   t.is(result.source, expected);
 });
