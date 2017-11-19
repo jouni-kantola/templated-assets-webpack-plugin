@@ -11,7 +11,7 @@ module.exports = {
     {
       test: /\.css$/,
       template: {
-        header: "<!-- css starts here -->\n",
+        header: "<!-- css starts here -->",
         footer: () => "<!-- css ends here -->"
       }
     },
