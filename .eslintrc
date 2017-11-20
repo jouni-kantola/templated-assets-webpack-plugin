@@ -45,7 +45,7 @@
         "no-console": 0,
         "no-unused-vars": 1,
         "prefer-const": [
-            "error", {
+            "warn", {
                 "destructuring": "any",
                 "ignoreReadBeforeAssign": false
             }
