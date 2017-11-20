@@ -13,6 +13,9 @@ module.exports = {
       template: {
         header: "<!-- css starts here -->",
         footer: () => "<!-- css ends here -->"
+      },
+      output: {
+        name: defaultName => defaultName.split(".")[0]
       }
     },
     {
@@ -46,9 +49,10 @@ module.exports = {
       template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
       replace: "##MANIFEST##",
       output: {
-        inline: true,
+        name: "chunk-manifest",
+        extension: "cshtml",
         prefix: "__",
-        extension: "cshtml"
+        inline: true
       }
     }
   ]

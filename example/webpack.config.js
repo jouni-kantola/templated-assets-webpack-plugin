@@ -52,7 +52,7 @@ module.exports = {
       append: `\n//# sourceMappingURL=${publicPath}/[url]\n`
     }),
     new ExtractTextPlugin({
-      filename: "styles.css",
+      filename: "styles.[contenthash].css",
       allChunks: true
     }),
     new TemplatedAssetWebpackPlugin(templatedAssetsConfig)

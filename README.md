@@ -123,7 +123,7 @@ replace: "***REPLACE-THIS***"
 ```
 
 ### Templated asset output
-When templated assets are created its contents can either contain the source of a webpack compiled asset or an URL to the asset. Which used is defined in the `output` property. To align with web frameworks, the templated asset's filename can be updated with `prefix` and `extension`. If needed, custom output locations can be set.
+When templated assets are created its contents can either contain the source of a webpack compiled asset or an URL to the asset. Which used is defined in the `output` property. To align with frameworks for server rendering, the generated templated asset's filename can be updated with `name`, `prefix` and `extension`. If needed, custom output locations can be set.
 
 | Property | Type   | Default value                         | Description                |
 |----------|--------|---------------------------------------|----------------------------|
@@ -133,6 +133,14 @@ When templated assets are created its contents can either contain the source of 
 // configure templated asset output
 // not required, default included in webpack's output with assets referenced by URL
 output: {
+  // assign name to templated asset (default: chunk name/filename)
+  // useful when chunk name has not been assigned in webpack
+  name: "a-templated-asset",
+  name: (defaultName) => defaultName.split(".")[0],
+  // prefix templated asset's filename (default: no prefix)
+  prefix: "__",
+  // templated asset's file extension (default: html)
+  extension: "cshtml",
   // URL referencing a webpack asset (including `publicPath`)
   url: true,
   // include async attribute (default: false)
@@ -144,10 +152,6 @@ output: {
   inline: false,
   // include templated asset in webpack's default output (default: true)
   emitAsset: false,
-  // prefix templated asset's filename (default: no prefix)
-  prefix: "__",
-  // templated asset's file extension (default: html)
-  extension: "cshtml",
   // output folder(s) for templated assets
   // duplicate asset created if `emitAsset` is true
   path: "a/directory",
