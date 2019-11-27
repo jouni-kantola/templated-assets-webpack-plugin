@@ -1,8 +1,7 @@
 const path = require("path");
 
 const webpack = require("webpack");
-const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const TemplatedAssetWebpackPlugin = require("../");
 const templatedAssetsConfig = require("./templated-assets-config.js");
@@ -20,7 +19,25 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: publicPath,
-    filename: "[name].[chunkhash].js"
+    filename: "[name].[contenthash].js"
+  },
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        common: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+          chunks: "all"
+        },
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true
+        }
+      }
+    }
   },
   module: {
     rules: [
@@ -33,27 +50,24 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          use: "css-loader"
-        })
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          "css-loader"
+        ]
       }
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ["vendor", "manifest"],
-      minChunks: Infinity
-    }),
-    new webpack.HashedModuleIdsPlugin(),
-    new ChunkManifestPlugin(),
     new webpack.SourceMapDevToolPlugin({
       filename: "[file].map",
       exclude: ["manifest"],
       append: `\n//# sourceMappingURL=${publicPath}/[url]\n`
     }),
-    new ExtractTextPlugin({
-      filename: "styles.[contenthash].css",
-      allChunks: true
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      ignoreOrder: false
     }),
     new TemplatedAssetWebpackPlugin(templatedAssetsConfig)
   ]
