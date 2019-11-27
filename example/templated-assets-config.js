@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   rules: [
     {
-      name: ["app"],
+      test: /app.*\.js$/,
       output: {
         defer: true
       }
@@ -19,7 +19,7 @@ module.exports = {
       }
     },
     {
-      test: /vendor.*\.js$/,
+      name: ["vendor"],
       // in supported version of Node.js use:
       // template: (asset, callback, ...args) => {
       template: function customSourceProcessor(asset, callback) {
@@ -35,7 +35,7 @@ module.exports = {
       args: ["templated", "assets", "webpack", "plugin"]
     },
     {
-      name: "manifest",
+      name: "runtime",
       output: {
         inline: true,
         path: path.join(__dirname, "dist/custom/"),
@@ -43,17 +43,6 @@ module.exports = {
       },
       template: path.join(__dirname, "tmpl/inline.tmpl"),
       replace: "##HULAHULA##"
-    },
-    {
-      test: /manifest.json$/,
-      template: path.join(__dirname, "tmpl/chunk-manifest.tmpl"),
-      replace: "##MANIFEST##",
-      output: {
-        name: "chunk-manifest",
-        extension: "cshtml",
-        prefix: "__",
-        inline: true
-      }
     }
   ]
 };
