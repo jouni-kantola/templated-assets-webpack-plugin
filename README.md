@@ -1,41 +1,59 @@
 # Templated Assets Webpack Plugin
 
-[templated-assets-webpack-plugin](https://www.npmjs.com/package/templated-assets-webpack-plugin) is a webpack plugin for creating assets to be used with server rendered web frameworks. This is achieved by using predefined templates (built-in or custom) to wrap webpack's output.
+[templated-assets-webpack-plugin](https://www.npmjs.com/package/templated-assets-webpack-plugin) is a plugin for using webpack generated assets with server rendered web frameworks.
 
 [![Build Status](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin.svg?branch=master)](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin)
 
-## Use cases
-The plugin aims to be unopinionated and cover a broad range of use cases, but specifically the following:
-* When hashing webpack's assets, generate partial views for server rendered web frameworks (like ASP.NET or Express), with webpack's hashes intact. 
-* Wrap webpack built assets in HTML tags. Generate assets with CSS inlined for critical path rendering, or include webpack's runtime (AKA manifest) server-side.
-* Generate extended assets by applying the source to predefined or custom templates, or a template engine.
+## TL;DR
+If you need to reference webpack generated assets server-side, then `templated-assets-webpack-plugin` aim to make that process easier. Here's a configuration based on [webpack's caching docs](https://webpack.js.org/guides/caching/):
 
 ```javascript
-// webpack.config.js
+const path = require("path");
 const TemplatedAssetsWebpackPlugin = require("templated-assets-webpack-plugin");
 
 module.exports = {
-  /* ... */
+  entry: {
+    app: path.join(__dirname, "index.js")
+  },
+  output: {
+    filename: "[name].[contenthash].js"
+  },
   plugins: [
-    // manifest created
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ["manifest"],
-      minChunks: Infinity
-    }),
     new TemplatedAssetsWebpackPlugin({
       rules: [
+        { 
+          name: ["app", "vendors"]
+        },
         {
-          // inline manifest in script tag
-          name: "manifest",
+          name: "runtime",
           output: {
             inline: true
           }
         }
       ]
     })
-  ]
+  ],
+  optimization: {
+    moduleIds: "hashed",
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all"
+        }
+      }
+    }
+  }
 };
 ```
+
+## Use cases
+The plugin aims to be unopinionated and cover a broad range of use cases, but specifically the following:
+* When hashing webpack's assets, generate partial views for server rendered web frameworks (like ASP.NET or Express), with webpack's hashes intact. This is achieved by using predefined templates (built-in or custom) to wrap webpack's output.
+* Wrap webpack built assets in HTML tags. Generate assets with CSS inlined for critical path rendering, or include webpack's runtime (AKA manifest) server-side.
+* Generate extended assets by applying the source to predefined or custom templates, or a template engine.
 
 ## Installation
 - `npm install templated-assets-webpack-plugin --save-dev`
