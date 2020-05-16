@@ -99,3 +99,12 @@ test("default module template", t => {
 
   t.true(asset.template.path.endsWith("/templates/module.tmpl"));
 });
+
+test("default nomodule template", t => {
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
+  asset.type.nomodule = true;
+
+  t.true(asset.template.path.endsWith("/templates/nomodule.tmpl"));
+});
