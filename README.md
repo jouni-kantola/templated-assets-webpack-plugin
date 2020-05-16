@@ -165,6 +165,10 @@ output: {
   async: false,
   // include defer attribute (default: false)
   defer: false,
+  // link asset with nomodule attribute (default: false)
+  nomodule: false,
+  // link module asset (default: false)
+  module: false,
   // inline asset's source (default: false)
   // takes precedence over reference by URL
   inline: false,
