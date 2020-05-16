@@ -137,3 +137,18 @@ test("an asset can be both url and inline", t => {
   t.deepEqual(ruleSet.url().rules, rules.map(rule => new Rule(rule)));
   t.deepEqual(ruleSet.inline().rules, rules.map(rule => new Rule(rule)));
 });
+
+test("an asset can be nomodule", t => {
+  const rules = [
+    {
+      name: "chunk1",
+      output: {
+        nomodule: true
+      }
+    }
+  ];
+
+  const ruleSet = RuleSet.from(rules);
+
+  t.deepEqual(ruleSet.nomodule().rules, rules.map(rule => new Rule(rule)));
+});
