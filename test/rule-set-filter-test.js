@@ -152,3 +152,20 @@ test("an asset can be nomodule", t => {
 
   t.deepEqual(ruleSet.nomodule().rules, rules.map(rule => new Rule(rule)));
 });
+
+test("when asset type module, nomodule is ignored", t => {
+  const rules = [
+    {
+      name: "chunk1",
+      output: {
+        module: true,
+        nomodule: true
+      }
+    }
+  ];
+
+  const ruleSet = RuleSet.from(rules);
+
+  t.deepEqual(ruleSet.module().rules, rules.map(rule => new Rule(rule)));
+  t.is(ruleSet.nomodule().rules.length, 0);
+});
