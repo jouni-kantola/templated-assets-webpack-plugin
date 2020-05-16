@@ -90,3 +90,12 @@ test("default inline template", t => {
 
   t.true(asset.template.path.endsWith("/templates/inline.tmpl"));
 });
+
+test("default module template", t => {
+  const assetSource = new AssetSource("file.js", "a source");
+  const asset = new Asset("a name", assetSource, "/");
+
+  asset.type.module = true;
+
+  t.true(asset.template.path.endsWith("/templates/module.tmpl"));
+});
