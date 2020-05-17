@@ -60,6 +60,12 @@
     "example": "node_modules/.bin/webpack --config ./example/webpack.config.js",
     "precommit": "lint-staged"
   },
+  "prettier": {
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "singleQuote": false,
+    "arrowParens": "avoid"
+  },
   "lint-staged": {
     "*.js": [
       "prettier --write",
