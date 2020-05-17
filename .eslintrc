@@ -19,7 +19,8 @@
             {
                 "tabWidth": 2,
                 "trailingComma": "none",
-                "singleQuote": false
+                "singleQuote": false,
+                "arrowParens": "avoid"
             }
         ],
         "indent": [
