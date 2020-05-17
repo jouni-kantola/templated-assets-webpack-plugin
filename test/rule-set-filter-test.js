@@ -134,12 +134,6 @@ test("an asset can be both url and inline", t => {
 
   const ruleSet = RuleSet.from(rules);
 
-  t.deepEqual(
-    ruleSet.url().rules,
-    rules.map(rule => new Rule(rule))
-  );
-  t.deepEqual(
-    ruleSet.inline().rules,
-    rules.map(rule => new Rule(rule))
-  );
+  t.deepEqual(ruleSet.url().rules, rules.map(rule => new Rule(rule)));
+  t.deepEqual(ruleSet.inline().rules, rules.map(rule => new Rule(rule)));
 });
