@@ -19,8 +19,7 @@
             {
                 "tabWidth": 2,
                 "trailingComma": "none",
-                "singleQuote": false,
-                "arrowParens": "avoid"
+                "singleQuote": false
             }
         ],
         "indent": [
