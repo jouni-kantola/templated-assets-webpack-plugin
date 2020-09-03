@@ -31,6 +31,9 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   },
+  "engines": {
+    "node": ">=10.13.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jouni-kantola/templated-assets-webpack-plugin.git"
