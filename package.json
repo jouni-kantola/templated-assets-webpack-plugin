@@ -9,7 +9,7 @@
     "webpack-sources": "^1.0.2"
   },
   "devDependencies": {
-    "ava": "^0.23.0",
+    "ava": "^2.4.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-loader": "^7.1.5",
