@@ -27,7 +27,7 @@
     "lint-staged": "^4.3.0",
     "mock-fs": "^4.13.0",
     "nyc": "^11.3.0",
-    "prettier": "^1.8.2",
+    "prettier": "^2.1.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   },
@@ -63,7 +63,8 @@
   "prettier": {
     "tabWidth": 2,
     "trailingComma": "none",
-    "singleQuote": false
+    "singleQuote": false,
+    "arrowParens": "avoid"
   },
   "lint-staged": {
     "*.js": [
