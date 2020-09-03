@@ -27,11 +27,11 @@ module.exports = {
       cacheGroups: {
         common: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
+          name: "my-vendors",
           chunks: "all"
         },
         styles: {
-          name: "styles",
+          name: "my-styles",
           test: /\.css$/,
           chunks: "all",
           enforce: true
