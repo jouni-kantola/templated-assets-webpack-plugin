@@ -134,8 +134,14 @@ test("an asset can be both url and inline", t => {
 
   const ruleSet = RuleSet.from(rules);
 
-  t.deepEqual(ruleSet.url().rules, rules.map(rule => new Rule(rule)));
-  t.deepEqual(ruleSet.inline().rules, rules.map(rule => new Rule(rule)));
+  t.deepEqual(
+    ruleSet.url().rules,
+    rules.map(rule => new Rule(rule))
+  );
+  t.deepEqual(
+    ruleSet.inline().rules,
+    rules.map(rule => new Rule(rule))
+  );
 });
 
 test("an asset can be nomodule", t => {
@@ -150,7 +156,10 @@ test("an asset can be nomodule", t => {
 
   const ruleSet = RuleSet.from(rules);
 
-  t.deepEqual(ruleSet.nomodule().rules, rules.map(rule => new Rule(rule)));
+  t.deepEqual(
+    ruleSet.nomodule().rules,
+    rules.map(rule => new Rule(rule))
+  );
 });
 
 test("when asset type module, nomodule is ignored", t => {
@@ -166,6 +175,9 @@ test("when asset type module, nomodule is ignored", t => {
 
   const ruleSet = RuleSet.from(rules);
 
-  t.deepEqual(ruleSet.module().rules, rules.map(rule => new Rule(rule)));
+  t.deepEqual(
+    ruleSet.module().rules,
+    rules.map(rule => new Rule(rule))
+  );
   t.is(ruleSet.nomodule().rules.length, 0);
 });
