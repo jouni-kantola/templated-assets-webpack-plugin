@@ -28,7 +28,7 @@
     "mock-fs": "^4.13.0",
     "nyc": "^15.1.0",
     "prettier": "^2.1.1",
-    "webpack": "^4.41.2",
+    "webpack": "^5.0.0-beta.29",
     "webpack-cli": "^3.3.10"
   },
   "engines": {
