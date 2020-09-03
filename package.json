@@ -25,7 +25,7 @@
     "husky": "^0.14.3",
     "is-thirteen": "^2.0.0",
     "lint-staged": "^4.3.0",
-    "mock-fs": "^4.4.2",
+    "mock-fs": "^4.13.0",
     "nyc": "^11.3.0",
     "prettier": "^1.8.2",
     "webpack": "^4.41.2",
