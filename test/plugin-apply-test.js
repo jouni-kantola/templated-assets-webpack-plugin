@@ -37,9 +37,12 @@ test.cb("emit url asset", t => {
   };
 
   const compiler = {
-    plugin: (event, doPluginWork) => {
-      t.is(event, "emit");
-      doPluginWork(compilation, done);
+    hooks: {
+      emit: {
+        tapAsync: (pluginName, doPluginWork) => {
+          doPluginWork(compilation, done);
+        }
+      }
     }
   };
 
@@ -84,9 +87,12 @@ test.cb("emit async asset", t => {
   };
 
   const compiler = {
-    plugin: (event, doPluginWork) => {
-      t.is(event, "emit");
-      doPluginWork(compilation, done);
+    hooks: {
+      emit: {
+        tapAsync: (pluginName, doPluginWork) => {
+          doPluginWork(compilation, done);
+        }
+      }
     }
   };
 
@@ -131,9 +137,12 @@ test.cb("emit deferred asset", t => {
   };
 
   const compiler = {
-    plugin: (event, doPluginWork) => {
-      t.is(event, "emit");
-      doPluginWork(compilation, done);
+    hooks: {
+      emit: {
+        tapAsync: (pluginName, doPluginWork) => {
+          doPluginWork(compilation, done);
+        }
+      }
     }
   };
 
@@ -179,9 +188,12 @@ test.cb("emit async/defer asset", t => {
   };
 
   const compiler = {
-    plugin: (event, doPluginWork) => {
-      t.is(event, "emit");
-      doPluginWork(compilation, done);
+    hooks: {
+      emit: {
+        tapAsync: (pluginName, doPluginWork) => {
+          doPluginWork(compilation, done);
+        }
+      }
     }
   };
 
@@ -227,9 +239,12 @@ test.cb("emit inline asset", t => {
   };
 
   const compiler = {
-    plugin: (event, doPluginWork) => {
-      t.is(event, "emit");
-      doPluginWork(compilation, done);
+    hooks: {
+      emit: {
+        tapAsync: (pluginName, doPluginWork) => {
+          doPluginWork(compilation, done);
+        }
+      }
     }
   };
 
@@ -270,9 +285,12 @@ test.cb("do not emit assets", t => {
   };
 
   const compiler = {
-    plugin: (event, doPluginWork) => {
-      t.is(event, "emit");
-      doPluginWork(compilation, done);
+    hooks: {
+      emit: {
+        tapAsync: (pluginName, doPluginWork) => {
+          doPluginWork(compilation, done);
+        }
+      }
     }
   };
 
