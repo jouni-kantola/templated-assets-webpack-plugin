@@ -5985,13 +5985,6 @@ webpack-sources@2.0.0-beta.10:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack-sources@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.2.tgz#d0148ec083b3b5ccef1035a6b3ec16442983b27a"
-  dependencies:
-    source-list-map "^2.0.0"
-    source-map "~0.6.1"
-
 webpack-sources@^1.1.0, webpack-sources@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.4.3.tgz#eedd8ec0b928fbf1cbfe994e22d2d890f330a933"
