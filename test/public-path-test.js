@@ -5,21 +5,16 @@ import publicPath from "../lib/public-path";
 test("fallback public path", t => {
   t.is(publicPath(), "/");
   t.is(publicPath({}), "/");
-  t.is(publicPath({ mainTemplate: undefined }), "/");
   t.is(
     publicPath({
-      mainTemplate: {
-        outputOptions: undefined
-      }
+      outputOptions: undefined
     }),
     "/"
   );
   t.is(
     publicPath({
-      mainTemplate: {
-        outputOptions: {
-          publicPath: undefined
-        }
+      outputOptions: {
+        publicPath: undefined
       }
     }),
     "/"
@@ -29,10 +24,8 @@ test("fallback public path", t => {
 test("public path from output options", t => {
   t.is(
     publicPath({
-      mainTemplate: {
-        outputOptions: {
-          publicPath: "a path"
-        }
+      outputOptions: {
+        publicPath: "a path"
       }
     }),
     "a path"
