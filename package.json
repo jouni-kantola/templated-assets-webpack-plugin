@@ -6,7 +6,7 @@
   "dependencies": {
     "is": "^3.3.0",
     "mkdirp": "^1.0.4",
-    "webpack-sources": "^1.0.2"
+    "webpack-sources": "^1.4.3"
   },
   "devDependencies": {
     "ava": "^2.4.0",
