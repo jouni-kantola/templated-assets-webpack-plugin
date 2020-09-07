@@ -3,6 +3,14 @@ import webpack from "webpack";
 import { EOL } from "os";
 import Plugin from "../lib/plugin";
 import path from "path";
+import rimraf from "rimraf";
+import io from "../lib/file-io";
+
+const OUTPUT_PATH = path.join(__dirname, "dist");
+
+test.beforeEach.cb(t => {
+  rimraf(OUTPUT_PATH, t.end);
+});
 
 test.cb("emit url asset", t => {
   const plugin = new Plugin({
@@ -18,6 +26,9 @@ test.cb("emit url asset", t => {
       entry: {
         "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
+      output: {
+        path: OUTPUT_PATH
+      },
       plugins: [plugin]
     },
     (err, stats) => {
@@ -29,13 +40,18 @@ test.cb("emit url asset", t => {
 
       const { compilation } = stats;
 
-      const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}"></script>${EOL}`;
+      const [chunk] = compilation.chunks;
+      const [file] = chunk.files;
 
+      const expected = `<script type="text/javascript" src="/${file}"></script>${EOL}`;
       const asset = compilation.assets["url-asset.html"];
-      t.is(asset.source(), expected);
       t.is(asset.size(), expected.length);
 
-      t.end();
+      io.read(path.join(OUTPUT_PATH, "url-asset.html")).then(source => {
+        t.is(source, expected);
+
+        t.end();
+      });
     }
   );
 });
@@ -57,6 +73,9 @@ test.cb("emit async asset", t => {
       entry: {
         "async-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
+      output: {
+        path: OUTPUT_PATH
+      },
       plugins: [plugin]
     },
     (err, stats) => {
@@ -68,13 +87,19 @@ test.cb("emit async asset", t => {
 
       const { compilation } = stats;
 
-      const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" async="async"></script>${EOL}`;
+      const [chunk] = compilation.chunks;
+      const [file] = chunk.files;
+
+      const expected = `<script type="text/javascript" src="/${file}" async="async"></script>${EOL}`;
 
       const asset = compilation.assets["async-asset.html"];
-      t.is(asset.source(), expected);
       t.is(asset.size(), expected.length);
 
-      t.end();
+      io.read(path.join(OUTPUT_PATH, "async-asset.html")).then(source => {
+        t.is(source, expected);
+
+        t.end();
+      });
     }
   );
 });
@@ -96,6 +121,9 @@ test.cb("emit deferred asset", t => {
       entry: {
         "deferred-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
+      output: {
+        path: OUTPUT_PATH
+      },
       plugins: [plugin]
     },
     (err, stats) => {
@@ -106,14 +134,19 @@ test.cb("emit deferred asset", t => {
       }
 
       const { compilation } = stats;
+      const [chunk] = compilation.chunks;
+      const [file] = chunk.files;
 
-      const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" defer="defer"></script>${EOL}`;
+      const expected = `<script type="text/javascript" src="/${file}" defer="defer"></script>${EOL}`;
 
       const asset = compilation.assets["deferred-asset.html"];
-      t.is(asset.source(), expected);
       t.is(asset.size(), expected.length);
 
-      t.end();
+      io.read(path.join(OUTPUT_PATH, "deferred-asset.html")).then(source => {
+        t.is(source, expected);
+
+        t.end();
+      });
     }
   );
 });
@@ -136,6 +169,9 @@ test.cb("emit async/defer asset", t => {
       entry: {
         "async-defer-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
+      output: {
+        path: OUTPUT_PATH
+      },
       plugins: [plugin]
     },
     (err, stats) => {
@@ -146,14 +182,19 @@ test.cb("emit async/defer asset", t => {
       }
 
       const { compilation } = stats;
+      const [chunk] = compilation.chunks;
+      const [file] = chunk.files;
 
-      const expected = `<script type="text/javascript" src="/${compilation.chunks[0].files[0]}" async="async" defer="defer"></script>${EOL}`;
+      const expected = `<script type="text/javascript" src="/${file}" async="async" defer="defer"></script>${EOL}`;
 
       const asset = compilation.assets["async-defer-asset.html"];
-      t.is(asset.source(), expected);
       t.is(asset.size(), expected.length);
 
-      t.end();
+      io.read(path.join(OUTPUT_PATH, "async-defer-asset.html")).then(source => {
+        t.is(source, expected);
+
+        t.end();
+      });
     }
   );
 });
@@ -170,10 +211,14 @@ test.cb("emit inline asset", t => {
     ]
   });
 
+  const sourceFile = path.join(__dirname, "plugin-apply-test-entry.js");
   webpack(
     {
       entry: {
-        "inline-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "inline-asset": sourceFile
+      },
+      output: {
+        path: OUTPUT_PATH
       },
       plugins: [plugin]
     },
@@ -184,17 +229,12 @@ test.cb("emit inline asset", t => {
         return t.end(stats.toString());
       }
 
-      const { compilation } = stats;
-
-      const expected = `<script type="text/javascript">${compilation.assets[
-        "inline-asset.js"
-      ].source()}</script>${EOL}`;
-
-      const asset = compilation.assets["inline-asset.html"];
-      t.is(asset.source(), expected);
-      t.is(asset.size(), expected.length);
-
-      t.end();
+      io.read(path.join(OUTPUT_PATH, "inline-asset.html")).then(output => {
+        io.read(sourceFile).then(source => {
+          t.true(output.includes(source));
+          t.end();
+        });
+      });
     }
   );
 });
