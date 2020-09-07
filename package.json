@@ -32,6 +32,9 @@
     "webpack": "^5.0.0-beta.29",
     "webpack-cli": "^3.3.10"
   },
+  "peerDependencies": {
+    "webpack": "^5.0.0"
+  },
   "engines": {
     "node": ">=10.13.0"
   },
