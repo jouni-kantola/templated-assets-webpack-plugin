@@ -3,7 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const TemplatedAssetWebpackPlugin = require("../");
+const TemplatedAssetsWebpackPlugin = require("../");
 const templatedAssetsConfig = require("./templated-assets-config.js");
 
 const publicPath = "https://test-cdn.com/assets";
@@ -65,6 +65,6 @@ module.exports = {
       filename: "[name].css",
       ignoreOrder: false
     }),
-    new TemplatedAssetWebpackPlugin(templatedAssetsConfig)
+    new TemplatedAssetsWebpackPlugin(templatedAssetsConfig)
   ]
 };
