@@ -1,12 +1,8 @@
 const path = require("path");
 
-const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 const TemplatedAssetsWebpackPlugin = require("../");
 const templatedAssetsConfig = require("./templated-assets-config.js");
-
-const publicPath = "https://test-cdn.com/assets";
 
 module.exports = {
   entry: {
@@ -14,7 +10,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: publicPath,
+    publicPath: "https://test-cdn.com/assets",
     filename: "[name].[contenthash].js"
   },
   optimization: {
@@ -40,9 +36,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        use: {
-          loader: "babel-loader"
-        }
+        use: "babel-loader"
       },
       {
         test: /\.css$/,
@@ -56,11 +50,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.SourceMapDevToolPlugin({
-      filename: "[file].map",
-      exclude: ["manifest"],
-      append: `\n//# sourceMappingURL=${publicPath}/[url]\n`
-    }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       ignoreOrder: false
