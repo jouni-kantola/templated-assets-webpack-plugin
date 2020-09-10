@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin.svg?branch=master)](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin)
 
 ## TL;DR
+
 If you need to reference webpack generated assets server-side, then `templated-assets-webpack-plugin` aim to make that process easier. Here's a configuration based on [webpack's caching docs](https://webpack.js.org/guides/caching/):
 
 ```javascript
@@ -21,7 +22,7 @@ module.exports = {
   plugins: [
     new TemplatedAssetsWebpackPlugin({
       rules: [
-        { 
+        {
           name: ["app", "vendors"]
         },
         {
@@ -50,29 +51,35 @@ module.exports = {
 ```
 
 ## Use cases
+
 The plugin aims to be unopinionated and cover a broad range of use cases, but specifically the following:
-* When hashing webpack's assets, generate partial views for server rendered web frameworks (like ASP.NET or Express), with webpack's hashes intact. This is achieved by using predefined templates (built-in or custom) to wrap webpack's output.
-* Wrap webpack built assets in HTML tags. Generate assets with CSS inlined for critical path rendering, or include webpack's runtime (AKA manifest) server-side.
-* Generate extended assets by applying the source to predefined or custom templates, or a template engine.
+
+- When hashing webpack's assets, generate partial views for server rendered web frameworks (like ASP.NET or Express), with webpack's hashes intact. This is achieved by using predefined templates (built-in or custom) to wrap webpack's output.
+- Wrap webpack built assets in HTML tags. Generate assets with CSS inlined for critical path rendering, or include webpack's runtime (AKA manifest) server-side.
+- Generate extended assets by applying the source to predefined or custom templates, or a template engine.
 
 ## Installation
+
 - `npm install templated-assets-webpack-plugin --save-dev`
 - `yarn add templated-assets-webpack-plugin --dev`
 
 ## Configuration
+
 `templated-assets-webpack-plugin` takes a set of rules for defining how to wrap assets. Out of the box, comes templates for inlining or referencing scripts and styles.
 
 ### Rules
-Processing webpack's assets is enabled by specifying `rules` for mapping asset(s) to a template. Rules are given as arguments when initializing `templated-assets-webpack-plugin`. Each rule can *match and template multiple assets*. Next section describes rule options.
+
+Processing webpack's assets is enabled by specifying `rules` for mapping asset(s) to a template. Rules are given as arguments when initializing `templated-assets-webpack-plugin`. Each rule can _match and template multiple assets_. Next section describes rule options.
 
 ### Match assets
+
 Use `name` or `test` to match assets to be templated by name or filename. One of them is required to be specified. If both are used, `test` takes precedence. Use `exclude` if you want to filter out webpack built assets from being processed.
 
-| Property  | Type         | Default value  | Description             |
-|-----------|--------------|----------------|-------------------------|
-| `name`    | string/Array | N/A            | Match asset by name     |
-| `test`    | RegExp       | N/A            | Match asset by filename |
-| `exclude` | RegExp       | none           | Filter out assets       |
+| Property  | Type         | Default value | Description             |
+| --------- | ------------ | ------------- | ----------------------- |
+| `name`    | string/Array | N/A           | Match asset by name     |
+| `test`    | RegExp       | N/A           | Match asset by filename |
+| `exclude` | RegExp       | none          | Filter out assets       |
 
 ```javascript
 // match asset name (string|Array)
@@ -85,10 +92,11 @@ exclude: /^[0-9]+\./
 ```
 
 ### Define templates
+
 The plugin's shipped with built-in templates for linking or inlining scripts and styles. Therefor, the `template` property isn't required, but enables customization. If the template property is specified as function, you're given full control of how to process assets. `template` can also be defined as an object, which adds functionality for adding header and/or footer.
 
 | Property   | Type                   | Default value          | Description                      |
-|------------|------------------------|------------------------|----------------------------------|
+| ---------- | ---------------------- | ---------------------- | -------------------------------- |
 | `template` | string/object/function | script/link tag        | Template for wrapping asset      |
 | `replace`  | string/RegExp          | `##URL##`/`##SOURCE##` | Placeholder for asset url/source |
 | `args`     | Array                  | []                     | Extra args to template function  |
@@ -141,10 +149,11 @@ replace: "***REPLACE-THIS***"
 ```
 
 ### Templated asset output
+
 When templated assets are created its contents can either contain the source of a webpack compiled asset or an URL to the asset. Which used is defined in the `output` property. To align with frameworks for server rendering, the generated templated asset's filename can be updated with `name`, `prefix` and `extension`. If needed, custom output locations can be set.
 
 | Property | Type   | Default value                         | Description                |
-|----------|--------|---------------------------------------|----------------------------|
+| -------- | ------ | ------------------------------------- | -------------------------- |
 | `output` | object | Partial HTML files with URL reference | Asset type and file output |
 
 ```javascript
@@ -183,10 +192,12 @@ output: {
 ```
 
 ## Plugin examples
+
 To get up to speed quicker with plugin configuration, take a look at an [example build](https://github.com/jouni-kantola/templated-assets-webpack-plugin/blob/master/example/webpack.config.js) where various [rules](https://github.com/jouni-kantola/templated-assets-webpack-plugin/blob/master/example/templated-assets-config.js) are used.
 
 Try the build by executing `npm run example`. Included are rules for e.g. inlining webpack's runtime and custom templating for webpack's chunk manifest.
 
 ## Feedback
-* For feedback, bugs or change requests, please use [Issues](https://github.com/jouni-kantola/templated-assets-webpack-plugin/issues).
-* For direct contact, tweet [@jouni_kantola](https://twitter.com/jouni_kantola).
+
+- For feedback, bugs or change requests, please use [Issues](https://github.com/jouni-kantola/templated-assets-webpack-plugin/issues).
+- For direct contact, tweet [@jouni_kantola](https://twitter.com/jouni_kantola).
