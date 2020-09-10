@@ -34,7 +34,7 @@ module.exports = {
     })
   ],
   optimization: {
-    moduleIds: "hashed",
+    moduleIds: "deterministic",
     runtimeChunk: "single",
     splitChunks: {
       cacheGroups: {
