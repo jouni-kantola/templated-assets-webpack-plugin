@@ -28,7 +28,7 @@
     "prettier": "^2.1.1",
     "rimraf": "^3.0.2",
     "webpack": "^5.0.0-beta.29",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   },
   "peerDependencies": {
     "webpack": "^5.0.0"
