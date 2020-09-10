@@ -19,7 +19,7 @@ module.exports = {
       }
     },
     {
-      name: ["vendor"],
+      name: ["vendors"],
       // in supported version of Node.js use:
       // template: (asset, callback, ...args) => {
       template: function customSourceProcessor(asset, callback) {

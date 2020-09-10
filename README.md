@@ -39,7 +39,7 @@ module.exports = {
     runtimeChunk: "single",
     splitChunks: {
       cacheGroups: {
-        vendor: {
+        defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
           chunks: "all"
