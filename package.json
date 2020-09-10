@@ -19,7 +19,7 @@
     "escope": "^3.6.0",
     "eslint": "^7.8.1",
     "eslint-plugin-prettier": "^3.1.4",
-    "husky": "^4.2.5",
+    "husky": "^4.3.0",
     "is-thirteen": "^2.0.0",
     "lint-staged": "^10.3.0",
     "mini-css-extract-plugin": "^0.11.1",
