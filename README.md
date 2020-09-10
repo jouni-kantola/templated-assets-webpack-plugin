@@ -63,6 +63,8 @@ The plugin aims to be unopinionated and cover a broad range of use cases, but sp
 - `npm install templated-assets-webpack-plugin --save-dev`
 - `yarn add templated-assets-webpack-plugin --dev`
 
+For webpack 4 and earlier, use [templated-assets-webpack-plugin@1.3.1](https://www.npmjs.com/package/templated-assets-webpack-plugin/v/1.3.1).
+
 ## Configuration
 
 `templated-assets-webpack-plugin` takes a set of rules for defining how to wrap assets. Out of the box, comes templates for inlining or referencing scripts and styles.
