@@ -1,7 +1,7 @@
 import test from "ava";
 import Plugin from "../lib/plugin";
 
-test("fallback to rule set for all JavaScript and CSS files", (t) => {
+test("fallback to rule set for all JavaScript and CSS files", t => {
   const { rules } = new Plugin().pluginOptions;
   t.true(Array.isArray(rules));
   t.is(rules.length, 1);
@@ -12,7 +12,7 @@ test("fallback to rule set for all JavaScript and CSS files", (t) => {
   t.false(rule.test.test("an-svg-file.abc1234.svg"));
 });
 
-test("init rules", (t) => {
+test("init rules", t => {
   const { rules } = new Plugin({
     rules: [{ name: "an-entry" }]
   }).pluginOptions;
