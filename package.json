@@ -1,6 +1,6 @@
 {
   "name": "templated-assets-webpack-plugin",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "description": "webpack plugin for creating assets to be used with server rendered web frameworks.",
   "main": "index.js",
   "dependencies": {
