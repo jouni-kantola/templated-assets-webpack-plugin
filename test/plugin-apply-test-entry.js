@@ -1,1 +1,1 @@
-console.log("Plugin tests for TemplatedAssetsWebpackPlugin");
+console.log("Plugin tests for TemplatedAssetsWebpackPlugin")
