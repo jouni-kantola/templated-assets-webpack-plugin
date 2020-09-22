@@ -58,14 +58,14 @@ test("map compiled chunks", t => {
   t.is(chunk1.name, expected1.name);
   t.is(chunk1.filename, expected1.files[0]);
   t.is(chunk1.source, compilation.assets[expected1.files[0]].source());
-  t.is(chunk1.path, "/");
-  t.is(chunk1.url, `/${expected1.files[0]}`);
+  t.is(chunk1.path, "");
+  t.is(chunk1.url, `${expected1.files[0]}`);
 
   t.is(chunk2.name, expected2.name);
   t.is(chunk2.filename, expected2.files[0]);
   t.is(chunk2.source, compilation.assets[expected2.files[0]].source());
-  t.is(chunk2.path, "/");
-  t.is(chunk2.url, `/${expected2.files[0]}`);
+  t.is(chunk2.path, "");
+  t.is(chunk2.url, `${expected2.files[0]}`);
 });
 
 test("include from assets", t => {
@@ -101,8 +101,8 @@ test("include from assets", t => {
 
   t.is(compiledChunks.chunks.length, 3);
   t.is(chunk.filename, "c.js");
-  t.is(chunk.path, "/");
-  t.is(chunk.url, "/c.js");
+  t.is(chunk.path, "");
+  t.is(chunk.url, "c.js");
   t.is(chunk.source, "contents of c.js");
 });
 
@@ -144,7 +144,7 @@ test("include public path for assets", t => {
   const compilation = {
     mainTemplate: {
       outputOptions: {
-        publicPath: "a public path"
+        publicPath: "a public path/"
       }
     },
     chunks: [],
@@ -167,4 +167,31 @@ test("include public path for assets", t => {
   t.is(chunk.source, "contents of a.css");
   t.is(chunk.path, "a public path");
   t.is(chunk.url, "a public path/a.css");
+});
+
+test("serve assets from root", t => {
+  const compilation = {
+    outputOptions: {
+      publicPath: "/"
+    },
+    chunks: [],
+    assets: {
+      "a.css": {
+        source: () => "contents of a.css"
+      }
+    }
+  };
+
+  const compiledChunks = new CompiledChunks(
+    compilation.chunks,
+    compilation.assets,
+    compilation.outputOptions.publicPath
+  );
+  const chunk = compiledChunks.chunks[0];
+
+  t.is(compiledChunks.chunks.length, 1);
+  t.is(chunk.filename, "a.css");
+  t.is(chunk.source, "contents of a.css");
+  t.is(chunk.path, "/");
+  t.is(chunk.url, "/a.css");
 });

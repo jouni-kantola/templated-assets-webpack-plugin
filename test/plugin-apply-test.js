@@ -43,7 +43,7 @@ test.cb("emit url asset", t => {
       const [chunk] = compilation.chunks;
       const [file] = chunk.files;
 
-      const expected = `<script type="text/javascript" src="/${file}"></script>${EOL}`;
+      const expected = `<script type="text/javascript" src="${file}"></script>${EOL}`;
       const asset = compilation.assets["url-asset.html"];
       t.is(asset.size(), expected.length);
 
@@ -90,7 +90,7 @@ test.cb("emit async asset", t => {
       const [chunk] = compilation.chunks;
       const [file] = chunk.files;
 
-      const expected = `<script type="text/javascript" src="/${file}" async="async"></script>${EOL}`;
+      const expected = `<script type="text/javascript" src="${file}" async="async"></script>${EOL}`;
 
       const asset = compilation.assets["async-asset.html"];
       t.is(asset.size(), expected.length);
@@ -122,6 +122,7 @@ test.cb("emit deferred asset", t => {
         "deferred-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
       output: {
+        publicPath: "/",
         path: OUTPUT_PATH
       },
       plugins: [plugin]
@@ -170,6 +171,7 @@ test.cb("emit async/defer asset", t => {
         "async-defer-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
       output: {
+        publicPath: "a-public-path/",
         path: OUTPUT_PATH
       },
       plugins: [plugin]
@@ -185,7 +187,7 @@ test.cb("emit async/defer asset", t => {
       const [chunk] = compilation.chunks;
       const [file] = chunk.files;
 
-      const expected = `<script type="text/javascript" src="/${file}" async="async" defer="defer"></script>${EOL}`;
+      const expected = `<script type="text/javascript" src="a-public-path/${file}" async="async" defer="defer"></script>${EOL}`;
 
       const asset = compilation.assets["async-defer-asset.html"];
       t.is(asset.size(), expected.length);
