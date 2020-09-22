@@ -37,3 +37,28 @@ test("public path from output options", t => {
     "a path"
   );
 });
+
+test("default don't blank auto public path", t => {
+  t.is(
+    publicPath({
+      outputOptions: {
+        publicPath: "auto"
+      }
+    }),
+    "auto"
+  );
+});
+
+test("blank auto public path", t => {
+  t.is(
+    publicPath(
+      {
+        outputOptions: {
+          publicPath: "auto"
+        }
+      },
+      true
+    ),
+    ""
+  );
+});
