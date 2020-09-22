@@ -3,13 +3,19 @@ import test from "ava";
 import publicPath from "../lib/public-path";
 
 test("fallback public path", t => {
-  t.is(publicPath(), "/");
-  t.is(publicPath({}), "/");
+  t.is(publicPath(), "");
+  t.is(publicPath({}), "");
   t.is(
     publicPath({
       outputOptions: undefined
     }),
-    "/"
+    ""
+  );
+  t.is(
+    publicPath({
+      outputOptions: {}
+    }),
+    ""
   );
   t.is(
     publicPath({
@@ -17,7 +23,7 @@ test("fallback public path", t => {
         publicPath: undefined
       }
     }),
-    "/"
+    ""
   );
 });
 
