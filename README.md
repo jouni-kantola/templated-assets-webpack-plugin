@@ -2,7 +2,7 @@
 
 [templated-assets-webpack-plugin](https://www.npmjs.com/package/templated-assets-webpack-plugin) is a plugin for using webpack generated assets with server rendered web frameworks.
 
-[![Build Status](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin.svg?branch=master)](https://travis-ci.org/jouni-kantola/templated-assets-webpack-plugin)
+![Build Status](https://github.com/jouni-kantola/templated-assets-webpack-plugin/workflows/Node.js%20CI/badge.svg)
 
 ## TL;DR
 
