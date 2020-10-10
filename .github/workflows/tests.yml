@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [10.13.0]
-        webpack-version-tag: [webpack@webpack-3, webpack@latest, webpack@next]
+        webpack-version-tag: [webpack@webpack-3, webpack@4.44.2, webpack@latest]
 
     steps:
     - uses: actions/checkout@v2
