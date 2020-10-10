@@ -62,7 +62,7 @@
     "test": "ava test/*-test.js",
     "coverage": "nyc --check-coverage npm test",
     "qa": "yarn lint & yarn coverage",
-    "example": "webpack -p --config ./example/webpack.config.js",
+    "example": "webpack --mode=production --config ./example/webpack.config.js",
     "precommit": "lint-staged"
   },
   "prettier": {
