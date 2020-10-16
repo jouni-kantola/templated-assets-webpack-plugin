@@ -238,8 +238,9 @@ test.cb("emit inline asset", t => {
 
       io.read(path.join(OUTPUT_PATH, "inline-asset.html")).then(output => {
         io.read(sourceFile).then(source => {
-          const sourceWithoutNewlines = source.replace(/\r?\n|\r/g, "");
-          t.true(output.includes(sourceWithoutNewlines));
+          // HACK: Trim source as output differs between webpack versions
+          const trimmedSource = source.replace(/;\r?\n|\r/g, "");
+          t.true(output.includes(trimmedSource));
           t.end();
         });
       });
