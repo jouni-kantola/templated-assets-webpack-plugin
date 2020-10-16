@@ -23,7 +23,6 @@ test.cb("emit url asset", t => {
 
   webpack(
     {
-      mode: "development",
       devtool: false,
       entry: {
         "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
@@ -31,7 +30,12 @@ test.cb("emit url asset", t => {
       output: {
         path: OUTPUT_PATH
       },
-      plugins: [plugin]
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.NODE_ENV": JSON.stringify("development")
+        }),
+        plugin
+      ]
     },
     (err, stats) => {
       if (err) {
@@ -72,7 +76,6 @@ test.cb("emit async asset", t => {
 
   webpack(
     {
-      mode: "development",
       devtool: false,
       entry: {
         "async-asset": path.join(__dirname, "plugin-apply-test-entry.js")
@@ -80,7 +83,12 @@ test.cb("emit async asset", t => {
       output: {
         path: OUTPUT_PATH
       },
-      plugins: [plugin]
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.NODE_ENV": JSON.stringify("development")
+        }),
+        plugin
+      ]
     },
     (err, stats) => {
       if (err) {
@@ -122,7 +130,6 @@ test.cb("emit deferred asset", t => {
 
   webpack(
     {
-      mode: "development",
       devtool: false,
       entry: {
         "deferred-asset": path.join(__dirname, "plugin-apply-test-entry.js")
@@ -131,7 +138,12 @@ test.cb("emit deferred asset", t => {
         publicPath: "/",
         path: OUTPUT_PATH
       },
-      plugins: [plugin]
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.NODE_ENV": JSON.stringify("development")
+        }),
+        plugin
+      ]
     },
     (err, stats) => {
       if (err) {
@@ -173,7 +185,6 @@ test.cb("emit async/defer asset", t => {
 
   webpack(
     {
-      mode: "development",
       devtool: false,
       entry: {
         "async-defer-asset": path.join(__dirname, "plugin-apply-test-entry.js")
@@ -182,7 +193,12 @@ test.cb("emit async/defer asset", t => {
         publicPath: "a-public-path/",
         path: OUTPUT_PATH
       },
-      plugins: [plugin]
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.NODE_ENV": JSON.stringify("development")
+        }),
+        plugin
+      ]
     },
     (err, stats) => {
       if (err) {
@@ -224,7 +240,6 @@ test.cb("emit inline asset", t => {
   const sourceFile = path.join(__dirname, "plugin-apply-test-entry.js");
   webpack(
     {
-      mode: "development",
       devtool: false,
       entry: {
         "inline-asset": sourceFile
@@ -232,7 +247,12 @@ test.cb("emit inline asset", t => {
       output: {
         path: OUTPUT_PATH
       },
-      plugins: [plugin]
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.NODE_ENV": JSON.stringify("development")
+        }),
+        plugin
+      ]
     },
     (err, stats) => {
       if (err) {
@@ -243,7 +263,6 @@ test.cb("emit inline asset", t => {
 
       io.read(path.join(OUTPUT_PATH, "inline-asset.html")).then(output => {
         io.read(sourceFile).then(source => {
-          console.log({ source }, { output });
           t.true(output.includes(source));
           t.end();
         });
@@ -266,12 +285,16 @@ test.cb("do not emit assets", t => {
 
   webpack(
     {
-      mode: "development",
       devtool: false,
       entry: {
         "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
-      plugins: [plugin]
+      plugins: [
+        new webpack.DefinePlugin({
+          "process.env.NODE_ENV": JSON.stringify("development")
+        }),
+        plugin
+      ]
     },
     (err, stats) => {
       if (err) {
