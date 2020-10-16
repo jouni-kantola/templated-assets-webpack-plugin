@@ -23,6 +23,7 @@ test.cb("emit url asset", t => {
 
   webpack(
     {
+      mode: "development",
       entry: {
         "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
@@ -70,6 +71,7 @@ test.cb("emit async asset", t => {
 
   webpack(
     {
+      mode: "development",
       entry: {
         "async-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
@@ -118,6 +120,7 @@ test.cb("emit deferred asset", t => {
 
   webpack(
     {
+      mode: "development",
       entry: {
         "deferred-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
@@ -167,6 +170,7 @@ test.cb("emit async/defer asset", t => {
 
   webpack(
     {
+      mode: "development",
       entry: {
         "async-defer-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
@@ -216,6 +220,7 @@ test.cb("emit inline asset", t => {
   const sourceFile = path.join(__dirname, "plugin-apply-test-entry.js");
   webpack(
     {
+      mode: "development",
       entry: {
         "inline-asset": sourceFile
       },
@@ -255,6 +260,7 @@ test.cb("do not emit assets", t => {
 
   webpack(
     {
+      mode: "development",
       entry: {
         "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
