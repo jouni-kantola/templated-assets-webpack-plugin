@@ -30,12 +30,7 @@ test.cb("emit url asset", t => {
       output: {
         path: OUTPUT_PATH
       },
-      plugins: [
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify("development")
-        }),
-        plugin
-      ]
+      plugins: [plugin]
     },
     (err, stats) => {
       if (err) {
@@ -83,12 +78,7 @@ test.cb("emit async asset", t => {
       output: {
         path: OUTPUT_PATH
       },
-      plugins: [
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify("development")
-        }),
-        plugin
-      ]
+      plugins: [plugin]
     },
     (err, stats) => {
       if (err) {
@@ -138,12 +128,7 @@ test.cb("emit deferred asset", t => {
         publicPath: "/",
         path: OUTPUT_PATH
       },
-      plugins: [
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify("development")
-        }),
-        plugin
-      ]
+      plugins: [plugin]
     },
     (err, stats) => {
       if (err) {
@@ -193,12 +178,7 @@ test.cb("emit async/defer asset", t => {
         publicPath: "a-public-path/",
         path: OUTPUT_PATH
       },
-      plugins: [
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify("development")
-        }),
-        plugin
-      ]
+      plugins: [plugin]
     },
     (err, stats) => {
       if (err) {
@@ -247,12 +227,7 @@ test.cb("emit inline asset", t => {
       output: {
         path: OUTPUT_PATH
       },
-      plugins: [
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify("development")
-        }),
-        plugin
-      ]
+      plugins: [plugin]
     },
     (err, stats) => {
       if (err) {
@@ -290,12 +265,7 @@ test.cb("do not emit assets", t => {
       entry: {
         "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
       },
-      plugins: [
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify("development")
-        }),
-        plugin
-      ]
+      plugins: [plugin]
     },
     (err, stats) => {
       if (err) {
