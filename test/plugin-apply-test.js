@@ -1,10 +1,12 @@
 import test from "ava";
-import webpack from "webpack";
+import webpack, { version } from "webpack";
 import { EOL } from "os";
 import Plugin from "../lib/plugin";
 import path from "path";
 import rimraf from "rimraf";
 import io from "../lib/file-io";
+
+const webpackVersion = version && +version[0];
 
 const OUTPUT_PATH = path.join(__dirname, "dist");
 
@@ -12,7 +14,7 @@ test.beforeEach.cb(t => {
   rimraf(OUTPUT_PATH, t.end);
 });
 
-test.cb("emit url asset", t => {
+test.serial.cb("emit url asset", t => {
   const plugin = new Plugin({
     rules: [
       {
@@ -57,7 +59,7 @@ test.cb("emit url asset", t => {
   );
 });
 
-test.cb("emit async asset", t => {
+test.serial.cb("emit async asset", t => {
   const plugin = new Plugin({
     rules: [
       {
@@ -106,7 +108,7 @@ test.cb("emit async asset", t => {
   );
 });
 
-test.cb("emit deferred asset", t => {
+test.serial.cb("emit deferred asset", t => {
   const plugin = new Plugin({
     rules: [
       {
@@ -155,7 +157,7 @@ test.cb("emit deferred asset", t => {
   );
 });
 
-test.cb("emit async/defer asset", t => {
+test.serial.cb("emit async/defer asset", t => {
   const plugin = new Plugin({
     rules: [
       {
@@ -205,7 +207,7 @@ test.cb("emit async/defer asset", t => {
   );
 });
 
-test.cb("emit inline asset", t => {
+test.serial.cb("emit inline asset", t => {
   const plugin = new Plugin({
     rules: [
       {
@@ -248,7 +250,7 @@ test.cb("emit inline asset", t => {
   );
 });
 
-test.cb("do not emit assets", t => {
+test.serial.cb("do not emit assets", t => {
   const plugin = new Plugin({
     rules: [
       {
@@ -280,6 +282,59 @@ test.cb("do not emit assets", t => {
       t.is(Object.keys(compilation.assets).length, 1);
       const asset = compilation.assets["url-asset.html"];
       t.is(asset, undefined);
+      t.end();
+    }
+  );
+});
+
+test.serial.cb("secondary output equal to default", t => {
+  const secondaryLocation = path.join(OUTPUT_PATH, "secondary");
+  const plugin = new Plugin({
+    rules: [
+      {
+        name: "url-asset",
+        output: {
+          path: secondaryLocation
+        }
+      }
+    ]
+  });
+
+  webpack(
+    {
+      entry: {
+        "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+      },
+      output: {
+        path: OUTPUT_PATH,
+        filename:
+          webpackVersion >= 4
+            ? "[name].[contenthash].js"
+            : "[name].[chunkhash].js"
+      },
+      plugins: [plugin]
+    },
+    async (err, stats) => {
+      if (err) {
+        return t.end(err);
+      } else if (stats.hasErrors()) {
+        return t.end(stats.toString());
+      }
+
+      const { compilation } = stats;
+
+      const [chunk] = compilation.chunks;
+      const [file] = chunk.files;
+
+      const templatedAssetFilename = "url-asset.html";
+      const [defaultOutput, secondaryOutput] = await Promise.all([
+        io.read(path.join(OUTPUT_PATH, templatedAssetFilename)),
+        io.read(path.join(secondaryLocation, templatedAssetFilename))
+      ]);
+
+      const expected = `<script type="text/javascript" src="${file}"></script>${EOL}`;
+      t.is(defaultOutput, expected);
+      t.is(secondaryOutput, expected);
       t.end();
     }
   );
