@@ -68,6 +68,55 @@ test("map compiled chunks", t => {
   t.is(chunk2.url, `${expected2.files[0]}`);
 });
 
+test("filter chunks without filename", t => {
+  const compilation = {
+    chunks: [
+      {
+        name: "a",
+        files: ["a.js"]
+      },
+      {
+        name: "temp-asset",
+        files: []
+      },
+      {
+        name: "b",
+        files: ["b.js"]
+      }
+    ],
+    assets: {
+      "a.js": {
+        source: () => "contents of a.js"
+      },
+      "b.js": {
+        source: () => "contents of b.js"
+      }
+    }
+  };
+
+  const compiledChunks = new CompiledChunks(
+    compilation.chunks,
+    compilation.assets
+  );
+  const chunk1 = compiledChunks.chunks[0];
+  const chunk2 = compiledChunks.chunks[1];
+
+  const expected1 = compilation.chunks[0];
+  const expected2 = compilation.chunks[2];
+
+  t.is(compiledChunks.chunks.length, 2);
+
+  t.is(chunk1.name, expected1.name);
+  t.is(chunk1.filename, expected1.files[0]);
+  t.is(chunk1.source, compilation.assets[expected1.files[0]].source());
+  t.is(chunk1.url, `${expected1.files[0]}`);
+
+  t.is(chunk2.name, expected2.name);
+  t.is(chunk2.filename, expected2.files[0]);
+  t.is(chunk2.source, compilation.assets[expected2.files[0]].source());
+  t.is(chunk2.url, `${expected2.files[0]}`);
+});
+
 test("include from assets", t => {
   const compilation = {
     chunks: [
