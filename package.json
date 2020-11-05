@@ -59,7 +59,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "test": "ava",
+    "test": "rimraf test/dist && ava",
     "coverage": "nyc --check-coverage npm test",
     "qa": "yarn lint & yarn coverage",
     "example": "webpack --mode=production --config ./example/webpack.config.js",
