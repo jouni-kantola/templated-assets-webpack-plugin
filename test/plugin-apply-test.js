@@ -26,7 +26,7 @@ test.serial.cb("emit url asset", t => {
     {
       devtool: false,
       entry: {
-        "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "url-asset": path.join(__dirname, "_plugin-apply-entry.js")
       },
       output: {
         path: OUTPUT_PATH
@@ -74,7 +74,7 @@ test.serial.cb("emit async asset", t => {
     {
       devtool: false,
       entry: {
-        "async-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "async-asset": path.join(__dirname, "_plugin-apply-entry.js")
       },
       output: {
         path: OUTPUT_PATH
@@ -123,7 +123,7 @@ test.serial.cb("emit deferred asset", t => {
     {
       devtool: false,
       entry: {
-        "deferred-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "deferred-asset": path.join(__dirname, "_plugin-apply-entry.js")
       },
       output: {
         publicPath: "/",
@@ -173,7 +173,7 @@ test.serial.cb("emit async/defer asset", t => {
     {
       devtool: false,
       entry: {
-        "async-defer-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "async-defer-asset": path.join(__dirname, "_plugin-apply-entry.js")
       },
       output: {
         publicPath: "a-public-path/",
@@ -218,7 +218,7 @@ test.serial.cb("emit inline asset", t => {
     ]
   });
 
-  const sourceFile = path.join(__dirname, "plugin-apply-test-entry.js");
+  const sourceFile = path.join(__dirname, "_plugin-apply-entry.js");
   webpack(
     {
       devtool: false,
@@ -265,7 +265,7 @@ test.serial.cb("do not emit assets", t => {
     {
       devtool: false,
       entry: {
-        "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "url-asset": path.join(__dirname, "_plugin-apply-entry.js")
       },
       plugins: [plugin]
     },
@@ -302,7 +302,7 @@ test.serial.cb("secondary output equal to default", t => {
   webpack(
     {
       entry: {
-        "url-asset": path.join(__dirname, "plugin-apply-test-entry.js")
+        "url-asset": path.join(__dirname, "_plugin-apply-entry.js")
       },
       output: {
         path: OUTPUT_PATH,
