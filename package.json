@@ -6,7 +6,7 @@
   "dependencies": {
     "is": "^3.3.0",
     "mkdirp": "^1.0.4",
-    "webpack-sources": "^2.2.0"
+    "webpack-sources": "^3.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
