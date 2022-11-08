@@ -13,7 +13,7 @@
     "@babel/preset-env": "^7.20.2",
     "ava": "^2.4.0",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.3.0",
     "css-loader": "^5.2.7",
     "eslint": "^7.32.0",
     "eslint-plugin-prettier": "^4.0.0",
