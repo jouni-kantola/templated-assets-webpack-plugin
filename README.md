@@ -4,6 +4,11 @@
 
 ![Build Status](https://github.com/jouni-kantola/templated-assets-webpack-plugin/workflows/Node.js%20CI/badge.svg)
 
+## Versions and compatibility
+
+* v4 for Rspack and webpack 5+
+* v3 for webpack v2-5
+
 ## TL;DR
 
 If you need to reference webpack generated assets server-side, then `templated-assets-webpack-plugin` aim to make that process easier. Here's a configuration based on [webpack's caching docs](https://webpack.js.org/guides/caching/):
