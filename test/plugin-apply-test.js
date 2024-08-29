@@ -5,7 +5,6 @@ import Plugin from "../lib/plugin";
 import path from "path";
 import rimraf from "rimraf";
 import io from "../lib/file-io";
-import { gte } from "../lib/webpack-version";
 
 const OUTPUT_PATH = path.join(__dirname, "dist");
 
@@ -306,7 +305,7 @@ test.serial.cb("secondary output equal to default", t => {
       },
       output: {
         path: OUTPUT_PATH,
-        filename: gte(4) ? "[name].[contenthash].js" : "[name].[chunkhash].js"
+        filename: "[name].[contenthash].js"
       },
       plugins: [plugin]
     },
