@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "is": "^3.3.0",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^3.0.1",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
