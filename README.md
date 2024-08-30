@@ -204,4 +204,3 @@ Try the build by executing `npm run example`. Included are rules for e.g. inlini
 ## Feedback
 
 - For feedback, bugs or change requests, please use [Issues](https://github.com/jouni-kantola/templated-assets-webpack-plugin/issues).
-- For direct contact, tweet [@jouni_kantola](https://twitter.com/jouni_kantola).
